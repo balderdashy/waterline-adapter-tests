@@ -5,7 +5,8 @@
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
     "mocha": "1.9.x",
-    "underscore": "1.4.x"
+    "underscore": "1.4.x",
+    "waterline": "0.9.0"
   },
   "keywords": [
     "orm",
