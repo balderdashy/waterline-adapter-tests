@@ -6,7 +6,8 @@
   "dependencies": {
     "mocha": "1.9.x",
     "underscore": "1.4.x",
-    "waterline": "~0.9.3"
+    "waterline": "~0.9.3",
+    "async": "0.2.9"
   },
   "keywords": [
     "orm",
