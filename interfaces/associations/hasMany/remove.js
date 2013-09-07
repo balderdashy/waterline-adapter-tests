@@ -3,13 +3,13 @@ var Waterline = require('waterline'),
     CustomerFixture = require('../support/hasMany.fixture'),
     assert = require('assert');
 
-describe.skip('Association Interface', function() {
+describe('Association Interface', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var customerModel, paymentModel;
+  var Customer, Payment;
 
   before(function(done) {
     var waterline = new Waterline();
@@ -17,11 +17,14 @@ describe.skip('Association Interface', function() {
     waterline.loadCollection(CustomerFixture);
     waterline.loadCollection(PaymentFixture);
 
+    Events.emit('fixture', CustomerFixture);
+    Events.emit('fixture', PaymentFixture);
+
     waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
       if(err) return done(err);
 
-      customerModel = collections.customer;
-      paymentModel = collections.payment;
+      Customer = collections.customer;
+      Payment = collections.payment;
 
       done();
     });
@@ -29,7 +32,6 @@ describe.skip('Association Interface', function() {
 
 
   describe('Has Many Association', function() {
-
     describe('association .remove()', function() {
 
       describe('with an id', function() {
@@ -38,18 +40,20 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer, payment;
+        var customerRecord, paymentRecord;
 
         // Create A Customer and a payment
         before(function(done) {
-          customerModel.create({ name: 'hasMany add' }, function(err, customerModel) {
+          Customer.create({ name: 'hasMany add' }, function(err, model) {
             if(err) return done(err);
 
-            customer = customerModel;
-            paymentModel.create({ amount: 1, customer: customer.id }, function(err, paymentModel) {
+            customerRecord = model;
+
+            Payment.create({ amount: 1, customer: model.id }, function(err, payment) {
               if(err) return done(err);
 
-              payment = paymentModel;
+              paymentRecord = payment;
+
               done();
             });
           });
@@ -60,14 +64,12 @@ describe.skip('Association Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should remove the customer_id foreign key from the payment', function(done) {
-
-          customer.payments.remove(payment.id);
-
-          customer.save(function(err) {
+          customerRecord.payments.remove(paymentRecord.id);
+          customerRecord.save(function(err) {
             if(err) return done(err);
 
             // Look up the customer again to be sure the payment was added
-            customerModel.findOne(customer.id)
+            Customer.findOne(customerRecord.id)
             .populate('payments')
             .exec(function(err, data) {
               if(err) return done(err);
@@ -85,15 +87,13 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer;
+        var customerRecord;
 
-        // Create A Customer and a payment
         before(function(done) {
-          customerModel.create({ name: 'hasMany add' }, function(err, customerModel) {
+          Customer.create({ name: 'hasMany add' }, function(err, model) {
             if(err) return done(err);
-
-            customer = customerModel;
-            paymentModel.create({ amount: 1, customer: customer.id }, done);
+            customerRecord = model;
+            done();
           });
         });
 
@@ -102,10 +102,8 @@ describe.skip('Association Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should error when an object is passed in', function(done) {
-
-          customer.payments.remove({ amount: 1337 });
-
-          customer.save(function(err) {
+          customerRecord.payments.remove({ amount: 1337 });
+          customerRecord.save(function(err) {
             assert(err);
             assert(Array.isArray(err));
             assert(err.length === 1);

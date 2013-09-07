@@ -3,13 +3,13 @@ var Waterline = require('waterline'),
     CustomerFixture = require('../support/hasMany.fixture'),
     assert = require('assert');
 
-describe.skip('Association Interface', function() {
+describe('Association Interface', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var customerModel, paymentModel;
+  var Customer, Payment;
 
   before(function(done) {
     var waterline = new Waterline();
@@ -17,11 +17,14 @@ describe.skip('Association Interface', function() {
     waterline.loadCollection(CustomerFixture);
     waterline.loadCollection(PaymentFixture);
 
+    Events.emit('fixture', CustomerFixture);
+    Events.emit('fixture', PaymentFixture);
+
     waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
       if(err) return done(err);
 
-      customerModel = collections.customer;
-      paymentModel = collections.payment;
+      Customer = collections.customer;
+      Payment = collections.payment;
 
       done();
     });
@@ -34,50 +37,63 @@ describe.skip('Association Interface', function() {
     // TEST SETUP
     ////////////////////////////////////////////////////
 
-    var Customer, Payment;
-
-    // Create a Customer and 4 payments
     before(function(done) {
-      customerModel.create({ name: 'hasMany findOne' }, function(err, customer) {
-        if(err) return done(err);
 
-        // cache customer
-        Customer = customer;
+      var customerRecords = [
+        { name: 'hasMany find' },
+        { name: 'hasMany find' }
+      ];
+
+      Customer.createEach(customerRecords, function(err, customers) {
+        if(err) return done(err);
 
         var payments = [];
 
-        for(var i=0; i<4; i++) {
-          payments.push({ amount: i, customer: customer.id });
+        for(var i=0; i<8; i++) {
+          if(i < 4) payments.push({ amount: i, customer: customers[0].id });
+          if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
         }
 
-        paymentModel.createEach(payments, function(err) {
+        Payment.createEach(payments, function(err) {
           if(err) return done(err);
           done();
         });
       });
     });
 
-    describe('.findOne', function() {
+    describe('.find', function() {
 
       /////////////////////////////////////////////////////
       // TEST METHODS
       ////////////////////////////////////////////////////
 
       it('should return payments when the populate criteria is added', function(done) {
-        customerModel.findOne({ id: Customer.id })
+        Customer.find({ name: 'hasMany find' })
         .populate('payments')
-        .exec(function(err, customer) {
-          assert(Array.isArray(customer.payments));
-          assert(customer.payments.length === 4);
+        .exec(function(err, customers) {
+          if(err) return done(err);
+
+          assert(Array.isArray(customers));
+          assert(customers.length === 2);
+
+          assert(Array.isArray(customers[0].payments));
+          assert(Array.isArray(customers[1].payments));
+
+          assert(customers[0].payments.length === 4);
+          assert(customers[1].payments.length === 4);
+
           done();
         });
       });
 
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
-        customerModel.findOne({ id: Customer.id })
-        .exec(function(err, customer) {
-          var obj = customer.toJSON();
+        Customer.find({ name: 'hasMany find' })
+        .exec(function(err, customers) {
+          if(err) return done(err);
+
+          var obj = customers[0].toJSON();
           assert(!obj.payments);
+
           done();
         });
       });
