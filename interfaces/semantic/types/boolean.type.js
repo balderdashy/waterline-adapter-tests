@@ -1,7 +1,8 @@
-var Model = require('../support/crud.fixture'),
+var Waterline = require('waterline'),
+    Model = require('../support/crud.fixture'),
     assert = require('assert');
 
-describe('Attribute Types', function() {
+describe('Semantic Interface', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
@@ -10,13 +11,19 @@ describe('Attribute Types', function() {
   var User;
 
   before(function(done) {
-    User = new Model({ adapters: { test: Adapter }}, function(err) {
+    var waterline = new Waterline();
+    waterline.loadCollection(Model);
+
+    Events.emit('fixture', Model);
+
+    waterline.initialize({ adapters: { test: Adapter }}, function(err, colls) {
       if(err) return done(err);
+      User = colls.user;
       done();
     });
   });
 
-  describe('Boolean', function() {
+  describe('Boolean Type', function() {
     describe('with valid data', function() {
 
       /////////////////////////////////////////////////////

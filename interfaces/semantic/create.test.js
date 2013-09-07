@@ -1,4 +1,5 @@
-var Model = require('./support/crud.fixture'),
+var Waterline = require('waterline'),
+    Model = require('./support/crud.fixture'),
     assert = require('assert');
 
 describe('Semantic Interface', function() {
@@ -10,9 +11,15 @@ describe('Semantic Interface', function() {
   var User;
 
   before(function(done) {
-    User = new Model({ adapters: { test: Adapter }}, function(err) {
-      if (err) { console.error(err); }
-      done(err);
+    var waterline = new Waterline();
+    waterline.loadCollection(Model);
+
+    Events.emit('fixture', Model);
+
+    waterline.initialize({ adapters: { test: Adapter }}, function(err, colls) {
+      if(err) return done(err);
+      User = colls.user;
+      done();
     });
   });
 

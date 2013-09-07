@@ -1,4 +1,5 @@
-var Model = require('./support/schema.fixture'),
+var Waterline = require('waterline'),
+    Model = require('./support/schema.fixture'),
     assert = require('assert');
 
 describe('Migratable Interface', function() {
@@ -7,11 +8,17 @@ describe('Migratable Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var User;
+  var Document;
 
   before(function(done) {
-    User = new Model({ adapters: { test: Adapter }}, function(err) {
+    var waterline = new Waterline();
+    waterline.loadCollection(Model);
+
+    Events.emit('fixture', Model);
+
+    waterline.initialize({ adapters: { test: Adapter }}, function(err, colls) {
       if(err) return done(err);
+      Document = colls.document;
       done();
     });
   });
@@ -25,14 +32,14 @@ describe('Migratable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should disable autoPK', function(done) {
-        User.describe(function (err, user) {
+        Document.describe(function (err, user) {
           assert(!user.id);
           done();
         });
       });
 
       it('should set attribute as primary key', function(done) {
-        User.describe(function (err, user) {
+        Document.describe(function (err, user) {
           assert(user.title.primaryKey === true);
           done();
         });
@@ -46,7 +53,7 @@ describe('Migratable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should set autoIncrement on schema attribute', function(done) {
-        User.describe(function (err, user) {
+        Document.describe(function (err, user) {
 
           // Some databases like MySQL don't allow multiple autoIncrement values
           if(!user.number.autoIncrement) {
@@ -62,7 +69,7 @@ describe('Migratable Interface', function() {
       });
 
       it('should increment an ID on insert', function(done) {
-        User.describe(function (err, user) {
+        Document.describe(function (err, user) {
 
           // Some databases like MySQL don't allow multiple autoIncrement values
           if(!user.number.autoIncrement) {
@@ -72,9 +79,9 @@ describe('Migratable Interface', function() {
             return done();
           }
 
-          User.create({ title: 'autoincrement 1' }, function(err, record) {
+          Document.create({ title: 'autoincrement 1' }, function(err, record) {
             assert(record.number === 1);
-            User.create({ title: 'autoincrement 2' }, function(err, record) {
+            Document.create({ title: 'autoincrement 2' }, function(err, record) {
               assert(record.number === 2);
               done();
             });
@@ -83,9 +90,9 @@ describe('Migratable Interface', function() {
       });
 
       it('should not allow multiple records with the same PK', function(done) {
-        User.create({ title: '100' }, function(err, record) {
+        Document.create({ title: '100' }, function(err, record) {
           assert(record.title === '100');
-          User.create({ title: '100' }, function(err, record) {
+          Document.create({ title: '100' }, function(err, record) {
             assert(err);
             assert(!record);
             done();
@@ -102,18 +109,18 @@ describe('Migratable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should set unique on schema attribute', function(done) {
-        User.describe(function (err, user) {
+        Document.describe(function (err, user) {
           assert(user.serialNumber.unique === true);
           done();
         });
       });
 
       it('should return an error if unique constraint fails', function(done) {
-        User.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
+        Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
           assert(!err);
           assert(record.serialNumber === 'test');
 
-          User.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
+          Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
             assert(!record);
             assert(err);
             done();
