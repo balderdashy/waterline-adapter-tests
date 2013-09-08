@@ -46,8 +46,8 @@ describe('Association Interface', function() {
         customers = models;
 
         var paymentRecords = [
-          { amount: 1, customer: customers[0].id },
-          { amount: 2, customer: customers[1].id }
+          { amount: 1, type: 'belongsTo find', customer: customers[0].id },
+          { amount: 2, type: 'belongsTo find', customer: customers[1].id }
         ];
 
         Payment.createEach(paymentRecords, function(err, models) {
@@ -65,7 +65,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return customer when the populate criteria is added', function(done) {
-        Payment.find()
+        Payment.find({ type: 'belongsTo find' })
         .populate('customer')
         .exec(function(err, payments) {
           if(err) return done(err);

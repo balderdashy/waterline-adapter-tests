@@ -1,27 +1,30 @@
 var Waterline = require('waterline'),
-    Taxi = require('../support/manyToMany.taxi.fixture'),
-    Driver = require('../support/manyToMany.driver.fixture'),
+    taxiFixture = require('../support/manyToMany.taxi.fixture'),
+    driverFixture = require('../support/manyToMany.driver.fixture'),
     assert = require('assert');
 
-describe.skip('Association Interface', function() {
+describe('Association Interface', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var customerModel, paymentModel;
+  var Taxi, Driver;
 
   before(function(done) {
     var waterline = new Waterline();
 
-    waterline.loadCollection(Taxi);
-    waterline.loadCollection(Driver);
+    waterline.loadCollection(taxiFixture);
+    waterline.loadCollection(driverFixture);
+
+    Events.emit('fixture', taxiFixture);
+    Events.emit('fixture', driverFixture);
 
     waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
       if(err) return done(err);
 
-      customerModel = collections.customermany;
-      paymentModel = collections.paymentmany;
+      Taxi = collections.taxi;
+      Driver = collections.driver;
 
       done();
     });
@@ -29,7 +32,6 @@ describe.skip('Association Interface', function() {
 
 
   describe('Many To Many Association', function() {
-
     describe('association .add()', function() {
 
       describe('with an object', function() {
@@ -38,13 +40,13 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer;
+        var driverRecord;
 
         before(function(done) {
-          customerModel.create({ name: 'manymany add' })
+          Driver.create({ name: 'manymany add' })
           .exec(function(err, model) {
             if(err) return done(err);
-            customer = model;
+             driverRecord = model;
             done();
           });
         });
@@ -53,21 +55,19 @@ describe.skip('Association Interface', function() {
         // TEST METHODS
         ////////////////////////////////////////////////////
 
-        it('should create a new payment association', function(done) {
-
-          customer.payments.add({ amount: 1337 });
-
-          customer.save(function(err) {
+        it('should create a new taxi association', function(done) {
+          driverRecord.taxis.add({ medallion: 1 });
+          driverRecord.save(function(err) {
             if(err) return done(err);
 
             // Look up the customer again to be sure the payment was added
-            customerModel.findOne(customer.id)
-            .populate('payments')
-            .exec(function(err, customer) {
+            Driver.findOne(driverRecord.id)
+            .populate('taxis')
+            .exec(function(err, driver) {
               if(err) return done(err);
 
-              assert(customer.payments.length === 1);
-              assert(customer.payments[0].amount === 1337);
+              assert(driver.taxis.length === 1);
+              assert(driver.taxis[0].medallion === 1);
 
               done();
             });
@@ -81,18 +81,18 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer, payment;
+        var driverRecord, taxiRecord;
 
         before(function(done) {
-          customerModel.create({ name: 'manymany add' })
+          Driver.create({ name: 'manymany add' })
           .exec(function(err, model) {
             if(err) return done(err);
-            customer = model;
+            driverRecord = model;
 
-            paymentModel.create({ amount: 20 })
-            .exec(function(err, pmt) {
+            Taxi.create({ medallion: 20 })
+            .exec(function(err, taxi) {
               if(err) return done(err);
-              payment = pmt;
+              taxiRecord = taxi;
               done();
             });
           });
@@ -103,20 +103,18 @@ describe.skip('Association Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should link a payment to a customer through a join table', function(done) {
-
-          customer.payments.add(payment.id);
-
-          customer.save(function(err) {
+          driverRecord.taxis.add(taxiRecord.id);
+          driverRecord.save(function(err) {
             if(err) return done(err);
 
-            // Look up the customer again to be sure the payment was added
-            customerModel.findOne(customer.id)
-            .populate('payments')
+            // Look up the driver again to be sure the taxi was added
+            Driver.findOne(driverRecord.id)
+            .populate('taxis')
             .exec(function(err, data) {
               if(err) return done(err);
 
-              assert(data.payments.length === 1);
-              assert(data.payments[0].amount === 20);
+              assert(data.taxis.length === 1);
+              assert(data.taxis[0].medallion === 20);
               done();
             });
           });

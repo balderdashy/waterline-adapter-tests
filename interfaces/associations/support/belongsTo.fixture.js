@@ -11,6 +11,7 @@ module.exports = Waterline.Collection.extend({
 
   attributes: {
     amount: 'integer',
+    type: 'string',
     customer: {
       model: 'Customer'
     }

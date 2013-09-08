@@ -1,27 +1,30 @@
 var Waterline = require('waterline'),
-    Taxi = require('../support/manyToMany.taxi.fixture'),
-    Driver = require('../support/manyToMany.driver.fixture'),
+    taxiFixture = require('../support/manyToMany.taxi.fixture'),
+    driverFixture = require('../support/manyToMany.driver.fixture'),
     assert = require('assert');
 
-describe.skip('Association Interface', function() {
+describe('Association Interface', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var customerModel, paymentModel;
+  var Taxi, Driver;
 
   before(function(done) {
     var waterline = new Waterline();
 
-    waterline.loadCollection(Taxi);
-    waterline.loadCollection(Driver);
+    waterline.loadCollection(taxiFixture);
+    waterline.loadCollection(driverFixture);
+
+    Events.emit('fixture', taxiFixture);
+    Events.emit('fixture', driverFixture);
 
     waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
       if(err) return done(err);
 
-      customerModel = collections.customermany;
-      paymentModel = collections.paymentmany;
+      Taxi = collections.taxi;
+      Driver = collections.driver;
 
       done();
     });
@@ -29,7 +32,6 @@ describe.skip('Association Interface', function() {
 
 
   describe('Many To Many Association', function() {
-
     describe('association .remove()', function() {
 
       describe('with an id', function() {
@@ -38,30 +40,30 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer, payment;
+        var driverRecord, taxiRecords;
 
         before(function(done) {
-          customerModel.create({ name: 'manymany add' })
+
+          Driver.create({ name: 'manymany remove' })
           .exec(function(err, model) {
             if(err) return done(err);
-            customer = model;
 
-            paymentModel.create({ amount: 20 })
-            .exec(function(err, pmt) {
+            driverRecord = model;
+
+            var taxis = [];
+            for(var i=0; i<2; i++) {
+              driverRecord.taxis.add({ medallion: i });
+            }
+
+            driverRecord.save(function(err) {
               if(err) return done(err);
-              payment = pmt;
 
-              customer.payments.add(payment.id);
-              customer.save(function(err) {
+              Driver.findOne(driverRecord.id)
+              .populate('taxis')
+              .exec(function(err, driver) {
                 if(err) return done(err);
-
-                customerModel.findOne(customer.id)
-                .populate('payments')
-                .exec(function(err, cust) {
-                  if(err) return done(err);
-                  customer = cust;
-                  done();
-                });
+                taxiRecords = driver.toObject().taxis;
+                done();
               });
             });
           });
@@ -72,21 +74,17 @@ describe.skip('Association Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should remove the record from the join table', function(done) {
-
-          assert(customer.payments.length === 1);
-
-          customer.payments.remove(payment.id);
-
-          customer.save(function(err) {
+          driverRecord.taxis.remove(taxiRecords[0].id);
+          driverRecord.save(function(err) {
             if(err) return done(err);
 
-            // Look up the customer again to be sure the payment was added
-            customerModel.findOne(customer.id)
-            .populate('payments')
+            // Look up the driver again to be sure the taxi was removed
+            Driver.findOne(driverRecord.id)
+            .populate('taxis')
             .exec(function(err, data) {
               if(err) return done(err);
 
-              assert(data.payments.length === 0);
+              assert(data.taxis.length === 1);
               done();
             });
           });
@@ -99,13 +97,13 @@ describe.skip('Association Interface', function() {
         // TEST SETUP
         ////////////////////////////////////////////////////
 
-        var customer;
+        var driverRecord;
 
         before(function(done) {
-          customerModel.create({ name: 'manymany add' })
+          Driver.create({ name: 'manymany remove' })
           .exec(function(err, model) {
             if(err) return done(err);
-            customer = model;
+            driverRecord = model;
             done();
           });
         });
@@ -115,10 +113,8 @@ describe.skip('Association Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should error when an object is passed in', function(done) {
-
-          customer.payments.remove({ amount: 1337 });
-
-          customer.save(function(err) {
+          driverRecord.taxis.remove({ medallion: 1337 });
+          driverRecord.save(function(err) {
             assert(err);
             assert(Array.isArray(err));
             assert(err.length === 1);

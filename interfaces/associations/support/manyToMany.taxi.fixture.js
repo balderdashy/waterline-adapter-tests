@@ -9,7 +9,7 @@ module.exports = Waterline.Collection.extend({
   adapter: 'test',
 
   attributes: {
-    name: 'string',
+    medallion: 'integer',
     drivers: {
       collection: 'driver'
     }
