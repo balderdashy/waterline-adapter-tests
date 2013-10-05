@@ -83,11 +83,17 @@ describe('Association Interface', function() {
         var customer, payment;
 
         before(function(done) {
-          Customer.create({ name: 'hasMany add' }, function(err, model) {
+
+          var records = [
+            { name: 'hasMany add 1' },
+            { name: 'hasMany add 2' }
+          ];
+
+          Customer.createEach(records, function(err, models) {
             if(err) return done(err);
 
-            customer = model;
-            Payment.create({ amount: 1, customer: customer.id + 1 }, function(err, paymentModel) {
+            customer = models[0];
+            Payment.create({ amount: 1, customer: models[1].id }, function(err, paymentModel) {
               if(err) return done(err);
 
               payment = paymentModel;

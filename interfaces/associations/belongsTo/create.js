@@ -36,13 +36,27 @@ describe('Association Interface', function() {
     describe('create', function() {
 
       /////////////////////////////////////////////////////
+      // TEST SETUP
+      ////////////////////////////////////////////////////
+
+      var customerId;
+
+      before(function(done) {
+        Customer.create({ name: 'belongsTo add' }).exec(function(err, cust) {
+          if(err) return done(err);
+          customerId = cust.id;
+          done();
+        });
+      });
+
+      /////////////////////////////////////////////////////
       // TEST METHODS
       ////////////////////////////////////////////////////
 
       it('should create a foreign key value when passed an association key', function(done) {
-        Payment.create({ amount: 1, customer: 1 }).exec(function(err, payment) {
+        Payment.create({ amount: 1, customer: customerId }).exec(function(err, payment) {
           if(err) return done(err);
-          assert(payment.customer === 1);
+          assert(payment.customer.toString() === customerId.toString());
           done();
         });
       });
