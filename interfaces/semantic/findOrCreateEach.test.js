@@ -82,7 +82,8 @@ describe('Semantic Interface', function() {
     });
 
     it('should return model instances', function(done) {
-      User.findOrCreateEach(['type', 'first_name'], [{ first_name: 'NOT IN THE SET' }], function(err, users) {
+      User.findOrCreateEach(['type', 'first_name'], [{ type: testName, first_name: 'NOT IN THE SET' }], function(err, users) {
+        assert(!err);
         assert(users[0].id);
         assert(typeof users[0].fullName === 'function');
         assert(toString.call(users[0].createdAt) == '[object Date]');
