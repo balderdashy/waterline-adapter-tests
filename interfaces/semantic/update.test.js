@@ -105,6 +105,14 @@ describe('Semantic Interface', function() {
           done();
         });
       });
+
+      it('should work with null values', function(done) {
+        User.update(id, { age: null }, function(err, users) {
+          assert(!err);
+          assert(users[0].age === null);
+          done();
+        });
+      });
     });
 
     describe('find updated records', function() {
