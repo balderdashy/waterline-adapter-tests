@@ -35,7 +35,7 @@ describe('Semantic Interface', function() {
       var users = [];
 
       for(var i=0; i<10; i++) {
-        users.push({first_name: 'find_user' + i, type: 'find test', age: i*10 });  // include the an integrer field
+        users.push({first_name: 'find_user' + i, type: 'find test', age: i*10 });  // include an integer field
       }
 
       User.createEach(users, function(err, users) {
@@ -66,7 +66,7 @@ describe('Semantic Interface', function() {
       });
     });
 
-    it('should return 1 record when searching for a specific record (integer test) with find', function(done) {
+    it('should parse multi-level criteria', function(done) {
       User.find({
         age: {
           lessThanOrEqual: 49 // should return half the records - from 0 to 40
