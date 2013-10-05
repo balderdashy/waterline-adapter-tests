@@ -1,6 +1,7 @@
 var Waterline = require('waterline'),
     PaymentFixture = require('../support/belongsTo.fixture'),
     CustomerFixture = require('../support/hasMany.fixture'),
+    _ = require('lodash'),
     assert = require('assert');
 
 describe('Association Interface', function() {
@@ -68,6 +69,7 @@ describe('Association Interface', function() {
           if(err) return done(err);
 
           assert(payment.customer);
+          assert(_.isPlainObject(payment.customer));
           assert(payment.customer.id === customerRecord.id);
           assert(payment.customer.name === 'foobar');
 
@@ -80,7 +82,8 @@ describe('Association Interface', function() {
         .exec(function(err, payment) {
           if(err) return done(err);
 
-          assert(typeof payment.customer === 'number');
+          assert(!_.isPlainObject(payment.customer));
+
           done();
         });
       });

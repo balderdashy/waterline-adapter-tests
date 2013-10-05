@@ -58,6 +58,7 @@ describe('Queryable Interface', function() {
       User.find({ groupBy: ['type'], sum: ['age'] }, function(err, grouped) {
         assert(!err);
         var asserted = false;
+
         asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
             assert(result.age === 45);
