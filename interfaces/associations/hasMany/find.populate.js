@@ -86,6 +86,42 @@ describe('Association Interface', function() {
         });
       });
 
+      it('should return all the populated records when a limit clause is used', function(done) {
+        Customer.find({ name: 'hasMany find' })
+        .populate('payments')
+        .limit(1)
+        .exec(function(err, customers) {
+          if(err) return done(err);
+
+          assert(Array.isArray(customers));
+          assert(customers.length === 1);
+
+          assert(Array.isArray(customers[0].payments));
+          assert(customers[0].payments.length === 4);
+          assert(customers[0].payments[0].amount === 0);
+
+          done();
+        });
+      });
+
+      it('should return all the populated records when a skip clause is used', function(done) {
+        Customer.find({ name: 'hasMany find' })
+        .populate('payments')
+        .skip(1)
+        .exec(function(err, customers) {
+          if(err) return done(err);
+
+          assert(Array.isArray(customers));
+          assert(customers.length === 1);
+
+          assert(Array.isArray(customers[0].payments));
+          assert(customers[0].payments.length === 4);
+          assert(customers[0].payments[0].amount === 4);
+
+          done();
+        });
+      });
+
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
         Customer.find({ name: 'hasMany find' })
         .exec(function(err, customers) {
