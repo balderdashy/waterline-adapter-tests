@@ -37,7 +37,7 @@ describe('Queryable Interface', function() {
         var users = [];
 
         for(var i=0; i<3; i++) {
-          users.push({first_name: 'OR_user' + i, type: 'or test'});
+          users.push({first_name: 'OR_user' + i, type: 'or test', age: i });
         }
 
         User.createEach(users, function(err, users) {
@@ -53,7 +53,9 @@ describe('Queryable Interface', function() {
       it('should return the correct users', function(done) {
         User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
         .exec(function(err, users) {
-          assert(!err);
+          if(err) return done(err);
+
+          assert(Array.isArray(users));
           assert(users.length === 2);
           assert(users[0].first_name === 'OR_user0');
           assert(users[1].first_name === 'OR_user1');
@@ -68,6 +70,23 @@ describe('Queryable Interface', function() {
           assert(typeof users[0].fullName === 'function');
           assert(toString.call(users[0].createdAt) == '[object Date]');
           assert(toString.call(users[0].updatedAt) == '[object Date]');
+          done();
+        });
+      });
+
+      it('should work with multi-level criteria options inside the OR criteria', function(done) {
+        User.find({
+          or: [
+            { first_name: { contains: 'user0' }, type: 'or test' },
+            { first_name: { endsWith: 'user1' }, age: { '>': 0 }, type: 'or test' }
+          ]
+        }).exec(function(err, users) {
+          if(err) return done(err);
+
+          assert(Array.isArray(users));
+          assert(users.length === 2);
+          assert(users[0].first_name === 'OR_user0');
+          assert(users[1].first_name === 'OR_user1');
           done();
         });
       });
