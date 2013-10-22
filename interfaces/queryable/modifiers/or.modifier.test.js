@@ -90,6 +90,24 @@ describe('Queryable Interface', function() {
           done();
         });
       });
+
+      it('should work correctly when OR is used with AND', function(done) {
+        User.find({
+          type: 'or test',
+          or: [
+            { first_name: { contains: 'user1' } },
+            { first_name: { endsWith: 'user2' } }
+          ]
+        }).exec(function(err, users) {
+          if(err) return done(err);
+
+          assert(Array.isArray(users));
+          assert(users.length === 2);
+          assert(users[0].first_name === 'OR_user1');
+          assert(users[1].first_name === 'OR_user2');
+          done();
+        });
+      });
     });
 
     describe('without a record', function() {
