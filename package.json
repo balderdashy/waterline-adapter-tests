@@ -4,9 +4,9 @@
   "version": "0.9.3",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
-    "mocha": "1.9.x",
-    "underscore": "1.4.x",
-    "waterline": "~0.9.3"
+    "mocha": "~1.13.0",
+    "underscore": "~1.5.2",
+    "waterline": "~0.9.8"
   },
   "keywords": [
     "orm",
