@@ -88,6 +88,25 @@ describe('Association Interface', function() {
         });
       });
 
+      it('should call toJSON on all associated records if available', function(done) {
+        Customer.findOne({ id: customerRecord.id })
+        .populate('payments')
+        .exec(function(err, customer) {
+          if(err) return done(err);
+
+          var obj = customer.toJSON();
+
+          assert(Array.isArray(obj.payments));
+          assert(obj.payments.length === 4);
+          assert(!obj.payments[0].hasOwnProperty('type'));
+          assert(!obj.payments[1].hasOwnProperty('type'));
+          assert(!obj.payments[2].hasOwnProperty('type'));
+          assert(!obj.payments[3].hasOwnProperty('type'));
+
+          done();
+        });
+      });
+
     });
   });
 });

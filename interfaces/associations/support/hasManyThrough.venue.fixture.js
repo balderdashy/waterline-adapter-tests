@@ -12,12 +12,10 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     seats: 'integer',
     team: {
-      model: 'team',
-      type: 'string'
+      model: 'team'
     },
     stadium: {
-      model: 'stadium',
-      type: 'string'
+      model: 'stadium'
     }
   }
 

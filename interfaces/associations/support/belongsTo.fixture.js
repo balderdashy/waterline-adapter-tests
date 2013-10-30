@@ -14,6 +14,12 @@ module.exports = Waterline.Collection.extend({
     type: 'string',
     customer: {
       model: 'Customer'
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.type;
+      return obj;
     }
   }
 

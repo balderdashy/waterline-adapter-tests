@@ -12,6 +12,12 @@ module.exports = Waterline.Collection.extend({
     name: 'string',
     taxis: {
       collection: 'taxi'
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.name;
+      return obj;
     }
   }
 });

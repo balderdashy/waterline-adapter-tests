@@ -11,9 +11,16 @@ module.exports = Waterline.Collection.extend({
 
   attributes: {
     name: 'string',
+    mascot: 'string',
     stadiums: {
       collection: 'Stadium',
       through: 'venue'
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.mascot;
+      return obj;
     }
   }
 

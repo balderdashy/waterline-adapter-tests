@@ -90,6 +90,27 @@ describe('Association Interface', function() {
         });
       });
 
+      it('should call toJSON on all associated records if available', function(done) {
+        Driver.find({ name: 'manymany find' })
+        .populate('taxis')
+        .exec(function(err, drivers) {
+          if(err) return done(err);
+
+          var obj = drivers[0].toJSON();
+          assert(!obj.name);
+
+          assert(Array.isArray(obj.taxis));
+          assert(obj.taxis.length === 2);
+
+          assert(obj.taxis[0].hasOwnProperty('createdAt'));
+          assert(!obj.taxis[0].hasOwnProperty('medallion'));
+          assert(obj.taxis[1].hasOwnProperty('createdAt'));
+          assert(!obj.taxis[1].hasOwnProperty('medallion'));
+
+          done();
+        });
+      });
+
     });
   });
 });

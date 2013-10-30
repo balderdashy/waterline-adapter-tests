@@ -48,7 +48,7 @@ describe('Association Interface', function() {
         if(err) return done(err);
         stadiumRecord = stadium;
 
-        Team.create({ name: 'hasManyThrough team' }, function(err, team) {
+        Team.create({ name: 'hasManyThrough team', mascot: 'elephant' }, function(err, team) {
           if(err) return done(err);
           teamRecord = team;
 
@@ -67,11 +67,11 @@ describe('Association Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
-      it.only('should return teams when the populate criteria is added', function(done) {
+      it('should return teams when the populate criteria is added', function(done) {
         Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
-          if(err) return done();
+          if(err) return done(err);
 
           assert(Array.isArray(stadiums));
           assert(stadiums.length === 1);
@@ -89,6 +89,22 @@ describe('Association Interface', function() {
 
           var obj = stadiums[0].toJSON();
           assert(!obj.teams);
+
+          done();
+        });
+      });
+
+      it('should call toJSON on all associated records if available', function(done) {
+        Stadium.find({ name: 'hasManyThrough stadium' })
+        .populate('teams')
+        .exec(function(err, stadiums) {
+          if(err) return done(err);
+
+          var obj = stadiums[0].toJSON();
+
+          assert(Array.isArray(obj.teams));
+          assert(obj.teams.length === 1);
+          assert(!obj.teams[0].mascot);
 
           done();
         });

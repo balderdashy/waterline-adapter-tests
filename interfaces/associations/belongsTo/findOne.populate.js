@@ -69,7 +69,6 @@ describe('Association Interface', function() {
           if(err) return done(err);
 
           assert(payment.customer);
-          assert(_.isPlainObject(payment.customer));
           assert(payment.customer.id === customerRecord.id);
           assert(payment.customer.name === 'foobar');
 
@@ -83,6 +82,23 @@ describe('Association Interface', function() {
           if(err) return done(err);
 
           assert(!_.isPlainObject(payment.customer));
+
+          done();
+        });
+      });
+
+      it('should call toJSON on associated record', function(done) {
+        Payment.findOne({ id: paymentRecord.id })
+        .populate('customer')
+        .exec(function(err, payment) {
+          if(err) return done(err);
+
+          var obj = payment.toJSON();
+
+          assert(!obj.type);
+          assert(obj.customer);
+          assert(obj.customer.createdAt);
+          assert(!obj.customer.name);
 
           done();
         });

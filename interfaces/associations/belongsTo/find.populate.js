@@ -75,14 +75,15 @@ describe('Association Interface', function() {
           assert(payments.length === 2);
 
           assert(payments[0].customer);
-          assert(_.isPlainObject(payments[0].customer));
           assert(payments[0].customer.id === customers[0].id);
           assert(payments[0].customer.name === 'foo');
 
           assert(payments[1].customer);
-          assert(_.isPlainObject(payments[0].customer));
           assert(payments[1].customer.id === customers[1].id);
           assert(payments[1].customer.name === 'bar');
+
+          var obj = payments[0].toJSON();
+          assert(!obj.customer.name);
 
           done();
         });
@@ -95,6 +96,23 @@ describe('Association Interface', function() {
 
           assert(!_.isPlainObject(payments[0].customer));
           assert(!_.isPlainObject(payments[1].customer));
+
+          done();
+        });
+      });
+
+      it('should call toJSON on associated record', function(done) {
+        Payment.find()
+        .populate('customer')
+        .exec(function(err, payments) {
+          if(err) return done(err);
+
+          var obj = payments[0].toJSON();
+
+          assert(!obj.type);
+          assert(obj.customer);
+          assert(obj.customer.createdAt);
+          assert(!obj.customer.name);
 
           done();
         });

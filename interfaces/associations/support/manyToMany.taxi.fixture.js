@@ -12,6 +12,12 @@ module.exports = Waterline.Collection.extend({
     medallion: 'integer',
     drivers: {
       collection: 'driver'
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.medallion;
+      return obj;
     }
   }
 });

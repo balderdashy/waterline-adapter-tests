@@ -13,6 +13,12 @@ module.exports = Waterline.Collection.extend({
     name: 'string',
     payments: {
       collection: 'Payment'
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.name;
+      return obj;
     }
   }
 
