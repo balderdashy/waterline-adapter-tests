@@ -53,7 +53,6 @@ describe('Association Interface', function() {
           teamRecord = team;
 
           Venue.create({ seats: 200, stadium: stadium.id, team: team.id }, function(err, venue) {
-            console.log(err);
             if(err) return done(err);
             done();
           });
