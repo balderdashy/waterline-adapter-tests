@@ -55,7 +55,7 @@ describe('Association Interface', function() {
       });
     });
 
-    describe('dynamic finders', function() {
+    describe.skip('dynamic finders', function() {
 
       /////////////////////////////////////////////////////
       // TEST METHODS
