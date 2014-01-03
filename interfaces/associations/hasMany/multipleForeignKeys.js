@@ -69,7 +69,7 @@ describe('Association Interface', function() {
               if(err) return done(err);
 
               assert(model.payments.length === 2);
-              assert(model.payments[0].amount === 1337);
+              assert(model.payments[1].amount === 1337);
 
               assert(model.transactions.length === 1);
               assert(model.transactions[0].amount === 100);
