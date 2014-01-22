@@ -7,7 +7,7 @@ var Waterline = require('waterline');
 module.exports = Waterline.Collection.extend({
 
   tableName: 'document',
-  adapter: 'test',
+  connection: 'test',
 
   attributes: {
     title: {

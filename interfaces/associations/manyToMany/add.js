@@ -1,7 +1,8 @@
 var Waterline = require('waterline'),
     taxiFixture = require('../support/manyToMany.taxi.fixture'),
     driverFixture = require('../support/manyToMany.driver.fixture'),
-    assert = require('assert');
+    assert = require('assert'),
+    _ = require('lodash');
 
 describe('Association Interface', function() {
 
@@ -9,10 +10,10 @@ describe('Association Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var Taxi, Driver;
+  var Taxi, Driver, waterline;
 
   before(function(done) {
-    var waterline = new Waterline();
+    waterline = new Waterline();
 
     waterline.loadCollection(taxiFixture);
     waterline.loadCollection(driverFixture);
@@ -20,14 +21,20 @@ describe('Association Interface', function() {
     Events.emit('fixture', taxiFixture);
     Events.emit('fixture', driverFixture);
 
-    waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
+    Connections.associations = _.clone(Connections.test);
+
+    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
       if(err) return done(err);
 
-      Taxi = collections.taxi;
-      Driver = collections.driver;
+      Taxi = colls.collections.taxi;
+      Driver = colls.collections.driver;
 
       done();
     });
+  });
+
+  after(function(done) {
+    waterline.teardown(done);
   });
 
 

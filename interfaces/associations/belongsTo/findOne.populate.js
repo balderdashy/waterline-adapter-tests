@@ -10,10 +10,10 @@ describe('Association Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var Customer, Payment;
+  var Customer, Payment, waterline;
 
   before(function(done) {
-    var waterline = new Waterline();
+    waterline = new Waterline();
 
     waterline.loadCollection(CustomerFixture);
     waterline.loadCollection(PaymentFixture);
@@ -21,14 +21,20 @@ describe('Association Interface', function() {
     Events.emit('fixture', CustomerFixture);
     Events.emit('fixture', PaymentFixture);
 
-    waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
+    Connections.associations = _.clone(Connections.test);
+
+    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
       if(err) return done(err);
 
-      Customer = collections.customer;
-      Payment = collections.payment;
+      Customer = colls.collections.customer;
+      Payment = colls.collections.payment;
 
       done();
     });
+  });
+
+  after(function(done) {
+    waterline.teardown(done);
   });
 
 

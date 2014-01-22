@@ -2,7 +2,8 @@ var Waterline = require('waterline'),
     stadiumFixture = require('../support/hasManyThrough.stadium.fixture'),
     teamFixture = require('../support/hasManyThrough.team.fixture'),
     venueFixture = require('../support/hasManyThrough.venue.fixture'),
-    assert = require('assert');
+    assert = require('assert'),
+    _ = require('lodash');
 
 describe('Association Interface', function() {
 
@@ -10,10 +11,10 @@ describe('Association Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var Stadium, Team, Venue;
+  var Stadium, Team, Venue, waterline;
 
   before(function(done) {
-    var waterline = new Waterline();
+    waterline = new Waterline();
 
     waterline.loadCollection(stadiumFixture);
     waterline.loadCollection(teamFixture);
@@ -23,15 +24,21 @@ describe('Association Interface', function() {
     Events.emit('fixture', teamFixture);
     Events.emit('fixture', venueFixture);
 
-    waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
+    Connections.associations = _.clone(Connections.test);
+
+    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
       if(err) return done(err);
 
-      Stadium = collections.stadium;
-      Team = collections.team;
-      Venue = collections.venue;
+      Stadium = colls.collections.stadium;
+      Team = colls.collections.team;
+      Venue = colls.collections.venue;
 
       done();
     });
+  });
+
+  after(function(done) {
+    waterline.teardown(done);
   });
 
 

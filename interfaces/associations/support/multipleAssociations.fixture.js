@@ -7,7 +7,7 @@ var Waterline = require('waterline');
 module.exports.payment = Waterline.Collection.extend({
 
   identity: 'payment_many',
-  adapter: 'test',
+  connection: 'associations',
 
   attributes: {
     amount: 'integer',
@@ -31,7 +31,7 @@ module.exports.payment = Waterline.Collection.extend({
 module.exports.customer = Waterline.Collection.extend({
 
   identity: 'customer_many',
-  adapter: 'test',
+  connection: 'associations',
 
   attributes: {
     name: 'string',

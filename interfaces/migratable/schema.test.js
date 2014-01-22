@@ -8,19 +8,24 @@ describe('Migratable Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var Document;
+  var Document,
+      waterline;
 
   before(function(done) {
-    var waterline = new Waterline();
+    waterline = new Waterline();
     waterline.loadCollection(Model);
 
     Events.emit('fixture', Model);
 
-    waterline.initialize({ adapters: { test: Adapter }}, function(err, colls) {
+    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
       if(err) return done(err);
-      Document = colls.document;
+      Document = colls.collections.document;
       done();
     });
+  });
+
+  after(function(done) {
+    waterline.teardown(done);
   });
 
   describe('Schema', function() {

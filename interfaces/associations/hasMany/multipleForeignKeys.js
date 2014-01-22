@@ -1,7 +1,8 @@
 var Waterline = require('waterline'),
     PaymentManyFixture = require('../support/multipleAssociations.fixture').payment,
     CustomerManyFixture = require('../support/multipleAssociations.fixture').customer,
-    assert = require('assert');
+    assert = require('assert'),
+    _ = require('lodash');
 
 describe('Association Interface', function() {
 
@@ -9,10 +10,10 @@ describe('Association Interface', function() {
   // TEST SETUP
   ////////////////////////////////////////////////////
 
-  var Customer, Payment;
+  var Customer, Payment, waterline;
 
   before(function(done) {
-    var waterline = new Waterline();
+    waterline = new Waterline();
 
     waterline.loadCollection(CustomerManyFixture);
     waterline.loadCollection(PaymentManyFixture);
@@ -20,14 +21,20 @@ describe('Association Interface', function() {
     Events.emit('fixture', CustomerManyFixture);
     Events.emit('fixture', PaymentManyFixture);
 
-    waterline.initialize({ adapters: { test: Adapter }}, function(err, collections) {
+    Connections.associations = _.clone(Connections.test);
+
+    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
       if(err) return done(err);
 
-      Customer = collections.customer_many;
-      Payment = collections.payment_many;
+      Customer = colls.collections.customer_many;
+      Payment = colls.collections.payment_many;
 
       done();
     });
+  });
+
+  after(function(done) {
+    waterline.teardown(done);
   });
 
 

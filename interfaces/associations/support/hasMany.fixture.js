@@ -7,12 +7,13 @@ var Waterline = require('waterline');
 module.exports = Waterline.Collection.extend({
 
   identity: 'customer',
-  adapter: 'test',
+  connection: 'associations',
 
   attributes: {
     name: 'string',
     payments: {
-      collection: 'Payment'
+      collection: 'Payment',
+      via: 'customer'
     },
 
     toJSON: function() {
