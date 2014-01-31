@@ -11,7 +11,8 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     name: 'string',
     taxis: {
-      collection: 'taxi'
+      collection: 'taxi',
+      via: 'drivers'
     },
 
     toJSON: function() {

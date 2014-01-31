@@ -14,7 +14,8 @@ module.exports = Waterline.Collection.extend({
     mascot: 'string',
     stadiums: {
       collection: 'Stadium',
-      through: 'venue'
+      through: 'venue',
+      via: 'team'
     },
 
     toJSON: function() {

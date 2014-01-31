@@ -11,7 +11,8 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     medallion: 'integer',
     drivers: {
-      collection: 'driver'
+      collection: 'driver',
+      via: 'taxis'
     },
 
     toJSON: function() {

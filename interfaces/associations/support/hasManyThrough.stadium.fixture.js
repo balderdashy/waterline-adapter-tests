@@ -13,7 +13,8 @@ module.exports = Waterline.Collection.extend({
     name: 'string',
     teams: {
       collection: 'Team',
-      through: 'venue'
+      through: 'venue',
+      via: 'stadium'
     }
   }
 
