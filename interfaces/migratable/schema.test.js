@@ -57,42 +57,47 @@ describe('Migratable Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
-      it('should set autoIncrement on schema attribute', function(done) {
-        Document.describe(function (err, user) {
+      //
+      // TODO:
+      // pull auto-increment tests into a different interface
+      // 
 
-          // Some databases like MySQL don't allow multiple autoIncrement values
-          if(!user.number.autoIncrement) {
-            console.log('Auto Increment was not set on the non primary-key attribute. If your ' +
-              'database supports it you should look into this. Some databases like MySQL dont ' +
-              'support multiple auto increment values');
-            return done();
-          }
+      // it('should set autoIncrement on schema attribute', function(done) {
+      //   Document.describe(function (err, user) {
 
-          assert(user.number.autoIncrement === true);
-          done();
-        });
-      });
+      //     // Some databases like MySQL don't allow multiple autoIncrement values
+      //     if(!user.number.autoIncrement) {
+      //       console.log('Auto Increment was not set on the non primary-key attribute. If your ' +
+      //         'database supports it you should look into this. Some databases like MySQL dont ' +
+      //         'support multiple auto increment values');
+      //       return done();
+      //     }
 
-      it('should increment an ID on insert', function(done) {
-        Document.describe(function (err, user) {
+      //     assert(user.number.autoIncrement === true);
+      //     done();
+      //   });
+      // });
 
-          // Some databases like MySQL don't allow multiple autoIncrement values
-          if(!user.number.autoIncrement) {
-            console.log('Auto Increment was not set on the non primary-key attribute. If your ' +
-              'database supports it you should look into this. Some databases like MySQL dont ' +
-              'support multiple auto increment values');
-            return done();
-          }
+      // it('should increment an ID on insert', function(done) {
+      //   Document.describe(function (err, user) {
 
-          Document.create({ title: 'autoincrement 1' }, function(err, record) {
-            assert(record.number === 1);
-            Document.create({ title: 'autoincrement 2' }, function(err, record) {
-              assert(record.number === 2);
-              done();
-            });
-          });
-        });
-      });
+      //     // Some databases like MySQL don't allow multiple autoIncrement values
+      //     if(!user.number.autoIncrement) {
+      //       console.log('Auto Increment was not set on the non primary-key attribute. If your ' +
+      //         'database supports it you should look into this. Some databases like MySQL dont ' +
+      //         'support multiple auto increment values');
+      //       return done();
+      //     }
+
+      //     Document.create({ title: 'autoincrement 1' }, function(err, record) {
+      //       assert(record.number === 1);
+      //       Document.create({ title: 'autoincrement 2' }, function(err, record) {
+      //         assert(record.number === 2);
+      //         done();
+      //       });
+      //     });
+      //   });
+      // });
 
       it('should not allow multiple records with the same PK', function(done) {
         Document.create({ title: '100' }, function(err, record) {
