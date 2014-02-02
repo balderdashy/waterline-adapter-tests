@@ -8,11 +8,11 @@ var bootstrapAndDescribe = require('../../lib/bootstrapAndDescribe'),
 
 
 describe('Migratable Interface', function() {
-  describe('migrate: "drop"', function() {
+  describe('migrate: "alter"', function() {
     bootstrapAndDescribe({
       collections: {
         pirate: {
-          migrate: 'drop',
+          migrate: 'alter',
           connection: 'test',
           attributes: {
             name: 'string',
@@ -20,14 +20,14 @@ describe('Migratable Interface', function() {
           }
         }
       }
-    }, function testSuite (ontology) {
+    }, function tests (ontology) {
 
       it('sanity check first...', function () {
         ontology.should.be.an.Object;
         ontology.collections.should.be.an.Object;
         ontology.collections.pirate.should.be.an.Object;
         ontology.collections.pirate.migrate
-          .should.equal('drop');
+          .should.equal('alter');
       });
 
       it('should have created tables', function (done) {      
@@ -35,14 +35,6 @@ describe('Migratable Interface', function() {
         conn._adapter.describe('test', 'pirate', function (err, schema) {
           should(schema).be.an.Object;
           done(err);
-        });
-      });
-
-      it('should have deleted any data that was there', function (done) {
-        var Pirate = ontology.collections.pirate;
-        Pirate.count().exec(function (err, numPirates) {
-          assert(numPirates === 0);
-          return done(err);
         });
       });
 
