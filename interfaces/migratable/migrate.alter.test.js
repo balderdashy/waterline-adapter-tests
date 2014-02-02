@@ -20,7 +20,7 @@ describe('Migratable Interface', function() {
           }
         }
       }
-    }, function tests (ontology) {
+    }, function testSuite (ontology) {
 
       it('sanity check first...', function () {
         ontology.should.be.an.Object;
