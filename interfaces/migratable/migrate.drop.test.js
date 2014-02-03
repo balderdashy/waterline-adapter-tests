@@ -34,31 +34,7 @@ describe('Migratable Interface', function() {
      * (1st time)
      */
     bootstrapAndDescribe(SCHEMA, function testSuite (ontology) {
-
-
-      it('sanity check first...', function () {
-        ontology.should.be.an.Object;
-        ontology.collections.should.be.an.Object;
-        ontology.collections.pirate.should.be.an.Object;
-        ontology.collections.pirate.migrate
-          .should.equal('drop');
-      });
-
-      it('should have tables', function (done) {
-        var conn = ontology.connections.test;
-        conn._adapter.describe('test', 'pirate', function (err, schema) {
-          should(schema).be.an.Object;
-          done(err);
-        });
-      });
-
-      it('should have deleted any data that was there previously', function (done) {
-        var Pirate = ontology.collections.pirate;
-        Pirate.count().exec(function (err, numPirates) {
-          assert(numPirates === 0);
-          return done(err);
-        });
-      });
+      assertCorrectAndEmpty(ontology);
     });
 
 
@@ -112,36 +88,43 @@ describe('Migratable Interface', function() {
      * Bootstrap Waterline one more time
      * and make sure the data is gone (`drop` should delete all data)
      */
-    bootstrapAndDescribe(SCHEMA, function testSuite (ontology) {
-
-
-      it('sanity check first...', function () {
-        ontology.should.be.an.Object;
-        ontology.collections.should.be.an.Object;
-        ontology.collections.pirate.should.be.an.Object;
-        ontology.collections.pirate.migrate
-          .should.equal('drop');
-      });
-
-      it('should have tables', function (done) {
-        var conn = ontology.connections.test;
-        conn._adapter.describe('test', 'pirate', function (err, schema) {
-          should(schema).be.an.Object;
-          done(err);
-        });
-      });
-
-      it('should have deleted any data that was there previously', function (done) {
-        var Pirate = ontology.collections.pirate;
-        Pirate.count().exec(function (err, numPirates) {
-          assert(numPirates === 0);
-          return done(err);
-        });
-      });
+    bootstrapAndDescribe(SCHEMA, function (ontology) {
+      assertCorrectAndEmpty(ontology);
     });
-
-
-    
-
   });
 });
+
+
+
+/**
+ * This suite tests that initialized ontology has NO data,
+ * but also has the expected schema.
+ *
+ * @param  {Object} ontology [description]
+ */
+function assertCorrectAndEmpty (ontology) {
+
+  it('sanity check first...', function () {
+    ontology.should.be.an.Object;
+    ontology.collections.should.be.an.Object;
+    ontology.collections.pirate.should.be.an.Object;
+    ontology.collections.pirate.migrate
+      .should.equal('drop');
+  });
+
+  it('should have tables', function (done) {
+    var conn = ontology.connections.test;
+    conn._adapter.describe('test', 'pirate', function (err, schema) {
+      should(schema).be.an.Object;
+      done(err);
+    });
+  });
+
+  it('should have deleted any data that was there previously', function (done) {
+    var Pirate = ontology.collections.pirate;
+    Pirate.count().exec(function (err, numPirates) {
+      assert(numPirates === 0);
+      return done(err);
+    });
+  });
+}
