@@ -6,132 +6,134 @@ var Waterline = require('waterline'),
 
 describe('Association Interface', function() {
 
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
+  describe('n:m association :: .remove()', function() {
+    /////////////////////////////////////////////////////
+    // TEST SETUP
+    ////////////////////////////////////////////////////
 
-  var Taxi, Driver, waterline;
+    var Taxi, Driver, waterline;
 
-  before(function(done) {
-    waterline = new Waterline();
+    before(function(done) {
+      waterline = new Waterline();
 
-    waterline.loadCollection(taxiFixture);
-    waterline.loadCollection(driverFixture);
+      waterline.loadCollection(taxiFixture);
+      waterline.loadCollection(driverFixture);
 
-    Events.emit('fixture', taxiFixture);
-    Events.emit('fixture', driverFixture);
+      Events.emit('fixture', taxiFixture);
+      Events.emit('fixture', driverFixture);
 
-    Connections.associations = _.clone(Connections.test);
+      Connections.associations = _.clone(Connections.test);
 
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
+      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
+        if(err) return done(err);
 
-      Taxi = colls.collections.taxi;
-      Driver = colls.collections.driver;
+        Taxi = colls.collections.taxi;
+        Driver = colls.collections.driver;
 
-      done();
+        done();
+      });
     });
-  });
 
-  after(function(done) {
-    waterline.teardown(done);
-  });
+    after(function(done) {
+      waterline.teardown(done);
+    });
 
 
-  describe('Many To Many Association', function() {
-    describe('association .remove()', function() {
+    describe('Many To Many Association', function() {
+      describe('association .remove()', function() {
 
-      describe('with an id', function() {
+        describe('with an id', function() {
 
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
+          /////////////////////////////////////////////////////
+          // TEST SETUP
+          ////////////////////////////////////////////////////
 
-        var driverRecord, taxiRecords;
+          var driverRecord, taxiRecords;
 
-        before(function(done) {
+          before(function(done) {
 
-          Driver.create({ name: 'manymany remove' })
-          .exec(function(err, model) {
-            if(err) return done(err);
+            Driver.create({ name: 'manymany remove' })
+            .exec(function(err, model) {
+              if(err) return done(err);
 
-            driverRecord = model;
+              driverRecord = model;
 
-            var taxis = [];
-            for(var i=0; i<2; i++) {
-              driverRecord.taxis.add({ medallion: i });
-            }
+              var taxis = [];
+              for(var i=0; i<2; i++) {
+                driverRecord.taxis.add({ medallion: i });
+              }
 
+              driverRecord.save(function(err) {
+                if(err) return done(err);
+
+                Driver.findOne(driverRecord.id)
+                .populate('taxis')
+                .exec(function(err, driver) {
+                  if(err) return done(err);
+                  taxiRecords = driver.toObject().taxis;
+                  done();
+                });
+              });
+            });
+          });
+
+          /////////////////////////////////////////////////////
+          // TEST METHODS
+          ////////////////////////////////////////////////////
+
+          it('should remove the record from the join table', function(done) {
+            driverRecord.taxis.remove(taxiRecords[0].id);
             driverRecord.save(function(err) {
               if(err) return done(err);
 
+              // Look up the driver again to be sure the taxi was removed
               Driver.findOne(driverRecord.id)
               .populate('taxis')
-              .exec(function(err, driver) {
+              .exec(function(err, data) {
                 if(err) return done(err);
-                taxiRecords = driver.toObject().taxis;
+
+                assert(data.taxis.length === 1);
                 done();
               });
             });
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        describe('with an object', function() {
 
-        it('should remove the record from the join table', function(done) {
-          driverRecord.taxis.remove(taxiRecords[0].id);
-          driverRecord.save(function(err) {
-            if(err) return done(err);
+          /////////////////////////////////////////////////////
+          // TEST SETUP
+          ////////////////////////////////////////////////////
 
-            // Look up the driver again to be sure the taxi was removed
-            Driver.findOne(driverRecord.id)
-            .populate('taxis')
-            .exec(function(err, data) {
+          var driverRecord;
+
+          before(function(done) {
+            Driver.create({ name: 'manymany remove' })
+            .exec(function(err, model) {
               if(err) return done(err);
+              driverRecord = model;
+              done();
+            });
+          });
 
-              assert(data.taxis.length === 1);
+          /////////////////////////////////////////////////////
+          // TEST METHODS
+          ////////////////////////////////////////////////////
+
+          it('should error when an object is passed in', function(done) {
+            driverRecord.taxis.remove({ medallion: 1337 });
+            driverRecord.save(function(err) {
+              assert(err);
+              assert(Array.isArray(err));
+              assert(err.length === 1);
+              assert(err[0].type === 'remove');
+
               done();
             });
           });
         });
+
       });
-
-      describe('with an object', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
-        var driverRecord;
-
-        before(function(done) {
-          Driver.create({ name: 'manymany remove' })
-          .exec(function(err, model) {
-            if(err) return done(err);
-            driverRecord = model;
-            done();
-          });
-        });
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should error when an object is passed in', function(done) {
-          driverRecord.taxis.remove({ medallion: 1337 });
-          driverRecord.save(function(err) {
-            assert(err);
-            assert(Array.isArray(err));
-            assert(err.length === 1);
-            assert(err[0].type === 'remove');
-
-            done();
-          });
-        });
-      });
-
     });
   });
 });

@@ -6,116 +6,118 @@ var Waterline = require('waterline'),
 
 describe('Association Interface', function() {
 
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Taxi, Driver, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(taxiFixture);
-    waterline.loadCollection(driverFixture);
-
-    Events.emit('fixture', taxiFixture);
-    Events.emit('fixture', driverFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Taxi = colls.collections.taxi;
-      Driver = colls.collections.driver;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
-
-  describe('Many To Many Association', function() {
-
+  describe('n:m association :: findOne().populate()', function() {
     /////////////////////////////////////////////////////
     // TEST SETUP
     ////////////////////////////////////////////////////
 
-    var driverRecord;
+    var Taxi, Driver, waterline;
 
     before(function(done) {
-      Driver.create({ name: 'manymany findOne'}, function(err, driver) {
+      waterline = new Waterline();
+
+      waterline.loadCollection(taxiFixture);
+      waterline.loadCollection(driverFixture);
+
+      Events.emit('fixture', taxiFixture);
+      Events.emit('fixture', driverFixture);
+
+      Connections.associations = _.clone(Connections.test);
+
+      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
         if(err) return done(err);
 
-        driverRecord = driver;
+        Taxi = colls.collections.taxi;
+        Driver = colls.collections.driver;
 
-        var taxis = [];
-        for(var i=0; i<2; i++) {
-          driverRecord.taxis.add({ medallion: i });
-        }
-
-        driverRecord.save(function(err) {
-          if(err) return done(err);
-          done();
-        });
+        done();
       });
     });
 
-    describe('.findOne', function() {
+    after(function(done) {
+      waterline.teardown(done);
+    });
+
+
+    describe('Many To Many Association', function() {
 
       /////////////////////////////////////////////////////
-      // TEST METHODS
+      // TEST SETUP
       ////////////////////////////////////////////////////
 
-      it('should return taxis when the populate criteria is added', function(done) {
-        Driver.findOne(driverRecord.id)
-        .populate('taxis')
-        .exec(function(err, driver) {
-          if(err) return done();
+      var driverRecord;
 
-          assert(Array.isArray(driver.taxis));
-          assert(driver.taxis.length === 2);
-
-          done();
-        });
-      });
-
-      it('should not return a taxis object when the populate is not added', function(done) {
-        Driver.findOne(driverRecord.id)
-        .exec(function(err, driver) {
+      before(function(done) {
+        Driver.create({ name: 'manymany findOne'}, function(err, driver) {
           if(err) return done(err);
 
-          var obj = driver.toJSON();
-          assert(!obj.taxis);
+          driverRecord = driver;
 
-          done();
+          var taxis = [];
+          for(var i=0; i<2; i++) {
+            driverRecord.taxis.add({ medallion: i });
+          }
+
+          driverRecord.save(function(err) {
+            if(err) return done(err);
+            done();
+          });
         });
       });
 
-      it('should call toJSON on all associated records if available', function(done) {
-        Driver.findOne(driverRecord.id)
-        .populate('taxis')
-        .exec(function(err, driver) {
-          if(err) return done(err);
+      describe('.findOne', function() {
 
-          var obj = driver.toJSON();
-          assert(!obj.name);
+        /////////////////////////////////////////////////////
+        // TEST METHODS
+        ////////////////////////////////////////////////////
 
-          assert(Array.isArray(obj.taxis));
-          assert(obj.taxis.length === 2);
+        it('should return taxis when the populate criteria is added', function(done) {
+          Driver.findOne(driverRecord.id)
+          .populate('taxis')
+          .exec(function(err, driver) {
+            if(err) return done();
 
-          assert(obj.taxis[0].hasOwnProperty('createdAt'));
-          assert(!obj.taxis[0].hasOwnProperty('medallion'));
-          assert(obj.taxis[1].hasOwnProperty('createdAt'));
-          assert(!obj.taxis[1].hasOwnProperty('medallion'));
+            assert(Array.isArray(driver.taxis));
+            assert(driver.taxis.length === 2);
 
-          done();
+            done();
+          });
         });
-      });
 
+        it('should not return a taxis object when the populate is not added', function(done) {
+          Driver.findOne(driverRecord.id)
+          .exec(function(err, driver) {
+            if(err) return done(err);
+
+            var obj = driver.toJSON();
+            assert(!obj.taxis);
+
+            done();
+          });
+        });
+
+        it('should call toJSON on all associated records if available', function(done) {
+          Driver.findOne(driverRecord.id)
+          .populate('taxis')
+          .exec(function(err, driver) {
+            if(err) return done(err);
+
+            var obj = driver.toJSON();
+            assert(!obj.name);
+
+            assert(Array.isArray(obj.taxis));
+            assert(obj.taxis.length === 2);
+
+            assert(obj.taxis[0].hasOwnProperty('createdAt'));
+            assert(!obj.taxis[0].hasOwnProperty('medallion'));
+            assert(obj.taxis[1].hasOwnProperty('createdAt'));
+            assert(!obj.taxis[1].hasOwnProperty('medallion'));
+
+            done();
+          });
+        });
+
+      });
     });
   });
 });
