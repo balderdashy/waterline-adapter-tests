@@ -6,7 +6,7 @@ var Waterline = require('waterline'),
 
 describe('Association Interface', function() {
 
-  describe.only('n:m association :: findOne().populate()', function() {
+  describe('n:m association :: findOne().populate()', function() {
     /////////////////////////////////////////////////////
     // TEST SETUP
     ////////////////////////////////////////////////////
