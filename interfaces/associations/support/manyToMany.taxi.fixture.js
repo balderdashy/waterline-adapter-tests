@@ -8,6 +8,7 @@ module.exports = Waterline.Collection.extend({
   identity: 'taxi',
   connection: 'associations',
 
+  migrate: 'drop', 
   attributes: {
     medallion: 'integer',
     drivers: {

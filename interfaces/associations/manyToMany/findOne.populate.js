@@ -1,6 +1,6 @@
 var Waterline = require('waterline'),
-    taxiFixture = require('../support/manyToMany.taxi.fixture'),
-    driverFixture = require('../support/manyToMany.driver.fixture'),
+    TAXI_FIXTURE = require('../support/manyToMany.taxi.fixture'),
+    DRIVER_FIXTURE = require('../support/manyToMany.driver.fixture'),
     assert = require('assert'),
     _ = require('lodash');
 
@@ -16,19 +16,24 @@ describe('Association Interface', function() {
     before(function(done) {
       waterline = new Waterline();
 
-      waterline.loadCollection(taxiFixture);
-      waterline.loadCollection(driverFixture);
+      waterline.loadCollection(TAXI_FIXTURE);
+      waterline.loadCollection(DRIVER_FIXTURE);
 
-      Events.emit('fixture', taxiFixture);
-      Events.emit('fixture', driverFixture);
+      Events.emit('fixture', TAXI_FIXTURE);
+      Events.emit('fixture', DRIVER_FIXTURE);
 
       Connections.associations = _.clone(Connections.test);
 
-      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-        if(err) return done(err);
+      waterline.initialize({
+        adapters: {
+          wl_tests: Adapter
+        },
+        connections: Connections
+      }, function(err, ontology) {
+        if (err) return done(err);
 
-        Taxi = colls.collections.taxi;
-        Driver = colls.collections.driver;
+        Taxi = ontology.collections.taxi;
+        Driver = ontology.collections.driver;
 
         done();
       });
