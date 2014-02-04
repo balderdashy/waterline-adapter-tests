@@ -101,6 +101,9 @@ describe('Migratable Interface', function() {
 
       it('should not allow multiple records with the same PK', function(done) {
         Document.create({ title: '100' }, function(err, record) {
+          if (err) return done(err);
+          if (!record) return ('create() should have recalled a record.');
+
           assert(record.title === '100');
           Document.create({ title: '100' }, function(err, record) {
             assert(err);
