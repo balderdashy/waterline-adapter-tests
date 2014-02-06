@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('../support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('SORT Query Modifier', function() {
 
@@ -53,7 +26,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      User.createEach(users, function(err, users) {
+      Queryable.User.createEach(users, function(err, users) {
         if(err) return done(err);
         done();
       });
@@ -64,7 +37,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should sort records using binary notation for asc', function(done) {
-      User.find({ where: { type: 'sort test' }, sort: { dob: 1 } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 1 } }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
         assert(users[0].first_name === 'sort_user0');
@@ -73,7 +46,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using binary notation desc', function(done) {
-      User.find({ where: { type: 'sort test' }, sort: { dob: 0 } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 0 } }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
         assert(users[0].first_name === 'sort_user9');
@@ -82,7 +55,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using string notation for asc', function(done) {
-      User.find({ where: { type: 'sort test' }, sort: 'dob asc' }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob asc' }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
         assert(users[0].first_name === 'sort_user0');
@@ -91,7 +64,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using string notation for desc', function(done) {
-      User.find({ where: { type: 'sort test' }, sort: 'dob desc' }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob desc' }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
         assert(users[0].first_name === 'sort_user9');
@@ -100,7 +73,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort when sort is an option', function(done) {
-      User.find({ where: { type: 'sort test' } }, { sort: { dob: 0 } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test' } }, { sort: { dob: 0 } }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
         assert(users[0].first_name === 'sort_user9');
@@ -128,7 +101,7 @@ describe('Queryable Interface', function() {
 
       ];
 
-      User.createEach(users, function(err, users) {
+      Queryable.User.createEach(users, function(err, users) {
         if(err) return done(err);
         done();
       });
@@ -139,7 +112,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should sort records using multiple sort criteria, with first name desc', function(done) {
-      User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 0 } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 0 } }, function(err, users) {
         assert(!err);
 
         // check the smith's are together and ordered by first_name
@@ -154,7 +127,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using multiple sort criteria, with first name asc', function(done) {
-      User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 1 } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 1 } }, function(err, users) {
         assert(!err);
 
         // check the smith's are together and ordered by first_name

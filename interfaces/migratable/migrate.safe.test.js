@@ -1,43 +1,24 @@
-/**
+/*
  * Module dependencies
  */
 
-var bootstrapAndDescribe = require('../../lib/bootstrapAndDescribe'),
-  assert = require('assert'),
-  should = require('should');
-
+var assert = require('assert'),
+    bootstrapFn = require('./support/bootstrapFn');
 
 describe('Migratable Interface', function() {
+
   describe('migrate: "safe"', function() {
-    bootstrapAndDescribe({
-      collections: {
-        pirate: {
-          migrate: 'safe',
-          connection: 'test',
-          attributes: {
-            name: 'string',
-            age: 'integer'
-          }
-        }
-      }
-    }, function testSuite (ontology) {
 
-      it('sanity check first...', function () {
-        ontology.should.be.an.Object;
-        ontology.collections.should.be.an.Object;
-        ontology.collections.pirate.should.be.an.Object;
-        ontology.collections.pirate.migrate
-          .should.equal('safe');
+    it('should have the proper migrate setting when bootstrapping', function() {
+      assert(Migratable.Safe.migrate === 'safe');
+    });
+
+    it('should have NOT have tables', function(done) {
+      Migratable.Safe.describe(function(err, schema) {
+        if(err) return done(err);
+        assert(!schema);
+        done();
       });
-
-      it('should NOT have created tables', function (done) {      
-        var conn = ontology.connections.test;
-        conn._adapter.describe('test', 'pirate', function (err, schema) {
-          should(schema).be.an.Object;
-          done(err);
-        });
-      });
-
     });
 
   });

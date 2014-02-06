@@ -1,39 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('./support/belongsTo.fixture'),
-    CustomerFixture = require('./support/hasMany.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('find with associations', function() {
 
@@ -45,7 +13,7 @@ describe('Association Interface', function() {
 
     before(function(done) {
 
-      Customer.createEach([{}, {}], function(err, customers) {
+      Associations.Customer.createEach([{}, {}], function(err, customers) {
         if(err) return done(err);
 
         // cache customers
@@ -57,7 +25,7 @@ describe('Association Interface', function() {
         for(i=0; i<2; i++) payments.push({ amount: i, customer: customers[0].id });
         for(i=0; i<2; i++) payments.push({ amount: i, customer: customers[1].id });
 
-        Payment.createEach(payments, function(err) {
+        Associations.Payment.createEach(payments, function(err) {
           if(err) return done(err);
           done();
         });
@@ -70,7 +38,7 @@ describe('Association Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should group associations under the parent key', function(done) {
-      Customer.find({ id: [Customers[0].id, Customers[1].id]})
+      Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
       .populate('payments')
       .exec(function(err, customers) {
         assert(!err);

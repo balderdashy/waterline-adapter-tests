@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('./support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Semantic Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.semantic = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('.destroy()', function() {
 
@@ -39,7 +12,7 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       before(function(done) {
-        User.create({ first_name: 'Destroy', last_name: 'Test' }, function(err) {
+        Semantic.User.create({ first_name: 'Destroy', last_name: 'Test' }, function(err) {
           if(err) return done(err);
           done();
         });
@@ -50,14 +23,14 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should destroy a record', function(done) {
-        User.destroy({ first_name: 'Destroy' }, function(err, status) {
+        Semantic.User.destroy({ first_name: 'Destroy' }, function(err, status) {
           assert(!err);
           done();
         });
       });
 
       it('should return an empty array when searched for', function(done) {
-        User.find({ first_name: 'Destroy' }, function(err, users) {
+        Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
           assert(users.length === 0);
           done();
         });
@@ -75,7 +48,7 @@ describe('Semantic Interface', function() {
 
       // Create a user to test destroy on
       before(function(done) {
-        User.create({ first_name: 'Destroy', last_name: 'Test' }, function(err, record) {
+        Semantic.User.create({ first_name: 'Destroy', last_name: 'Test' }, function(err, record) {
           if(err) return done(err);
           user = record;
           done();
@@ -87,14 +60,14 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should destroy a record', function(done) {
-        User.destroy(user.id, function(err, status) {
+        Semantic.User.destroy(user.id, function(err, status) {
           assert(!err);
           done();
         });
       });
 
       it('should return an empty array when searched for', function(done) {
-        User.find({ first_name: 'Destroy' }, function(err, users) {
+        Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
           assert(users.length === 0);
           done();
         });
@@ -108,7 +81,7 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       beforeEach(function(done) {
-        User.createEach([
+        Semantic.User.createEach([
           { first_name: 'dummy_test' },
           { first_name: 'dummy_test' },
           { first_name: 'dummy_test' }
@@ -120,14 +93,14 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should destroy all the records', function(done) {
-        User.destroy(function(err, users) {
+        Semantic.User.destroy(function(err, users) {
           assert(!err);
           done();
         });
       });
 
       it('should return an empty array when searched for', function(done) {
-        User.find({ first_name: 'Destroy' }, function(err, users) {
+        Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
           assert(users.length === 0);
           done();
         });

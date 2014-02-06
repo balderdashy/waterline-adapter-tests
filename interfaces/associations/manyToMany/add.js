@@ -1,135 +1,96 @@
-var Waterline = require('waterline'),
-    taxiFixture = require('../support/manyToMany.taxi.fixture'),
-    driverFixture = require('../support/manyToMany.driver.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
+
   describe('n:m association :: .add()', function() {
 
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
+    describe('with an object', function() {
 
-    var Taxi, Driver, waterline;
+      /////////////////////////////////////////////////////
+      // TEST SETUP
+      ////////////////////////////////////////////////////
 
-    before(function(done) {
-      waterline = new Waterline();
+      var driverRecord;
 
-      waterline.loadCollection(taxiFixture);
-      waterline.loadCollection(driverFixture);
+      before(function(done) {
+        Associations.Driver.create({ name: 'manymany add' })
+        .exec(function(err, model) {
+          if(err) return done(err);
+          driverRecord = model;
+          done();
+        });
+      });
 
-      Events.emit('fixture', taxiFixture);
-      Events.emit('fixture', driverFixture);
+      /////////////////////////////////////////////////////
+      // TEST METHODS
+      ////////////////////////////////////////////////////
 
-      Connections.associations = _.clone(Connections.test);
+      it('should create a new taxi association', function(done) {
+        driverRecord.taxis.add({ medallion: 1 });
+        driverRecord.save(function(err) {
+          if(err) return done(err);
 
-      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-        if(err) return done(err);
+          // Look up the customer again to be sure the payment was added
+          Associations.Driver.findOne(driverRecord.id)
+          .populate('taxis')
+          .exec(function(err, driver) {
+            if(err) return done(err);
 
-        Taxi = colls.collections.taxi;
-        Driver = colls.collections.driver;
+            assert(driver.taxis.length === 1);
+            assert(driver.taxis[0].medallion === 1);
 
-        done();
+            done();
+          });
+        });
       });
     });
 
-    after(function(done) {
-      waterline.teardown(done);
-    });
+    describe('with an id', function() {
 
+      /////////////////////////////////////////////////////
+      // TEST SETUP
+      ////////////////////////////////////////////////////
 
-    describe('Many To Many Association', function() {
-      describe('association .add()', function() {
+      var driverRecord, taxiRecord;
 
-        describe('with an object', function() {
+      before(function(done) {
+        Associations.Driver.create({ name: 'manymany add' })
+        .exec(function(err, model) {
+          if(err) return done(err);
+          driverRecord = model;
 
-          /////////////////////////////////////////////////////
-          // TEST SETUP
-          ////////////////////////////////////////////////////
-
-          var driverRecord;
-
-          before(function(done) {
-            Driver.create({ name: 'manymany add' })
-            .exec(function(err, model) {
-              if(err) return done(err);
-               driverRecord = model;
-              done();
-            });
-          });
-
-          /////////////////////////////////////////////////////
-          // TEST METHODS
-          ////////////////////////////////////////////////////
-
-          it('should create a new taxi association', function(done) {
-            driverRecord.taxis.add({ medallion: 1 });
-            driverRecord.save(function(err) {
-              if(err) return done(err);
-
-              // Look up the customer again to be sure the payment was added
-              Driver.findOne(driverRecord.id)
-              .populate('taxis')
-              .exec(function(err, driver) {
-                if(err) return done(err);
-
-                assert(driver.taxis.length === 1);
-                assert(driver.taxis[0].medallion === 1);
-
-                done();
-              });
-            });
+          Associations.Taxi.create({ medallion: 20 })
+          .exec(function(err, taxi) {
+            if(err) return done(err);
+            taxiRecord = taxi;
+            done();
           });
         });
+      });
 
-        describe('with an id', function() {
+      /////////////////////////////////////////////////////
+      // TEST METHODS
+      ////////////////////////////////////////////////////
 
-          /////////////////////////////////////////////////////
-          // TEST SETUP
-          ////////////////////////////////////////////////////
+      it('should link a payment to a customer through a join table', function(done) {
+        driverRecord.taxis.add(taxiRecord.id);
+        driverRecord.save(function(err) {
+          if(err) return done(err);
 
-          var driverRecord, taxiRecord;
+          // Look up the driver again to be sure the taxi was added
+          Associations.Driver.findOne(driverRecord.id)
+          .populate('taxis')
+          .exec(function(err, data) {
+            if(err) return done(err);
 
-          before(function(done) {
-            Driver.create({ name: 'manymany add' })
-            .exec(function(err, model) {
-              if(err) return done(err);
-              driverRecord = model;
-
-              Taxi.create({ medallion: 20 })
-              .exec(function(err, taxi) {
-                if(err) return done(err);
-                taxiRecord = taxi;
-                done();
-              });
-            });
-          });
-
-          /////////////////////////////////////////////////////
-          // TEST METHODS
-          ////////////////////////////////////////////////////
-
-          it('should link a payment to a customer through a join table', function(done) {
-            driverRecord.taxis.add(taxiRecord.id);
-            driverRecord.save(function(err) {
-              if(err) return done(err);
-
-              // Look up the driver again to be sure the taxi was added
-              Driver.findOne(driverRecord.id)
-              .populate('taxis')
-              .exec(function(err, data) {
-                if(err) return done(err);
-
-                assert(data.taxis.length === 1);
-                assert(data.taxis[0].medallion === 20);
-                done();
-              });
-            });
+            assert(data.taxis.length === 1);
+            assert(data.taxis[0].medallion === 20);
+            done();
           });
         });
-
       });
     });
+
   });
 });

@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('../support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('Modifiers', function() {
 
@@ -49,7 +22,7 @@ describe('Queryable Interface', function() {
             users.push({ first_name: testName, age: i });
           }
 
-          User.createEach(users, function(err) {
+          Queryable.User.createEach(users, function(err) {
             if(err) return done(err);
             done();
           });
@@ -60,7 +33,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThan key', function(done) {
-          User.find({ first_name: testName, age: { lessThan: 42 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { lessThan: 42 }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
@@ -70,7 +43,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage < usage', function(done) {
-          User.find({ first_name: testName, age: { '<': 42 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '<': 42 }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
@@ -104,7 +77,7 @@ describe('Queryable Interface', function() {
             });
           }
 
-          User.createEach(users, function(err, users) {
+          Queryable.User.createEach(users, function(err, users) {
             if(err) return done(err);
             done();
           });
@@ -115,7 +88,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThan key when searching dates', function(done) {
-          User.find({ type: testName, dob: { lessThan: new Date(2013, 10, 2) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { lessThan: new Date(2013, 10, 2) }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -125,7 +98,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage < usage when searching dates', function(done) {
-          User.find({ type: testName, dob: { '<': new Date(2013, 10, 2) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '<': new Date(2013, 10, 2) }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -154,7 +127,7 @@ describe('Queryable Interface', function() {
             users.push({ first_name: testName, age: i });
           }
 
-          User.createEach(users, function(err) {
+          Queryable.User.createEach(users, function(err) {
             if(err) return done(err);
             done();
           });
@@ -165,7 +138,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThanOrEqual key', function(done) {
-          User.find({ first_name: testName, age: { lessThanOrEqual: 42 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -175,7 +148,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage <= usage', function(done) {
-          User.find({ first_name: testName, age: { '<=': 42 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '<=': 42 }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -209,7 +182,7 @@ describe('Queryable Interface', function() {
             });
           }
 
-          User.createEach(users, function(err, users) {
+          Queryable.User.createEach(users, function(err, users) {
             if(err) return done(err);
             done();
           });
@@ -220,7 +193,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThanOrEqual key when searching dates', function(done) {
-          User.find({ type: testName, dob: { lessThanOrEqual: new Date(2013, 10, 2) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { lessThanOrEqual: new Date(2013, 10, 2) }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
@@ -230,7 +203,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage <= usage when searching dates', function(done) {
-          User.find({ type: testName, dob: { '<=': new Date(2013, 10, 2) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '<=': new Date(2013, 10, 2) }}, function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);

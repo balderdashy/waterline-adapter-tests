@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('./support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('.findLike()', function() {
 
@@ -41,10 +14,10 @@ describe('Queryable Interface', function() {
           testName = 'zz 340ajsdha test_findLike -- aw40gasdha',
           testName2 = 'zz zzbjfk test_findLike2../haer-h';
 
-      User.createEach([{ first_name: testName }, { first_name: testName2 }], function(err) {
+      Queryable.User.createEach([{ first_name: testName }, { first_name: testName2 }], function(err) {
         if (err) return done(err);
 
-        User.findLike({ first_name: part }, function(err, users) {
+        Queryable.User.findLike({ first_name: part }, function(err, users) {
           assert(!err);
           assert(Array.isArray(users));
           assert(users.length === 2);

@@ -1,32 +1,6 @@
-var Waterline = require('waterline'),
-    Model = require('./support/schema.fixture'),
-    assert = require('assert');
+var assert = require('assert');
 
 describe('Migratable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Document,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      Document = colls.collections.document;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('Schema', function() {
 
@@ -37,14 +11,14 @@ describe('Migratable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should disable autoPK', function(done) {
-        Document.describe(function (err, user) {
+        Migratable.Document.describe(function (err, user) {
           assert(!user.id);
           done();
         });
       });
 
       it('should set attribute as primary key', function(done) {
-        Document.describe(function (err, user) {
+        Migratable.Document.describe(function (err, user) {
           assert(user.title.primaryKey === true);
           done();
         });
@@ -60,7 +34,7 @@ describe('Migratable Interface', function() {
       //
       // TODO:
       // pull auto-increment tests into a different interface
-      // 
+      //
 
       // it('should set autoIncrement on schema attribute', function(done) {
       //   Document.describe(function (err, user) {
@@ -100,9 +74,9 @@ describe('Migratable Interface', function() {
       // });
 
       it('should not allow multiple records with the same PK', function(done) {
-        Document.create({ title: '100' }, function(err, record) {
+        Migratable.Document.create({ title: '100' }, function(err, record) {
           assert(record.title === '100');
-          Document.create({ title: '100' }, function(err, record) {
+          Migratable.Document.create({ title: '100' }, function(err, record) {
             assert(err);
             assert(!record);
             done();
@@ -119,18 +93,18 @@ describe('Migratable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should set unique on schema attribute', function(done) {
-        Document.describe(function (err, user) {
+        Migratable.Document.describe(function (err, user) {
           assert(user.serialNumber.unique === true);
           done();
         });
       });
 
       it('should return an error if unique constraint fails', function(done) {
-        Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
+        Migratable.Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
           assert(!err);
           assert(record.serialNumber === 'test');
 
-          Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
+          Migratable.Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
             assert(!record);
             assert(err);
             done();

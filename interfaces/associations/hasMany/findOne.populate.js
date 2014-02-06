@@ -1,42 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('../support/belongsTo.fixture'),
-    CustomerFixture = require('../support/hasMany.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
 
   describe('Has Many Association', function() {
 
@@ -47,7 +12,7 @@ describe('Association Interface', function() {
     var customerRecord;
 
     before(function(done) {
-      Customer.create({ name: 'hasMany findOne' }, function(err, customer) {
+      Associations.Customer.create({ name: 'hasMany findOne' }, function(err, customer) {
         if(err) return done(err);
 
         customerRecord = customer;
@@ -58,7 +23,7 @@ describe('Association Interface', function() {
           payments.push({ amount: i, customer: customer.id });
         }
 
-        Payment.createEach(payments, function(err) {
+        Associations.Payment.createEach(payments, function(err) {
           if(err) return done(err);
           done();
         });
@@ -72,7 +37,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return payments when the populate criteria is added', function(done) {
-        Customer.findOne({ id: customerRecord.id })
+       Associations. Customer.findOne({ id: customerRecord.id })
         .populate('payments')
         .exec(function(err, customer) {
           if(err) return done(err);
@@ -84,7 +49,7 @@ describe('Association Interface', function() {
       });
 
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
-        Customer.findOne({ id: customerRecord.id })
+        Associations.Customer.findOne({ id: customerRecord.id })
         .exec(function(err, customer) {
           if(err) return done(err);
 
@@ -96,7 +61,7 @@ describe('Association Interface', function() {
       });
 
       it('should call toJSON on all associated records if available', function(done) {
-        Customer.findOne({ id: customerRecord.id })
+        Associations.Customer.findOne({ id: customerRecord.id })
         .populate('payments')
         .exec(function(err, customer) {
           if(err) return done(err);

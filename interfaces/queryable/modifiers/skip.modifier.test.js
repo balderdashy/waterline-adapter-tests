@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('../support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('SKIP Query Modifier', function() {
 
@@ -45,7 +18,7 @@ describe('Queryable Interface', function() {
         users.push({first_name: 'skip_user' + i, type: 'skip test'});
       }
 
-      User.createEach(users, function(err, users) {
+      Queryable.User.createEach(users, function(err, users) {
         if(err) return done(err);
         done();
       });
@@ -56,7 +29,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should return the correct amount of records', function(done) {
-      User.find({ where: { type: 'skip test' }, skip: 3 }, function(err, users) {
+      Queryable.User.find({ where: { type: 'skip test' }, skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
         assert(users.length === 7);
@@ -65,7 +38,7 @@ describe('Queryable Interface', function() {
     });
 
     it('dynamic finder usage should return the correct amount of records', function(done) {
-      User.findByType('skip test', { skip: 3 }, function(err, users) {
+      Queryable.User.findByType('skip test', { skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
         assert(users.length === 7);
@@ -74,7 +47,7 @@ describe('Queryable Interface', function() {
     });
 
     it('as an option should return correct amount of records', function(done) {
-      User.find({ where: { type: 'skip test' } }, { skip: 3 }, function(err, users) {
+      Queryable.User.find({ where: { type: 'skip test' } }, { skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
         assert(users.length === 7);

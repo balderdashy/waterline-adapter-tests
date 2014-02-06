@@ -1,42 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('../support/belongsTo.fixture'),
-    CustomerFixture = require('../support/hasMany.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
 
   describe('Has Many Association', function() {
 
@@ -51,7 +16,7 @@ describe('Association Interface', function() {
         { name: 'hasMany find' }
       ];
 
-      Customer.createEach(customerRecords, function(err, customers) {
+      Associations.Customer.createEach(customerRecords, function(err, customers) {
         if(err) return done(err);
 
         var payments = [];
@@ -61,7 +26,7 @@ describe('Association Interface', function() {
           if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
         }
 
-        Payment.createEach(payments, function(err) {
+        Associations.Payment.createEach(payments, function(err) {
           if(err) return done(err);
           done();
         });
@@ -75,7 +40,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return payments when the populate criteria is added', function(done) {
-        Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .exec(function(err, customers) {
           if(err) return done(err);
@@ -94,7 +59,7 @@ describe('Association Interface', function() {
       });
 
       it('should return all the populated records when a limit clause is used', function(done) {
-        Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .limit(1)
         .exec(function(err, customers) {
@@ -112,7 +77,7 @@ describe('Association Interface', function() {
       });
 
       it('should return all the populated records when a skip clause is used', function(done) {
-        Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .skip(1)
         .exec(function(err, customers) {
@@ -130,7 +95,7 @@ describe('Association Interface', function() {
       });
 
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
-        Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find' })
         .exec(function(err, customers) {
           if(err) return done(err);
 
@@ -142,7 +107,7 @@ describe('Association Interface', function() {
       });
 
       it('should call toJSON on all associated records if available', function(done) {
-        Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .exec(function(err, customers) {
           if(err) return done(err);

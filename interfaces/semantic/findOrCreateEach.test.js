@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('./support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Semantic Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.semantic = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('.findOrCreateEach()', function() {
 
@@ -45,7 +18,7 @@ describe('Semantic Interface', function() {
         users.push({ first_name: 'findOrCreate_' + i, type: testName });
       }
 
-      User.create(users, done);
+      Semantic.User.create(users, done);
     });
 
     /////////////////////////////////////////////////////
@@ -53,7 +26,7 @@ describe('Semantic Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should create new user(s) for the one that doesn\'t exist', function(done) {
-      User.findOrCreateEach(['type', 'first_name'], [{
+      Semantic.User.findOrCreateEach(['type', 'first_name'], [{
         first_name: 'NOT IN THE SET',
         type: testName
       }], function(err, results) {
@@ -64,7 +37,7 @@ describe('Semantic Interface', function() {
     });
 
     it('should find a user that does exist', function(done) {
-      User.findOrCreateEach(['type', 'first_name'], [{
+      Semantic.User.findOrCreateEach(['type', 'first_name'], [{
         first_name: 'NOT IN THE SET',
         type: testName
       }], function(err, results) {
@@ -75,21 +48,21 @@ describe('Semantic Interface', function() {
     });
 
     it('should only have a single record for keys that exist', function(done) {
-      User.find({ first_name: 'NOT IN THE SET' }, function(err, users) {
+      Semantic.User.find({ first_name: 'NOT IN THE SET' }, function(err, users) {
         assert(users.length === 1);
         done();
       });
     });
 
     it('should fail when only one arg is specified', function(done) {
-      User.findOrCreateEach([], function(err) {
+      Semantic.User.findOrCreateEach([], function(err) {
         assert(err);
         done();
       });
     });
 
     it('should return model instances', function(done) {
-      User.findOrCreateEach(['type', 'first_name'], [{ type: testName, first_name: 'NOT IN THE SET' }], function(err, users) {
+      Semantic.User.findOrCreateEach(['type', 'first_name'], [{ type: testName, first_name: 'NOT IN THE SET' }], function(err, users) {
         assert(!err);
         assert(users[0].id);
         assert(typeof users[0].fullName === 'function');

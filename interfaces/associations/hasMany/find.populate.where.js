@@ -1,42 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('../support/belongsTo.fixture'),
-    CustomerFixture = require('../support/hasMany.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
 
   describe('Has Many Association', function() {
 
@@ -51,7 +16,7 @@ describe('Association Interface', function() {
         { name: 'hasMany find where' }
       ];
 
-      Customer.createEach(customerRecords, function(err, customers) {
+      Associations.Customer.createEach(customerRecords, function(err, customers) {
         if(err) return done(err);
 
         var payments = [];
@@ -61,7 +26,7 @@ describe('Association Interface', function() {
           if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
         }
 
-        Payment.createEach(payments, function(err) {
+        Associations.Payment.createEach(payments, function(err) {
           if(err) return done(err);
           done();
         });
@@ -75,7 +40,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return only payments less than or equal to 2', function(done) {
-        Customer.find({ name: 'hasMany find where' })
+        Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { amount: { '<': 2 }})
         .exec(function(err, customers) {
           if(err) return done(err);
@@ -98,7 +63,7 @@ describe('Association Interface', function() {
       });
 
       it('should return payments using skip and limit', function(done) {
-        Customer.find({ name: 'hasMany find where' })
+        Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { skip: 1, limit: 2 })
         .exec(function(err, customers) {
           if(err) return done(err);

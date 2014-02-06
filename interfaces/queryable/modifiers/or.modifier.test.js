@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('../support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('OR Query Modifier', function() {
 
@@ -47,7 +20,7 @@ describe('Queryable Interface', function() {
           users.push({first_name: 'OR_user' + i, type: 'or test', age: i });
         }
 
-        User.createEach(users, function(err, users) {
+        Queryable.User.createEach(users, function(err, users) {
           if(err) return done(err);
           done();
         });
@@ -58,7 +31,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return the correct users', function(done) {
-        User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
+        Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
         .exec(function(err, users) {
           if(err) return done(err);
 
@@ -71,7 +44,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return a model instances', function(done) {
-        User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
+        Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
         .exec(function(err, users) {
           assert(users[0].id);
           assert(typeof users[0].fullName === 'function');
@@ -82,7 +55,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work with multi-level criteria options inside the OR criteria', function(done) {
-        User.find({
+        Queryable.User.find({
           or: [
             { first_name: { contains: 'user0' }, type: 'or test' },
             { first_name: { endsWith: 'user1' }, age: { '>': 0 }, type: 'or test' }
@@ -99,7 +72,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work correctly when OR is used with AND', function(done) {
-        User.find({
+        Queryable.User.find({
           type: 'or test',
           or: [
             { first_name: { contains: 'user1' } },
@@ -124,7 +97,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return an empty array', function(done) {
-        User.find({ where: { or: [{ first_name: 'OR_user10' }, { first_name: 'OR_user11' }]}})
+        Queryable.User.find({ where: { or: [{ first_name: 'OR_user10' }, { first_name: 'OR_user11' }]}})
         .exec(function(err, users) {
           assert(users.length === 0);
           done();

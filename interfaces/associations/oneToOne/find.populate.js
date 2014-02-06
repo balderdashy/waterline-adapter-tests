@@ -1,125 +1,89 @@
-var Waterline = require('waterline'),
-    UserFixture = require('../support/oneToOne.fixture').user_resource,
-    ProfileFixture = require('../support/oneToOne.fixture').profile,
-    _ = require('lodash'),
+var _ = require('lodash'),
     assert = require('assert');
 
 describe('Association Interface', function() {
-  describe('1:1 association', function() {
+
+  describe('1:1 Association', function() {
 
     /////////////////////////////////////////////////////
     // TEST SETUP
     ////////////////////////////////////////////////////
 
-    var User, Profile, waterline;
+    var users, profiles;
 
     before(function(done) {
-      waterline = new Waterline();
-
-      waterline.loadCollection(UserFixture);
-      waterline.loadCollection(ProfileFixture);
-
-      Events.emit('fixture', UserFixture);
-      Events.emit('fixture', ProfileFixture);
-
-      Connections.associations = _.clone(Connections.test);
-
-      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
+      Associations.User_resource.createEach([{ name: 'foo', profile: 1 }, { name: 'bar', profile: 2 }], function(err, models) {
         if(err) return done(err);
 
-        User = colls.collections.user_resource;
-        Profile = colls.collections.profile;
+        users = models;
 
-        done();
+        var profileRecords = [
+          { name: 'profile one', user: users[0].id },
+          { name: 'profile two', user: users[1].id }
+        ];
+
+        Associations.Profile.createEach(profileRecords, function(err, models) {
+          if(err) return done(err);
+          profiles = models;
+          done();
+        });
       });
     });
 
-    after(function(done) {
-      waterline.teardown(done);
-    });
-
-    describe('One to One Association', function() {
+    describe('.find()', function() {
 
       /////////////////////////////////////////////////////
-      // TEST SETUP
+      // TEST METHODS
       ////////////////////////////////////////////////////
 
-      var users, profiles;
-
-      before(function(done) {
-        User.createEach([{ name: 'foo', profile: 1 }, { name: 'bar', profile: 2 }], function(err, models) {
+      it('should return user when the populate criteria is added on profile', function(done) {
+        Associations.Profile.find()
+        .populate('user')
+        .exec(function(err, profiles) {
           if(err) return done(err);
 
-          users = models;
+          assert(profiles[0].user);
+          assert(profiles[1].user);
 
-          var profileRecords = [
-            { name: 'profile one', user: users[0].id },
-            { name: 'profile two', user: users[1].id }
-          ];
+          assert(profiles[0].user.name === 'foo');
+          assert(profiles[1].user.name === 'bar');
 
-          Profile.createEach(profileRecords, function(err, models) {
-            if(err) return done(err);
-            profiles = models;
-            done();
-          });
+          done();
         });
       });
 
-      describe('.find()', function() {
+      it('should return profile when the populate criteria is added on user', function(done) {
+        Associations.User_resource.find()
+        .populate('profile')
+        .exec(function(err, users) {
+          if(err) return done(err);
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+          assert(users[0].profile);
+          assert(users[1].profile);
 
-        it('should return user when the populate criteria is added on profile', function(done) {
-          Profile.find()
-          .populate('user')
-          .exec(function(err, profiles) {
-            if(err) return done(err);
+          assert(users[0].profile.name === 'profile one');
+          assert(users[1].profile.name === 'profile two');
 
-            assert(profiles[0].user);
-            assert(profiles[1].user);
-
-            assert(profiles[0].user.name === 'foo');
-            assert(profiles[1].user.name === 'bar');
-
-            done();
-          });
+          done();
         });
+      });
 
-        it('should return profile when the populate criteria is added on user', function(done) {
-          User.find()
+      it('should return a user object when the profile is undefined', function(done) {
+        Associations.User_resource.create({ name: 'foobar', profile: null }).exec(function(err) {
+          if(err) return done(err);
+
+          Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            if(err) return done(err);
+            if(err) return cb(err);
 
-            assert(users[0].profile);
-            assert(users[1].profile);
-
-            assert(users[0].profile.name === 'profile one');
-            assert(users[1].profile.name === 'profile two');
-
+            assert(users[0].name);
+            assert(!users[0].profile);
             done();
           });
         });
-
-        it('should return a user object when the profile is undefined', function(done) {
-          User.create({ name: 'foobar', profile: null }).exec(function(err) {
-            if(err) return done(err);
-
-            User.find({ name: 'foobar' })
-            .populate('profile')
-            .exec(function(err, users) {
-              if(err) return cb(err);
-
-              assert(users[0].name);
-              assert(!users[0].profile);
-              done();
-            });
-          });
-        });
-
       });
+
     });
 
   });

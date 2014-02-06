@@ -1,46 +1,7 @@
-var Waterline = require('waterline'),
-    stadiumFixture = require('../support/hasManyThrough.stadium.fixture'),
-    teamFixture = require('../support/hasManyThrough.team.fixture'),
-    venueFixture = require('../support/hasManyThrough.venue.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Stadium, Team, Venue, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(stadiumFixture);
-    waterline.loadCollection(teamFixture);
-    waterline.loadCollection(venueFixture);
-
-    Events.emit('fixture', stadiumFixture);
-    Events.emit('fixture', teamFixture);
-    Events.emit('fixture', venueFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Stadium = colls.collections.stadium;
-      Team = colls.collections.team;
-      Venue = colls.collections.venue;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
 
   describe('Has Many Through Association', function() {
 
@@ -51,15 +12,15 @@ describe('Association Interface', function() {
     var stadiumRecord, teamRecord;
 
     before(function(done) {
-      Stadium.create({ name: 'hasManyThrough stadium'}, function(err, stadium) {
+      Associations.Stadium.create({ name: 'hasManyThrough stadium'}, function(err, stadium) {
         if(err) return done(err);
         stadiumRecord = stadium;
 
-        Team.create({ name: 'hasManyThrough team', mascot: 'elephant' }, function(err, team) {
+        Associations.Team.create({ name: 'hasManyThrough team', mascot: 'elephant' }, function(err, team) {
           if(err) return done(err);
           teamRecord = team;
 
-          Venue.create({ seats: 200, stadium: stadium.id, team: team.id }, function(err, venue) {
+          Associations.Venue.create({ seats: 200, stadium: stadium.id, team: team.id }, function(err, venue) {
             if(err) return done(err);
             done();
           });
@@ -74,7 +35,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return teams when the populate criteria is added', function(done) {
-        Stadium.find({ name: 'hasManyThrough stadium' })
+        Associations.Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
           if(err) return done(err);
@@ -89,7 +50,7 @@ describe('Association Interface', function() {
       });
 
       it('should not return a teams object when the populate is not added', function(done) {
-        Stadium.find()
+        Associations.Stadium.find()
         .exec(function(err, stadiums) {
           if(err) return done(err);
 
@@ -101,7 +62,7 @@ describe('Association Interface', function() {
       });
 
       it('should call toJSON on all associated records if available', function(done) {
-        Stadium.find({ name: 'hasManyThrough stadium' })
+        Associations.Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
           if(err) return done(err);

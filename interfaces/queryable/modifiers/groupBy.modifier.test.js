@@ -1,34 +1,7 @@
-var Waterline = require('waterline'),
-    Model = require('../support/crud.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Queryable Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var User,
-      waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-    waterline.loadCollection(Model);
-
-    Events.emit('fixture', Model);
-    Connections.queryable = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-      User = colls.collections.user;
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('GroupBy Query Modifier', function() {
 
@@ -51,7 +24,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      User.createEach(users, function(err, users) {
+      Queryable.User.createEach(users, function(err, users) {
         if(err) return done(err);
         done();
       });
@@ -62,7 +35,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should group by keys and sum values', function(done) {
-      User.find({ groupBy: ['type'], sum: ['age'] }, function(err, grouped) {
+      Queryable.User.find({ groupBy: ['type'], sum: ['age'] }, function(err, grouped) {
         assert(!err);
         var asserted = false;
 
@@ -83,7 +56,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should group by multiple keys and sum values', function(done) {
-      User.find({ groupBy: ['type', 'age'], sum: ['percent'] }, function(err, grouped) {
+      Queryable.User.find({ groupBy: ['type', 'age'], sum: ['percent'] }, function(err, grouped) {
         assert(!err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test' && result.age === 1) {
@@ -101,7 +74,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should group by keys and both sum and average values', function(done) {
-      User.find({ groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
+      Queryable.User.find({ groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
         assert(!err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
@@ -120,7 +93,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should allow match query with groupBy', function(done){
-      User.find({where: { age: { '>': 5 } }, groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
+      Queryable.User.find({where: { age: { '>': 5 } }, groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
         assert(!err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
@@ -139,9 +112,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should error if not given any calculations to do', function(done) {
-      User.find({
-        groupBy: ['type']
-      }, function(err, summed) {
+      Queryable.User.find({ groupBy: ['type'] }, function(err, summed) {
         assert(err);
         done();
       });

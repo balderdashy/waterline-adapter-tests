@@ -5,20 +5,21 @@
 var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
-  identity: 'driver',
+
+  identity: 'taxi',
   connection: 'associations',
 
   // migrate: 'drop', 
   attributes: {
-    name: 'string',
-    taxis: {
-      collection: 'taxi',
-      via: 'drivers'
+    medallion: 'integer',
+    drivers: {
+      collection: 'driver',
+      via: 'taxis'
     },
 
     toJSON: function() {
       var obj = this.toObject();
-      delete obj.name;
+      delete obj.medallion;
       return obj;
     }
   }

@@ -1,42 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('../support/belongsTo.fixture'),
-    CustomerFixture = require('../support/hasMany.fixture'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('lodash');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
-
 
   describe('Has Many Association', function() {
     describe('association .add()', function() {
@@ -50,11 +15,11 @@ describe('Association Interface', function() {
         var customer;
 
         before(function(done) {
-          Customer.create({ name: 'hasMany add' }, function(err, model) {
+          Associations.Customer.create({ name: 'hasMany add' }, function(err, model) {
             if(err) return done(err);
 
             customer = model;
-            Payment.create({ amount: 1, customer: customer.id }, done);
+            Associations.Payment.create({ amount: 1, customer: customer.id }, done);
           });
         });
 
@@ -68,7 +33,7 @@ describe('Association Interface', function() {
             if(err) return done(err);
 
             // Look up the customer again to be sure the payment was added
-            Customer.findOne(customer.id)
+            Associations.Customer.findOne(customer.id)
             .populate('payments')
             .exec(function(err, model) {
               if(err) return done(err);
@@ -96,11 +61,11 @@ describe('Association Interface', function() {
             { name: 'hasMany add 2' }
           ];
 
-          Customer.createEach(records, function(err, models) {
+          Associations.Customer.createEach(records, function(err, models) {
             if(err) return done(err);
 
             customer = models[0];
-            Payment.create({ amount: 1, customer: models[1].id }, function(err, paymentModel) {
+            Associations.Payment.create({ amount: 1, customer: models[1].id }, function(err, paymentModel) {
               if(err) return done(err);
 
               payment = paymentModel;
@@ -119,7 +84,7 @@ describe('Association Interface', function() {
             if(err) return done(err);
 
             // Look up the customer again to be sure the payment was added
-            Customer.findOne(customer.id)
+            Associations.Customer.findOne(customer.id)
             .populate('payments')
             .exec(function(err, data) {
               if(err) return done(err);

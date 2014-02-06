@@ -1,41 +1,7 @@
-var Waterline = require('waterline'),
-    PaymentFixture = require('../support/belongsTo.fixture'),
-    CustomerFixture = require('../support/hasMany.fixture'),
-    _ = require('lodash'),
+var _ = require('lodash'),
     assert = require('assert');
 
 describe('Association Interface', function() {
-
-  /////////////////////////////////////////////////////
-  // TEST SETUP
-  ////////////////////////////////////////////////////
-
-  var Customer, Payment, waterline;
-
-  before(function(done) {
-    waterline = new Waterline();
-
-    waterline.loadCollection(CustomerFixture);
-    waterline.loadCollection(PaymentFixture);
-
-    Events.emit('fixture', CustomerFixture);
-    Events.emit('fixture', PaymentFixture);
-
-    Connections.associations = _.clone(Connections.test);
-
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: Connections }, function(err, colls) {
-      if(err) return done(err);
-
-      Customer = colls.collections.customer;
-      Payment = colls.collections.payment;
-
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
-  });
 
   describe('Belongs To Association', function() {
 
@@ -46,7 +12,7 @@ describe('Association Interface', function() {
     var customers, payments;
 
     before(function(done) {
-      Customer.createEach([{ name: 'foo' }, { name: 'bar' }], function(err, models) {
+      Associations.Customer.createEach([{ name: 'foo' }, { name: 'bar' }], function(err, models) {
         if(err) return done(err);
 
         customers = models;
@@ -56,7 +22,7 @@ describe('Association Interface', function() {
           { amount: 2, type: 'belongsTo find', customer: customers[1].id }
         ];
 
-        Payment.createEach(paymentRecords, function(err, models) {
+        Associations.Payment.createEach(paymentRecords, function(err, models) {
           if(err) return done(err);
           payments = models;
           done();
@@ -71,7 +37,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return customer when the populate criteria is added', function(done) {
-        Payment.find({ type: 'belongsTo find' })
+        Associations.Payment.find({ type: 'belongsTo find' })
         .populate('customer')
         .exec(function(err, payments) {
           if(err) return done(err);
@@ -95,7 +61,7 @@ describe('Association Interface', function() {
       });
 
       it('should not return a customer object when the populate is not added', function(done) {
-        Payment.find()
+        Associations.Payment.find()
         .exec(function(err, payments) {
           if(err) return done(err);
 
@@ -107,7 +73,7 @@ describe('Association Interface', function() {
       });
 
       it('should call toJSON on associated record', function(done) {
-        Payment.find()
+        Associations.Payment.find()
         .populate('customer')
         .exec(function(err, payments) {
           if(err) return done(err);
