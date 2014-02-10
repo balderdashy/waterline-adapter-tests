@@ -90,6 +90,16 @@ describe('Association Interface', function() {
           });
         });
       });
+
+      it('should error if the associated record doesn\'t exist', function(done) {
+        driverRecord.taxis.add(taxiRecord.id + 1);
+        driverRecord.save(function(err) {
+          assert(err);
+          assert(Array.isArray(err));
+          assert(err.length === 1);
+          done();
+        });
+      });
     });
 
   });
