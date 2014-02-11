@@ -12,7 +12,7 @@ describe('Association Interface', function() {
     var users, profiles;
 
     before(function(done) {
-      Associations.User_resource.createEach([{ name: 'foo', profile: 1 }, { name: 'bar', profile: 2 }], function(err, models) {
+      Associations.User_resource.createEach([{ name: 'foo' }, { name: 'bar' }], function(err, models) {
         if(err) return done(err);
 
         users = models;
@@ -24,8 +24,16 @@ describe('Association Interface', function() {
 
         Associations.Profile.createEach(profileRecords, function(err, models) {
           if(err) return done(err);
-          profiles = models;
-          done();
+
+          Associations.User_resource.update({ name: 'foo' }, { profile: models[0].id }).exec(function(err, user) {
+            if(err) return done(err);
+
+            Associations.User_resource.update({ name: 'bar' }, { profile: models[1].id }).exec(function(err, user) {
+              if(err) return done(err);
+              profiles = models;
+              done();
+            });
+          });
         });
       });
     });
@@ -69,13 +77,13 @@ describe('Association Interface', function() {
       });
 
       it('should return a user object when the profile is undefined', function(done) {
-        Associations.User_resource.create({ name: 'foobar', profile: null }).exec(function(err) {
+        Associations.User_resource.create({ name: 'foobar', profile: undefined }).exec(function(err, usr) {
           if(err) return done(err);
 
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            if(err) return cb(err);
+            if(err) return done(err);
 
             assert(users[0].name);
             assert(!users[0].profile);
