@@ -31,7 +31,7 @@ describe('Migratable Interface', function() {
       it('should retain the data when bootstrapped the second time', function(done) {
         Migratable.waterline.teardown(function(err) {
           bootstrapFn(function(err, obj) {
-
+            if(err) return done(err);
             var ontology = obj.ontology;
 
             ontology.collections.alter.count().exec(function(err, numOfPirates) {
