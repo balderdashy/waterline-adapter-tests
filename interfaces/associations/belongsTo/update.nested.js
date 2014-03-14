@@ -139,7 +139,7 @@ describe('Association Interface', function() {
           // TEST METHODS
           ////////////////////////////////////////////////////
 
-          it.only('should update association values', function(done) {
+          it('should update association values', function(done) {
 
             var data = {
               amount: 200,
@@ -150,7 +150,7 @@ describe('Association Interface', function() {
               if(err) return done(err);
 
               // Look up the payment again to be sure the customer was linked
-              Associations.Payments.findOne(values[0].id)
+              Associations.Payment.findOne(values[0].id)
               .populate('customer')
               .exec(function(err, model) {
                 if(err) return done(err);
