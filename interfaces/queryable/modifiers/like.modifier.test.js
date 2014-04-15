@@ -12,7 +12,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return the user with the given name', function(done) {
-        var part = 'LIKE query test',
+        var part = '%LIKE query test%',
             testName = '24g LIKE query test asdcxbzbasg';
 
         Queryable.User.create({ first_name: testName }, function(err) {

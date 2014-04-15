@@ -10,7 +10,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should return all the users with the given name', function(done) {
-      var part = 'findLike',
+      var part = '%findLike%',
           testName = 'zz 340ajsdha test_findLike -- aw40gasdha',
           testName2 = 'zz zzbjfk test_findLike2../haer-h';
 

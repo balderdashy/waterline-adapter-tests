@@ -10,7 +10,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should return the user with the given name', function(done) {
-      var part = 'findOneLike',
+      var part = '%findOneLike%',
           testName = 'asdgah4 test_findOneLike asg';
 
       Queryable.User.create({ first_name: testName }, function(err) {
