@@ -8,8 +8,10 @@ var async = require('async');
 
 // Require Fixtures
 var fixtures = {
-  PaymentFixture: require('./fixtures/belongsTo.fixture'),
-  CustomerFixture: require('./fixtures/hasMany.fixture'),
+  PaymentBelongsFixture: require('./fixtures/belongsTo.child.fixture'),
+  CustomerBelongsFixture: require('./fixtures/belongsTo.parent.fixture'),
+  PaymentHasManyFixture: require('./fixtures/hasMany.child.fixture'),
+  CustomerHasManyFixture: require('./fixtures/hasMany.parent.fixture'),
   PaymentManyFixture: require('./fixtures/multipleAssociations.fixture').payment,
   CustomerManyFixture: require('./fixtures/multipleAssociations.fixture').customer,
   StadiumFixture: require('./fixtures/hasManyThrough.stadium.fixture'),

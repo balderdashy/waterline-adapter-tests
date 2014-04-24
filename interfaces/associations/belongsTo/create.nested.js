@@ -14,20 +14,20 @@ describe('Association Interface', function() {
         var data = {
           amount: 200,
           customer: {
-            name: 'belongsTo nested create'
+            title: 'belongsTo nested create'
           }
         };
 
 
-        Associations.Payment.create(data).exec(function(err, payment) {
+        Associations.Paymentbelongs.create(data).exec(function(err, payment) {
           if(err) return done(err);
-          assert(payment.customer.toString());
+          assert(payment.customer);
 
-          Associations.Payment.findOne(payment.id)
+          Associations.Paymentbelongs.findOne(payment.id)
           .populate('customer')
           .exec(function(err, paymnt) {
             if(err) return done(err);
-            assert(paymnt.customer.name === 'belongsTo nested create');
+            assert(paymnt.customer.title === 'belongsTo nested create');
             done();
           });
         });
