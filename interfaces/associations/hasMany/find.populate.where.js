@@ -43,7 +43,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { amount: { '<': 2 }})
         .exec(function(err, customers) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(Array.isArray(customers));
           assert(customers.length === 2);
@@ -66,7 +66,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { skip: 1, limit: 2 })
         .exec(function(err, customers) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(Array.isArray(customers));
           assert(customers.length === 2);

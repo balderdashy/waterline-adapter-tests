@@ -48,7 +48,7 @@ describe('Association Interface', function() {
         Associations.Profile.find()
         .populate('user')
         .exec(function(err, profiles) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(profiles[0].user);
           assert(profiles[1].user);
@@ -64,7 +64,7 @@ describe('Association Interface', function() {
         Associations.User_resource.find()
         .populate('profile')
         .exec(function(err, users) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(users[0].profile);
           assert(users[1].profile);
@@ -78,12 +78,12 @@ describe('Association Interface', function() {
 
       it('should return a user object when the profile is undefined', function(done) {
         Associations.User_resource.create({ name: 'foobar', profile: undefined }).exec(function(err, usr) {
-          if(err) return done(err);
+          assert(!err);
 
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            if(err) return done(err);
+            assert(!err);
 
             assert(users[0].name);
             assert(!users[0].profile);

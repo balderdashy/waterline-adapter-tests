@@ -31,14 +31,14 @@ describe('Association Interface', function() {
           customer.payments.add({ amount: 1337 });
           customer.transactions.add({ amount: 100 });
           customer.save(function(err) {
-            if(err) return done(err);
+            assert(!err);
 
             // Look up the customer again to be sure the payment was added
             Associations.Customer_many.findOne(customer.id)
             .populate('payments')
             .populate('transactions')
             .exec(function(err, model) {
-              if(err) return done(err);
+              assert(!err);
 
               assert(model.payments.length === 2);
               assert(model.payments[1].amount === 1337);
@@ -86,13 +86,13 @@ describe('Association Interface', function() {
         it('should link the payment to another association', function(done) {
           customer.payments.add(payment.id);
           customer.save(function(err) {
-            if(err) return done(err);
+            assert(!err);
 
             // Look up the customer again to be sure the payment was added
             Associations.Customer_many.findOne(customer.id)
             .populate('payments')
             .exec(function(err, data) {
-              if(err) return done(err);
+              assert(!err);
 
               assert(data.payments.length === 1);
               assert(data.payments[0].amount === 1);

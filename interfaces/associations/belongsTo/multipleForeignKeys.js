@@ -31,7 +31,7 @@ describe('Association Interface', function() {
 
       it('should create multiple foreign key values when passed association keys', function(done) {
         Associations.Payment_many.create({ amount: 1, customer: customer_1_id, patron: customer_2_id }).exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
           assert(payment.customer.toString() === customer_1_id.toString());
           assert(payment.patron.toString() === customer_2_id.toString());
           done();
@@ -41,12 +41,12 @@ describe('Association Interface', function() {
       it('should populate values only for specified keys', function(done) {
 
         Associations.Payment_many.create({ amount: 10, customer: customer_1_id, patron: customer_2_id }).exec(function(err) {
-          if(err) return done(err);
+          assert(!err);
 
           Associations.Payment_many.findOne({ amount: 10 })
           .populate('patron')
           .exec(function(err, payment) {
-            if(err) return done(err);
+            assert(!err);
 
             var obj = payment.toJSON();
 

@@ -40,7 +40,7 @@ describe('Association Interface', function() {
         Associations.Payment.find({ type: 'belongsTo find' })
         .populate('customer')
         .exec(function(err, payments) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(Array.isArray(payments));
           assert(payments.length === 2);
@@ -63,7 +63,7 @@ describe('Association Interface', function() {
       it('should not return a customer object when the populate is not added', function(done) {
         Associations.Payment.find()
         .exec(function(err, payments) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(!_.isPlainObject(payments[0].customer));
           assert(!_.isPlainObject(payments[1].customer));
@@ -76,7 +76,7 @@ describe('Association Interface', function() {
         Associations.Payment.find()
         .populate('customer')
         .exec(function(err, payments) {
-          if(err) return done(err);
+          assert(!err);
 
           var obj = payments[0].toJSON();
 

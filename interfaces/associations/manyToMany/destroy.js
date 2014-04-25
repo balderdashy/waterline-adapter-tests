@@ -39,12 +39,11 @@ describe('Association Interface', function() {
 
       Associations.Driver.destroy({ name: 'manymany destroy' })
       .exec(function(err, status) {
-        if(err) return done(err);
+        assert(!err);
 
         Associations.Driver_taxis__taxi_drivers.find({ driver_taxis: parentId })
         .exec(function(err, records) {
-          if(err) return done(err);
-
+          assert(!err);
           assert(records.length === 0);
           done();
         });

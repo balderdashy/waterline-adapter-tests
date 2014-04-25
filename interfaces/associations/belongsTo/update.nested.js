@@ -40,12 +40,12 @@ describe('Association Interface', function() {
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, payment) {
-              if(err) return done(err);
+              assert(!err);
 
               Associations.Payment.findOne(payment[0].id)
               .populate('customer')
               .exec(function(err, paymnt) {
-                if(err) return done(err);
+                assert(!err);
                 assert(paymnt.customer.name === 'belongsTo nested update');
                 done();
               });
@@ -94,13 +94,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the payment again to be sure the new customer was added
               Associations.Payment.findOne(values[0].id)
               .populate('customer')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.amount === 100);
                 assert(model.customer);
                 assert(model.customer.name === 'belongsTo nested update - updated');
@@ -147,13 +147,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the payment again to be sure the customer was linked
               Associations.Payment.findOne(values[0].id)
               .populate('customer')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
 
                 assert(model.amount === 200);
                 assert(model.customer.name === 'bar');

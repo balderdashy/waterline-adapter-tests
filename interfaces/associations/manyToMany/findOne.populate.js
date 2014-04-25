@@ -36,7 +36,7 @@ describe('Association Interface', function() {
       Associations.Driver.findOne(driverRecord.id)
       .populate('taxis')
       .exec(function(err, driver) {
-        if(err) return done();
+        assert(!err);
 
         assert(Array.isArray(driver.taxis));
         assert(driver.taxis.length === 2);
@@ -48,7 +48,7 @@ describe('Association Interface', function() {
     it('should not return a taxis object when the populate is not added', function(done) {
       Associations.Driver.findOne(driverRecord.id)
       .exec(function(err, driver) {
-        if(err) return done(err);
+        assert(!err);
 
         var obj = driver.toJSON();
         assert(!obj.taxis);
@@ -61,7 +61,7 @@ describe('Association Interface', function() {
       Associations.Driver.findOne(driverRecord.id)
       .populate('taxis')
       .exec(function(err, driver) {
-        if(err) return done(err);
+        assert(!err);
 
         var obj = driver.toJSON();
         assert(!obj.name);

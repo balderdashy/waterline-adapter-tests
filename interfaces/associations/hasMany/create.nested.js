@@ -67,13 +67,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Customer.create(data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values.id)
               .populate('payments')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.payments.length === 2);
                 assert(model.payments[1].amount === 2);
                 done();

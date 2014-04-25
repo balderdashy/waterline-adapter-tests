@@ -46,13 +46,13 @@ describe('Association Interface', function() {
       it('should remove the record from the join table', function(done) {
         driverRecord.taxis.remove(taxiRecords[0].id);
         driverRecord.save(function(err) {
-          if(err) return done(err);
+          assert(!err);
 
           // Look up the driver again to be sure the taxi was removed
           Associations.Driver.findOne(driverRecord.id)
           .populate('taxis')
           .exec(function(err, data) {
-            if(err) return done(err);
+            assert(!err);
 
             assert(data.taxis.length === 1);
             done();

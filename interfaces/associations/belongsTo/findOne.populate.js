@@ -37,7 +37,7 @@ describe('Association Interface', function() {
         Associations.Payment.findOne({ id: paymentRecord.id })
         .populate('customer')
         .exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(payment.customer);
           assert(payment.customer.id === customerRecord.id);
@@ -50,7 +50,7 @@ describe('Association Interface', function() {
       it('should not return a customer object when the populate is not added', function(done) {
         Associations.Payment.findOne({ id: paymentRecord.id })
         .exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(!_.isPlainObject(payment.customer));
 
@@ -62,7 +62,7 @@ describe('Association Interface', function() {
         Associations.Payment.findOne({ id: paymentRecord.id })
         .populate('customer')
         .exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
 
           var obj = payment.toJSON();
 

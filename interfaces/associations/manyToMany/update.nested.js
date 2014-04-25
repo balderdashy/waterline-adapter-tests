@@ -41,13 +41,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Driver.update({ id: Driver.id }, taxiData).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Driver.findOne(values[0].id)
               .populate('taxis')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 1);
                 assert(model.taxis[0].medallion === 1);
@@ -102,13 +102,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Driver.update({ id: Driver.id }, taxiData).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Driver.findOne(values[0].id)
               .populate('taxis')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 3);
                 assert(model.taxis[0].medallion === 3);
@@ -169,13 +169,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Driver.update({ id: Driver.id }, taxiData).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Driver.findOne(values[0].id)
               .populate('taxis')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 2);
 

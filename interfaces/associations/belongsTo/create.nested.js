@@ -20,13 +20,13 @@ describe('Association Interface', function() {
 
 
         Associations.Paymentbelongs.create(data).exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
           assert(payment.customer);
 
           Associations.Paymentbelongs.findOne(payment.id)
           .populate('customer')
           .exec(function(err, paymnt) {
-            if(err) return done(err);
+            assert(!err);
             assert(paymnt.customer.title === 'belongsTo nested create');
             done();
           });

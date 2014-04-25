@@ -44,13 +44,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Customer.update({ id: Customer.id }, data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values[0].id)
               .populate('payments')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === '1:m update nested - updated');
                 assert(model.payments.length === 1);
                 assert(model.payments[0].amount === 1);
@@ -105,13 +105,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Customer.update({ id: Customer.id }, data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values[0].id)
               .populate('payments')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === '1:m update nested - updated');
                 assert(model.payments.length === 3);
                 assert(model.payments[0].amount === 3);
@@ -178,7 +178,7 @@ describe('Association Interface', function() {
               Associations.Customer.findOne(values[0].id)
               .populate('payments')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.name === '1:m update nested - updated');
                 assert(model.payments.length === 2);
 

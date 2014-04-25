@@ -36,7 +36,7 @@ describe('Association Interface', function() {
       it('should return customer when the dynamic finder method is used for findOne', function(done) {
         Associations.Payment.findOneByCustomer(customerRecord.id)
         .exec(function(err, payment) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(payment.customer);
           assert(payment.customer.id === customerRecord.id);
@@ -49,7 +49,7 @@ describe('Association Interface', function() {
       it('should return customer when the dynamic finder method is used for find', function(done) {
         Associations.Payment.findByCustomer(customerRecord.id)
         .exec(function(err, payments) {
-          if(err) return done(err);
+          assert(!err);
 
           assert(payments[0].customer);
           assert(payments[0].customer.id === customerRecord.id);

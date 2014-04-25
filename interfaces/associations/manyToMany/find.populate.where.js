@@ -37,7 +37,7 @@ describe('Association Interface', function() {
       Associations.Driver.find({ name: 'manymany find where' })
       .populate('taxis', { medallion: { '<': 2 }})
       .exec(function(err, drivers) {
-        if(err) return done();
+        assert(!err);;
 
         assert(Array.isArray(drivers));
         assert(drivers.length === 1);
@@ -52,7 +52,7 @@ describe('Association Interface', function() {
       Associations.Driver.find({ name: 'manymany find where' })
       .populate('taxis', { skip: 1, limit: 2 })
       .exec(function(err, drivers) {
-        if(err) return done(err);
+        assert(!err);
 
         assert(Array.isArray(drivers));
         assert(drivers.length === 1);

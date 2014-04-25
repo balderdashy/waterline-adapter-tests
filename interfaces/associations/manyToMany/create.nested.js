@@ -25,13 +25,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Driver.create(data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Driver.findOne(values.id)
               .populate('taxis')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.taxis.length === 2);
                 assert(model.taxis[1].medallion === 2);
                 done();
@@ -67,13 +67,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Driver.create(data).exec(function(err, values) {
-              if(err) return done(err);
+              assert(!err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Driver.findOne(values.id)
               .populate('taxis')
               .exec(function(err, model) {
-                if(err) return done(err);
+                assert(!err);
                 assert(model.taxis.length === 2);
                 assert(model.taxis[1].medallion === 2);
                 done();
