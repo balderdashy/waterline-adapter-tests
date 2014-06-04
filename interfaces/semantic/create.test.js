@@ -82,7 +82,7 @@ describe('Semantic Interface', function() {
         Semantic.User.find({ type: testName }, function(err, users) {
           if (err) { console.error(err); }
           assert(!err);
-          assert(users.length === 4);
+          assert(users.length === 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
           assert(users[0].first_name === 'test_0' );
           done();
         });

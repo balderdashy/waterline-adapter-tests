@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
 
         asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
-            assert(result.age === 45);
+            assert(result.age === 45); // 45 === 0+1+2+3+4+5+6+7+8+9
             return true;
           }
           return false;

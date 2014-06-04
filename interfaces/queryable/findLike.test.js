@@ -1,5 +1,7 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var util = require('util');
+var _ = require('lodash');
+
 
 describe('Queryable Interface', function() {
 
@@ -20,7 +22,7 @@ describe('Queryable Interface', function() {
         Queryable.User.findLike({ first_name: part }, function(err, users) {
           assert(!err);
           assert(Array.isArray(users));
-          assert(users.length === 2);
+          assert(users.length === 2, util.format('expected 2 users, but got %s, see?\n%s', users.length, util.inspect(users, false, null) ));
           assert(users[0].first_name === testName);
           assert(users[1].first_name === testName2);
           done();
