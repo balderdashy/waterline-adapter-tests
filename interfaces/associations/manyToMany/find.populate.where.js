@@ -3,7 +3,7 @@ var assert = require('assert'),
 
 describe('Association Interface', function() {
 
-  describe('n:m association :: .find().populate([WHERE])', function() {
+  describe.skip('n:m association :: .find().populate([WHERE])', function() {
 
     /////////////////////////////////////////////////////
     // TEST SETUP

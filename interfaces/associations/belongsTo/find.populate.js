@@ -40,10 +40,10 @@ describe('Association Interface', function() {
         Associations.Payment.find({ type: 'belongsTo find' })
         .populate('customer')
         .exec(function(err, payments) {
-          assert(!err);
+          assert(!err, err);
 
           assert(Array.isArray(payments));
-          assert(payments.length === 2);
+          assert(payments.length === 2, 'expected 2 payments, but got '+payments.length+': '+require('util').inspect(payments, false, null));
 
           assert(payments[0].customer);
           assert(payments[0].customer.id === customers[0].id);

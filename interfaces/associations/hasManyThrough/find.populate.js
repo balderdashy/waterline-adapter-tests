@@ -38,7 +38,7 @@ describe('Association Interface', function() {
         Associations.Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
-          assert(!err);
+          assert(!err, err);
 
           assert(Array.isArray(stadiums));
           assert(stadiums.length === 1);
@@ -65,7 +65,7 @@ describe('Association Interface', function() {
         Associations.Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
-          assert(!err);
+          assert(!err, err);
 
           var obj = stadiums[0].toJSON();
 

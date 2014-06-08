@@ -27,7 +27,7 @@ describe('Association Interface', function() {
         // TEST METHODS
         ////////////////////////////////////////////////////
 
-        it('should create a new payment and transaction association', function(done) {
+        it.skip('should create a new payment and transaction association', function(done) {
           customer.payments.add({ amount: 1337 });
           customer.transactions.add({ amount: 100 });
           customer.save(function(err) {
