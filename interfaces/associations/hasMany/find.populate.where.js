@@ -78,7 +78,7 @@ describe('Association Interface', function() {
           assert(customers[0].payments[0].amount === 1);
           assert(customers[0].payments[1].amount === 2);
 
-          assert(customers[1].payments.length === 2);
+          assert(customers[1].payments.length === 2, 'expected 2 payments but got '+customers[1].payments.length);
           assert(customers[1].payments[0].amount === 5);
           assert(customers[1].payments[1].amount === 6);
 

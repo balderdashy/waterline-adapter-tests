@@ -29,7 +29,8 @@ describe('Association Interface', function() {
       it('should create a new taxi association', function(done) {
         driverRecord.taxis.add({ medallion: 1 });
         driverRecord.save(function(err) {
-          assert(!err);
+          assert(!err, err);
+
 
           // Look up the customer again to be sure the payment was added
           Associations.Driver.findOne(driverRecord.id)
@@ -37,11 +38,12 @@ describe('Association Interface', function() {
           .exec(function(err, driver) {
             assert(!err);
 
-            assert(driver.taxis.length === 1);
+            assert(driver.taxis.length === 1, 'Expected driver to have one taxi, but actually there are '+driver.taxis.length+', see? `driver.taxi` =>'+require('util').inspect(driver.taxis,false,null));
             assert(driver.taxis[0].medallion === 1);
 
             done();
           });
+
         });
       });
     });

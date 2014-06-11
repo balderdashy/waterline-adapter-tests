@@ -20,7 +20,7 @@ describe('Association Interface', function() {
 
 
         Associations.Paymentbelongs.create(data).exec(function(err, payment) {
-          assert(!err);
+          assert(!err, err);
           assert(payment.customer);
 
           Associations.Paymentbelongs.findOne(payment.id)

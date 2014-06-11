@@ -47,7 +47,7 @@ describe('Association Interface', function() {
 
           assert(payments[0].customer);
           assert(payments[0].customer.id === customers[0].id);
-          assert(payments[0].customer.name === 'foo');
+          assert(payments[0].customer.name === 'foo', 'Expected `payments[0].customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(payments[0].customer, false, null));
 
           assert(payments[1].customer);
           assert(payments[1].customer.id === customers[1].id);

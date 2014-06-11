@@ -47,6 +47,9 @@ describe('Queryable Interface', function() {
           return false;
         });
 
+        console.log('asserted',asserted);
+        console.log('results from find:',grouped);
+
         if(!asserted.length) {
           return done(new Error('key "groupBy test" not found'));
         }

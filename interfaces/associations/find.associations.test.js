@@ -10,6 +10,7 @@ describe('Association Interface', function() {
     ////////////////////////////////////////////////////
 
     var Customers = [];
+    var payments = [];
 
     before(function(done) {
 
@@ -19,7 +20,7 @@ describe('Association Interface', function() {
         // cache customers
         Customers = customers;
 
-        var payments = [];
+        payments = [];
         var i = 0;
 
         for(i=0; i<2; i++) payments.push({ amount: i, customer: customers[0].id });
@@ -38,6 +39,15 @@ describe('Association Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should group associations under the parent key', function(done) {
+
+      console.log('\n\n\n\n\n********should group associations under the parent key*********');
+
+      // Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
+      // .exec()
+      // Associations.Payment.find();
+      
+
+
       Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
       .populate('payments')
       .exec(function(err, customers) {
@@ -48,7 +58,7 @@ describe('Association Interface', function() {
         assert(Array.isArray(customers[0].payments));
         assert(Array.isArray(customers[1].payments));
 
-        assert(customers[0].payments.length === 2);
+        assert(customers[0].payments.length === 2, 'Expected 2 payments, but got customers[0] ==> ' +require('util').inspect(customers[0], false, null));
         assert(customers[1].payments.length === 2);
 
         assert(customers[0].payments[0].amount === 0);
