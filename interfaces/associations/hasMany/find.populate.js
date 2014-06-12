@@ -90,23 +90,23 @@ describe('Association Interface', function() {
       //   .limit(2)
       //   .sort('id DESC')
       
-      it('should return expected child records for ALL parent records when populate..limit is used');
-      it('should return expected child records for ALL parent records when populate..skip is used');
-      it('should return expected child records for ALL parent records when populate..limit..skip is used');
+      // it('should return expected child records for ALL parent records when populate..limit is used');
+      // it('should return expected child records for ALL parent records when populate..skip is used');
+      // it('should return expected child records for ALL parent records when populate..limit..skip is used');
 
-      it('should return expected child records for ALL parent records when populate..sort is used');
-      it('should return expected child records for ALL parent records when populate..sort..limit is used');
-      it('should return expected child records for ALL parent records when populate..sort..skip is used');
-      it('should return expected child records for ALL parent records when populate..sort..limit..skip is used');
+      // it('should return expected child records for ALL parent records when populate..sort is used');
+      // it('should return expected child records for ALL parent records when populate..sort..limit is used');
+      // it('should return expected child records for ALL parent records when populate..sort..skip is used');
+      // it('should return expected child records for ALL parent records when populate..sort..limit..skip is used');
 
-      it('should return expected child records for ALL parent records when populate..where is used');
-      it('should return expected child records for ALL parent records when populate..where..limit is used');
-      it('should return expected child records for ALL parent records when populate..where..skip is used');
-      it('should return expected child records for ALL parent records when populate..where..limit..skip is used');
+      // it('should return expected child records for ALL parent records when populate..where is used');
+      // it('should return expected child records for ALL parent records when populate..where..limit is used');
+      // it('should return expected child records for ALL parent records when populate..where..skip is used');
+      // it('should return expected child records for ALL parent records when populate..where..limit..skip is used');
 
-      it('should return expected child records for ALL parent records when populate..where..limit..sort is used');
-      it('should return expected child records for ALL parent records when populate..where..skip..sort is used');
-      it('should return expected child records for ALL parent records when populate..where..limit..skip..sort is used');
+      // it('should return expected child records for ALL parent records when populate..where..limit..sort is used');
+      // it('should return expected child records for ALL parent records when populate..where..skip..sort is used');
+      // it('should return expected child records for ALL parent records when populate..where..limit..skip..sort is used');
       ////////////////////////////////////////////////////////////////////////////////////
 
       it('should return all the populated records when a skip clause is used', function(done) {
