@@ -1,5 +1,11 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('lodash');
+var util = require('util');
+
+
+
+
+
 
 describe('Association Interface', function() {
 
@@ -39,7 +45,7 @@ describe('Association Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
-      it.skip('should return only payments less than or equal to 2', function(done) {
+      it('should return only payments less than or equal to 2', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { amount: { '<': 2 }})
         .exec(function(err, customers) {
@@ -51,7 +57,9 @@ describe('Association Interface', function() {
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
 
-          assert(customers[0].payments.length === 2);
+          // console.log('\n\n\n\n\n\n');
+          // console.log('Customers:', util.inspect(customers, false, null));
+          assert(customers[0].payments.length === 2, 'expecting customers[0] to have 2 payments, but actually she looks like: \n'+util.inspect(customers[0],false, null));
 
           assert(customers[0].payments[0].amount === 0);
           assert(customers[0].payments[1].amount === 1);
@@ -62,7 +70,7 @@ describe('Association Interface', function() {
         });
       });
 
-      it.skip('should return payments using skip and limit', function(done) {
+      it('should return payments using skip and limit', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { skip: 1, limit: 2 })
         .exec(function(err, customers) {

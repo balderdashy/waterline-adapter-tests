@@ -27,24 +27,25 @@ describe('Association Interface', function() {
         // TEST METHODS
         ////////////////////////////////////////////////////
 
-        it.skip('should create a new payment and transaction association', function(done) {
+        it('should create a new payment and transaction association', function(done) {
           customer.payments.add({ amount: 1337 });
           customer.transactions.add({ amount: 100 });
           customer.save(function(err) {
             assert(!err);
 
             // Look up the customer again to be sure the payment was added
+            console.log('\n\n\n-- Associations.Customer_many.findOne --');
             Associations.Customer_many.findOne(customer.id)
             .populate('payments')
             .populate('transactions')
-            .exec(function(err, model) {
+            .exec(function(err, customer) {
               assert(!err);
 
-              assert(model.payments.length === 2);
-              assert(model.payments[1].amount === 1337);
+              assert(customer.payments.length === 2);
+              assert(customer.payments[1].amount === 1337);
 
-              assert(model.transactions.length === 1);
-              assert(model.transactions[0].amount === 100);
+              assert(customer.transactions.length === 1, 'Expected customer to have 1 transaction, but actually it has '+customer.transactions.length+', see?  \n'+require('util').inspect(customer,false,null));
+              assert(customer.transactions[0].amount === 100);
               done();
             });
           });

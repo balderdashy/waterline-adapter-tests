@@ -47,8 +47,8 @@ describe('Queryable Interface', function() {
           return false;
         });
 
-        console.log('asserted',asserted);
-        console.log('results from find:',grouped);
+        // console.log('asserted',asserted);
+        // console.log('results from find:',grouped);
 
         if(!asserted.length) {
           return done(new Error('key "groupBy test" not found'));
@@ -58,11 +58,11 @@ describe('Queryable Interface', function() {
       });
     });
 
-    it.skip('should group by multiple keys and sum values', function(done) {
+    it('should group by multiple keys and sum values', function(done) {
       Queryable.User.find({ groupBy: ['type', 'age'], sum: ['percent'] }, function(err, grouped) {
         assert(!err);
 
-        console.log('**',grouped);
+        // console.log('**',grouped);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test' && result.age === 1) {
             assert(result.percent === 0.5);
