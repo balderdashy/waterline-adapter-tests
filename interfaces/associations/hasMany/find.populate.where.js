@@ -17,12 +17,12 @@ describe('Association Interface', function() {
 
     before(function(done) {
 
-      var customerRecords = [
-        { name: 'hasMany find where' },
-        { name: 'hasMany find where' }
-      ];
-
-      Associations.Customer.createEach(customerRecords, function(err, customers) {
+      Associations.Customer.createEach([{
+        name: 'hasMany find where'
+      }, {
+        name: 'hasMany find where'
+      }],
+      function(err, customers) {
         if(err) return done(err);
 
         var payments = [];
@@ -49,7 +49,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { amount: { '<': 2 }})
         .exec(function(err, customers) {
-          assert(!err);
+          assert(!err,err);
 
           assert(Array.isArray(customers));
           assert(customers.length === 2);
@@ -57,7 +57,8 @@ describe('Association Interface', function() {
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
 
-          assert(customers[0].payments.length === 2, 'expecting customers[0] to have 2 payments, but actually she looks like: \n'+util.inspect(customers[0],false, null));
+          assert(customers[0].payments.length === 2,
+          'expecting customers[0] to have 2 payments, but actually she looks like: \n'+util.inspect(customers[0],false, null));
 
           assert(customers[0].payments[0].amount === 0);
           assert(customers[0].payments[1].amount === 1);

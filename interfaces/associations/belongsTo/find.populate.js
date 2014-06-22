@@ -12,19 +12,29 @@ describe('Association Interface', function() {
     var customers, payments;
 
     before(function(done) {
-      Associations.Customer.createEach([{ name: 'foo' }, { name: 'bar' }], function(err, models) {
+      Associations.Customer.createEach([{
+          name: 'foo'
+        }, {
+          name: 'bar'
+        }], function(err, _customers) {
         if(err) return done(err);
 
-        customers = models;
+        // Expose results for examination below
+        customers = _customers;
 
-        var paymentRecords = [
-          { amount: 1, type: 'belongsTo find', customer: customers[0].id },
-          { amount: 2, type: 'belongsTo find', customer: customers[1].id }
-        ];
-
-        Associations.Payment.createEach(paymentRecords, function(err, models) {
+        Associations.Payment.createEach([{
+            amount: 1,
+            type: 'belongsTo find',
+            customer: customers[0].id
+          }, {
+            amount: 2,
+            type: 'belongsTo find',
+            customer: customers[1].id
+          }], function(err, _payments) {
           if(err) return done(err);
-          payments = models;
+
+          // Expose results for examination below
+          payments = _payments;
           done();
         });
       });
@@ -39,22 +49,27 @@ describe('Association Interface', function() {
       it('should return customer when the populate criteria is added', function(done) {
         Associations.Payment.find({ type: 'belongsTo find' })
         .populate('customer')
-        .exec(function(err, payments) {
+        .exec(function(err, _payments) {
           assert(!err, err);
 
-          assert(Array.isArray(payments));
-          assert(payments.length === 2, 'expected 2 payments, but got '+payments.length+': '+require('util').inspect(payments, false, null));
+          assert(Array.isArray(_payments));
+          assert(_payments.length === 2, 'expected 2 payments, but got '+_payments.length+': '+require('util').inspect(_payments, false, null));
 
-          assert(payments[0].customer);
-          assert(payments[0].customer.id === customers[0].id);
-          assert(payments[0].customer.name === 'foo', 'Expected `payments[0].customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(payments[0].customer, false, null));
+          assert(_payments[0].customer);
+          assert(_payments[0].customer.id === customers[0].id);
+          assert(_payments[0].customer.name === 'foo',
+          'Expected `payments[0].customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(_payments[0].customer, false, null));
 
-          assert(payments[1].customer);
-          assert(payments[1].customer.id === customers[1].id);
-          assert(payments[1].customer.name === 'bar');
+          assert(_payments[1].customer);
+          assert(_payments[1].customer.id === customers[1].id,
+          'Expected `payments[1].customer.id` === '+customers[1].id+', instead payments[1].customer ===> '+ require('util').inspect(_payments[1].customer, false, null));
+          assert(_payments[1].customer.name === 'bar',
+          'Expected `payments[1].customer.name` === "bar", instead payments[1].customer ===> '+ require('util').inspect(_payments[1].customer, false, null)
+          );
 
-          var obj = payments[0].toJSON();
-          assert(!obj.customer.name);
+          assert(!_payments[0].toJSON().customer.name,
+          'Expected payments[0] to have `customer` populated with a `name`, but instead it looks like: '+require('util').inspect(_payments[0], false, null)
+          );
 
           done();
         });

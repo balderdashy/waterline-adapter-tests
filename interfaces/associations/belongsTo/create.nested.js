@@ -26,7 +26,7 @@ describe('Association Interface', function() {
           Associations.Paymentbelongs.findOne(payment.id)
           .populate('customer')
           .exec(function(err, paymnt) {
-            assert(!err);
+            assert(!err,err);
             assert(paymnt.customer.title === 'belongsTo nested create');
             done();
           });

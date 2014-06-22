@@ -76,17 +76,17 @@ describe('Association Interface', function() {
         });
       });
 
-      it('should return a user object when the profile is undefined', function(done) {
+      it.only('should return a user object when the profile is undefined', function(done) {
         Associations.User_resource.create({ name: 'foobar', profile: undefined }).exec(function(err, usr) {
-          assert(!err);
+          assert(!err, err);
 
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            assert(!err);
+            assert(!err, err);
 
             assert(users[0].name);
-            assert(!users[0].profile);
+            assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
             done();
           });
         });
