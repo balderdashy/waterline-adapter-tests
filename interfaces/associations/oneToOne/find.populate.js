@@ -76,7 +76,7 @@ describe('Association Interface', function() {
         });
       });
 
-      it.only('should return a user object when the profile is undefined', function(done) {
+      it('should return a user object when the profile is undefined', function(done) {
         Associations.User_resource.create({ name: 'foobar', profile: undefined }).exec(function(err, usr) {
           assert(!err, err);
 
