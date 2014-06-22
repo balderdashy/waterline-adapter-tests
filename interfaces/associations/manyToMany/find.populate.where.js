@@ -59,7 +59,6 @@ describe('Association Interface', function() {
 
         assert(Array.isArray(drivers[0].taxis));
 
-        console.log('ååååååååååååååååååååååååååååååååååå\n\n\n\n', require('util').inspect(drivers));
         assert(drivers[0].taxis.length === 2, 'Expected first driver to have 2 taxis, but got '+drivers[0].taxis.length+', see?\n'+require('util').inspect(drivers[0]));
         assert(drivers[0].taxis[0].medallion === 1, 'Expected first driver\'s first taxi to have medallion===1, but heres what I got for the first driver: '+require('util').inspect(drivers[0], false, null));
         assert(drivers[0].taxis[1].medallion === 2, 'Expected first driver\'s second taxi to have medallion===2, but heres what I got for the first driver: '+require('util').inspect(drivers[0], false, null));

@@ -57,8 +57,6 @@ describe('Association Interface', function() {
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
 
-          // console.log('\n\n\n\n\n\n');
-          // console.log('Customers:', util.inspect(customers, false, null));
           assert(customers[0].payments.length === 2, 'expecting customers[0] to have 2 payments, but actually she looks like: \n'+util.inspect(customers[0],false, null));
 
           assert(customers[0].payments[0].amount === 0);

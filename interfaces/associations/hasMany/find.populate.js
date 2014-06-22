@@ -59,13 +59,12 @@ describe('Association Interface', function() {
       });
 
       it('should return all the populated records when a limit clause is used', function(done) {
-        // console.log('\n\n================================\n','should return all the populated records when a limit clause is used');
+
         Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .limit(1)
         .exec(function(err, customers) {
           assert(!err, err);
-          // console.log(require('util').inspect(customers, false, null));
 
           assert(Array.isArray(customers));
           assert(customers.length === 1);
@@ -116,7 +115,6 @@ describe('Association Interface', function() {
         .exec(function(err, customers) {
           assert(!err, err);
 
-          console.log('customers::',customers);
           assert(Array.isArray(customers));
           assert(customers.length === 1);
 

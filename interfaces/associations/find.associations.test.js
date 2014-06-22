@@ -40,8 +40,6 @@ describe('Association Interface', function() {
 
     it('should group associations under the parent key', function(done) {
 
-      console.log('\n\n\n\n\n********should group associations under the parent key*********');
-
       // Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
       // .exec()
       // Associations.Payment.find();

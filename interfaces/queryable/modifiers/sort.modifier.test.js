@@ -76,7 +76,6 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where: { type: 'sort test' } }, { sort: { dob: 0 } }, function(err, users) {
         assert(!err);
         assert(users.length === 10);
-        // console.log('-------------\n',users);
         assert(users[0].first_name === 'sort_user9');
         done();
       });
