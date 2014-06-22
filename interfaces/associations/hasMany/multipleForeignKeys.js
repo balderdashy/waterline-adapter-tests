@@ -34,7 +34,6 @@ describe('Association Interface', function() {
             assert(!err);
 
             // Look up the customer again to be sure the payment was added
-            console.log('\n\n\n-- Associations.Customer_many.findOne --');
             Associations.Customer_many.findOne(customer.id)
             .populate('payments')
             .populate('transactions')
