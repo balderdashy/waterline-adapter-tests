@@ -1,5 +1,9 @@
 var assert = require('assert'),
     _ = require('lodash');
+var util = require('util');
+
+
+
 
 describe('Association Interface', function() {
 
@@ -59,10 +63,10 @@ describe('Association Interface', function() {
         assert(customers[0].payments.length === 2, 'Expected 2 payments, but got customers[0] ==> ' +require('util').inspect(customers[0], false, null));
         assert(customers[1].payments.length === 2);
 
-        assert(customers[0].payments[0].amount === 0);
-        assert(customers[0].payments[1].amount === 1);
-        assert(customers[1].payments[0].amount === 0);
-        assert(customers[1].payments[1].amount === 1);
+        assert.equal(customers[0].payments[0].amount, 0);
+        assert.equal(customers[0].payments[1].amount, 1, 'Expected amount of second associated payment to === 1, but instead here is the customer:'+util.inspect(customers[0], false, null));
+        assert.equal(customers[1].payments[0].amount, 0);
+        assert.equal(customers[1].payments[1].amount, 1);
 
         done();
       });
@@ -70,3 +74,18 @@ describe('Association Interface', function() {
   });
 
 });
+
+
+
+// Experiment
+
+// assertv('customers[0].payments[0].amount === 0', 'customers[0]', customers[0]);
+// assertv('customers[0].payments[1].amount === 1', 'customers[0]', customers[0]);
+// assertv('customers[1].payments[0].amount === 0', 'customers[1]', customers[1]);
+// assertv('customers[1].payments[1].amount === 1', 'customers[1]', customers[1]);
+
+// function assertv(expr, exprToLog, exprToLogValue) {
+//   var msg = 'Expected `'+expr+'`, but actually `'+exprToLog+'` ==>\n'+require('util').inspect(exprToLogValue, false, null);
+//   console.log('running:','assert('+expr+', '+msg+')');
+//   eval('assert('+expr+', '+msg+')');
+// }

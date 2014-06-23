@@ -85,8 +85,16 @@ describe('Association Interface', function() {
           assert(customers[0].payments[0].amount === 1);
           assert(customers[0].payments[1].amount === 2);
 
-          assert(customers[1].payments.length === 2, 'expected 2 payments but got '+customers[1].payments.length);
-          assert(customers[1].payments[0].amount === 5);
+          assert(
+            customers[1].payments.length === 2,
+            'expected customers[1] to have 2 payments but instead it looks like:\n'+
+            util.inspect(customers[1].payments, false, null)
+          );
+          assert(
+            customers[1].payments[0].amount === 5,
+            'expected customers[1].payments[0].amount === 5, but customers[1] ==>\n'+
+            util.inspect(customers[1], false, null)
+          );
           assert(customers[1].payments[1].amount === 6);
 
           done();

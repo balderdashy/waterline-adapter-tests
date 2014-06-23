@@ -1,5 +1,8 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('lodash');
+var util = require('util');
+
+
 
 describe('Association Interface', function() {
 
@@ -18,16 +21,21 @@ describe('Association Interface', function() {
           }
         };
 
-
+        // console.log('----- Associations.Paymentbelongs.create');
         Associations.Paymentbelongs.create(data).exec(function(err, payment) {
           assert(!err, err);
           assert(payment.customer);
 
+          // console.log('----- Associations.Paymentbelongs.findOne');
           Associations.Paymentbelongs.findOne(payment.id)
           .populate('customer')
-          .exec(function(err, paymnt) {
-            assert(!err,err);
-            assert(paymnt.customer.title === 'belongsTo nested create');
+          .exec(function(err, _paymnt) {
+            assert(!err,'Tried to execute .findOne() with criteria:\n'+
+              util.inspect(payment.id, false, null)+'\nBut got error:\n'+
+              util.inspect(err, false, null));
+            assert(_paymnt.customer.title === 'belongsTo nested create',
+              'Expecting `_paymnt.customer.title`==="belongsTo nested create", but instead `_paymnt` ==>'+
+              util.inspect(_paymnt, false, null));
             done();
           });
         });

@@ -1,5 +1,10 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var util = require('util');
+var assert = require('assert');
+var _ = require('lodash');
+
+
+
+
 
 describe('Association Interface', function() {
 
@@ -120,7 +125,9 @@ describe('Association Interface', function() {
 
           assert(Array.isArray(customers[0].payments));
           assert(customers[0].payments.length === 4);
-          assert(customers[0].payments[0].amount === 4);
+          assert(customers[0].payments[0].amount === 4,
+            'Expected customers[0].payments[0].amount === 4, but customers[0] ==>\n'+
+            util.inspect(customers[0]));
 
           done();
         });
