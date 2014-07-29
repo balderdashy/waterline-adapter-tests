@@ -97,7 +97,7 @@ describe('Association Interface', function() {
               assert(!err);
 
               // Look up the payment again to be sure the new customer was added
-              Associations.Payment.findOne(values[0].id)
+              Associations.Payment.findOne(Payment.id)
               .populate('customer')
               .exec(function(err, model) {
                 assert(!err);
