@@ -31,7 +31,9 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return records with string usage', function(done) {
-        Queryable.User.find({ first_name: testName, age: { not: 40 }}, function(err, users) {
+        Queryable.User.find({ first_name: testName, age: { not: 40 }})
+        .sort('id asc')
+        .exec(function(err, users) {
           assert(!err);
           assert(Array.isArray(users));
           assert(users.length === 3);
@@ -47,7 +49,9 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records with symbolic usage ! usage', function(done) {
-        Queryable.User.find({ first_name: testName, age: { '!': 40 }}, function(err, users) {
+        Queryable.User.find({ first_name: testName, age: { '!': 40 }})
+        .sort('id asc')
+        .exec(function(err, users) {
           assert(!err);
           assert(Array.isArray(users));
           assert(users.length === 3);

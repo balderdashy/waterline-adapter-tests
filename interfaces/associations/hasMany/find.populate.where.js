@@ -47,7 +47,8 @@ describe('Association Interface', function() {
 
       it('should return only payments less than or equal to 2', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
-        .populate('payments', { amount: { '<': 2 }})
+        .populate('payments', { amount: { '<': 2 }, limit: 2, sort: { id: 1 }})
+        .sort('id asc')
         .exec(function(err, customers) {
           assert(!err,err);
 
@@ -71,7 +72,8 @@ describe('Association Interface', function() {
 
       it('should return payments using skip and limit', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
-        .populate('payments', { skip: 1, limit: 2 })
+        .populate('payments', { skip: 1, limit: 2, sort: { id: 1 } })
+        .sort('id asc')
         .exec(function(err, customers) {
           assert(!err);
 

@@ -68,6 +68,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .limit(1)
+        .sort('id asc')
         .exec(function(err, customers) {
           assert(!err, err);
 
@@ -117,6 +118,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find' })
         .populate('payments')
         .skip(1)
+        .sort('id asc')
         .exec(function(err, customers) {
           assert(!err, err);
 

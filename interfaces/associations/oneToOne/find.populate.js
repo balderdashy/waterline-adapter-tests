@@ -12,26 +12,32 @@ describe('Association Interface', function() {
     var users, profiles;
 
     before(function(done) {
-      Associations.User_resource.createEach([{ name: 'foo' }, { name: 'bar' }], function(err, models) {
+      Associations.User_resource.createEach([{ name: 'foo1' }, { name: 'bar1' }], function(err, models) {
         if(err) return done(err);
 
-        users = models;
-
-        var profileRecords = [
-          { name: 'profile one', user: users[0].id },
-          { name: 'profile two', user: users[1].id }
-        ];
-
-        Associations.Profile.createEach(profileRecords, function(err, models) {
+        Associations.User_resource.find()
+        .sort('id asc')
+        .exec(function(err, models) {
           if(err) return done(err);
 
-          Associations.User_resource.update({ name: 'foo' }, { profile: models[0].id }).exec(function(err, user) {
+          users = models;
+
+          var profileRecords = [
+            { name: 'profile one', user: users[0].id },
+            { name: 'profile two', user: users[1].id }
+          ];
+
+          Associations.Profile.createEach(profileRecords, function(err, models) {
             if(err) return done(err);
 
-            Associations.User_resource.update({ name: 'bar' }, { profile: models[1].id }).exec(function(err, user) {
+            Associations.User_resource.update({ name: 'foo1' }, { profile: models[0].id }).exec(function(err, user) {
               if(err) return done(err);
-              profiles = models;
-              done();
+
+              Associations.User_resource.update({ name: 'bar1' }, { profile: models[1].id }).exec(function(err, user) {
+                if(err) return done(err);
+                profiles = models;
+                done();
+              });
             });
           });
         });
@@ -46,6 +52,7 @@ describe('Association Interface', function() {
 
       it('should return user when the populate criteria is added on profile', function(done) {
         Associations.Profile.find()
+        .sort('id asc')
         .populate('user')
         .exec(function(err, profiles) {
           assert(!err);
@@ -53,8 +60,8 @@ describe('Association Interface', function() {
           assert(profiles[0].user);
           assert(profiles[1].user);
 
-          assert(profiles[0].user.name === 'foo');
-          assert(profiles[1].user.name === 'bar');
+          assert(profiles[0].user.name === 'foo1');
+          assert(profiles[1].user.name === 'bar1');
 
           done();
         });
@@ -63,6 +70,7 @@ describe('Association Interface', function() {
       it('should return profile when the populate criteria is added on user', function(done) {
         Associations.User_resource.find()
         .populate('profile')
+        .sort('id asc')
         .exec(function(err, users) {
           assert(!err);
 
@@ -83,8 +91,7 @@ describe('Association Interface', function() {
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            assert(!err, err);
-
+            assert(!err);
             assert(users[0].name);
             assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
             done();
