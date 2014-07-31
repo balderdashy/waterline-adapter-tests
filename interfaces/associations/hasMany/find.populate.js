@@ -5,7 +5,6 @@ var _ = require('lodash');
 
 
 
-
 describe('Association Interface', function() {
 
   describe('Has Many Association', function() {
@@ -17,23 +16,29 @@ describe('Association Interface', function() {
     before(function(done) {
 
       var customerRecords = [
-        { name: 'hasMany find' },
-        { name: 'hasMany find' }
+        { name: 'hasMany find pop' },
+        { name: 'hasMany find pop' }
       ];
 
       Associations.Customer.createEach(customerRecords, function(err, customers) {
         if(err) return done(err);
 
-        // Create 8 payments, 4 from one customer, 4 from another
-        var payments = [];
-        for(var i=0; i<8; i++) {
-          if(i < 4) payments.push({ amount: i, customer: customers[0].id });
-          if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
-        }
-
-        Associations.Payment.createEach(payments, function(err) {
+        Associations.Customer.find({ name: 'hasMany find pop'})
+        .sort('id asc')
+        .exec(function(err, customers) {
           if(err) return done(err);
-          done();
+
+          // Create 8 payments, 4 from one customer, 4 from another
+          var payments = [];
+          for(var i=0; i<8; i++) {
+            if(i < 4) payments.push({ amount: i, customer: customers[0].id });
+            if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
+          }
+
+          Associations.Payment.createEach(payments, function(err, payments) {
+            if(err) return done(err);
+            done();
+          });
         });
       });
     });
@@ -45,7 +50,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return payments when the populate criteria is added', function(done) {
-        Associations.Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find pop' })
         .populate('payments')
         .exec(function(err, customers) {
           assert(!err, err);
@@ -65,7 +70,7 @@ describe('Association Interface', function() {
 
       it('should return all the populated records when a limit clause is used', function(done) {
 
-        Associations.Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find pop' })
         .populate('payments')
         .limit(1)
         .sort('id asc')
@@ -94,7 +99,7 @@ describe('Association Interface', function() {
       //   })
       //   .limit(2)
       //   .sort('id DESC')
-      
+
       // it('should return expected child records for ALL parent records when populate..limit is used');
       // it('should return expected child records for ALL parent records when populate..skip is used');
       // it('should return expected child records for ALL parent records when populate..limit..skip is used');
@@ -115,7 +120,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////////////////////////////////////
 
       it('should return all the populated records when a skip clause is used', function(done) {
-        Associations.Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find pop' })
         .populate('payments')
         .skip(1)
         .sort('id asc')
@@ -136,7 +141,7 @@ describe('Association Interface', function() {
       });
 
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
-        Associations.Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find pop' })
         .exec(function(err, customers) {
           assert(!err);
 
@@ -148,7 +153,7 @@ describe('Association Interface', function() {
       });
 
       it('should call toJSON on all associated records if available', function(done) {
-        Associations.Customer.find({ name: 'hasMany find' })
+        Associations.Customer.find({ name: 'hasMany find pop' })
         .populate('payments')
         .exec(function(err, customers) {
           assert(!err);

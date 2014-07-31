@@ -47,11 +47,12 @@ describe('Association Interface', function() {
       // Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
       // .exec()
       // Associations.Payment.find();
-      
+
 
 
       Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
-      .populate('payments')
+      .populate('payments', { sort: { amount: 1 }})
+      .sort('id asc')
       .exec(function(err, customers) {
         assert(!err);
         assert(Array.isArray(customers));

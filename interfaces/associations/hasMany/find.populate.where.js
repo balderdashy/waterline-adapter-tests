@@ -6,7 +6,6 @@ var util = require('util');
 
 
 
-
 describe('Association Interface', function() {
 
   describe('Has Many Association', function() {
@@ -25,16 +24,22 @@ describe('Association Interface', function() {
       function(err, customers) {
         if(err) return done(err);
 
-        var payments = [];
-
-        for(var i=0; i<8; i++) {
-          if(i < 4) payments.push({ amount: i, customer: customers[0].id });
-          if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
-        }
-
-        Associations.Payment.createEach(payments, function(err) {
+        Associations.Customer.find({ name: 'hasMany find where'})
+        .sort('id asc')
+        .exec(function(err, customers) {
           if(err) return done(err);
-          done();
+
+          var payments = [];
+
+          for(var i=0; i<8; i++) {
+            if(i < 4) payments.push({ amount: i, customer: customers[0].id });
+            if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
+          }
+
+          Associations.Payment.createEach(payments, function(err, payments) {
+            if(err) return done(err);
+            done();
+          });
         });
       });
     });
@@ -72,7 +77,7 @@ describe('Association Interface', function() {
 
       it('should return payments using skip and limit', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
-        .populate('payments', { skip: 1, limit: 2, sort: { id: 1 } })
+        .populate('payments', { skip: 1, limit: 2, sort: { amount: 1 } })
         .sort('id asc')
         .exec(function(err, customers) {
           assert(!err);
