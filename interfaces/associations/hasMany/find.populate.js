@@ -71,7 +71,7 @@ describe('Association Interface', function() {
       it('should return all the populated records when a limit clause is used', function(done) {
 
         Associations.Customer.find({ name: 'hasMany find pop' })
-        .populate('payments')
+        .populate('payments', {sort: 'amount asc'})
         .limit(1)
         .sort('id asc')
         .exec(function(err, customers) {
