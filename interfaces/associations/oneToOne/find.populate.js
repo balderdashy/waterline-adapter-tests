@@ -99,6 +99,21 @@ describe('Association Interface', function() {
         });
       });
 
+      it('should return undefined for profile when the profile is a non-existent foreign key', function(done) {
+        Associations.User_resource.create({ name: 'foobar2', profile: "xyz123" }).exec(function(err, usr) {
+          assert(!err, err);
+
+          Associations.User_resource.find({ name: 'foobar2' })
+          .populate('profile')
+          .exec(function(err, users) {
+            assert(!err);
+            assert(users[0].name);
+            assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
+            done();
+          });
+        });
+      });
+
     });
 
   });
