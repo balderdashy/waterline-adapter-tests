@@ -59,7 +59,7 @@ describe('Semantic Interface', function() {
       });
 
       it('should return model instances', function(done) {
-       Semantic. User.update({ type: 'update' }, { last_name: 'updated again' }, function(err, users) {
+       Semantic. User.update({ type: 'update' }, { last_name: 'updated again' }).exec(function(err, users) {
           assert(!err);
           assert(users[0].id);
           assert(users[0].fullName() === 'update_user0 updated again');
@@ -70,7 +70,7 @@ describe('Semantic Interface', function() {
       });
 
       it('should work with just an ID passed in', function(done) {
-        Semantic.User.update(id, { first_name: 'foo' }, function(err, users) {
+        Semantic.User.update(id, { first_name: 'foo' }).sort('first_name').exec(function(err, users) {
           assert(!err);
           assert(users[0].first_name === 'foo');
           done();

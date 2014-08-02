@@ -32,6 +32,7 @@ describe('Queryable Interface', function() {
 
       it('should return the correct users', function(done) {
         Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
+        .sort('first_name')
         .exec(function(err, users) {
           if(err) return done(err);
 
@@ -60,7 +61,9 @@ describe('Queryable Interface', function() {
             { first_name: { contains: 'user0' }, type: 'or test' },
             { first_name: { endsWith: 'user1' }, age: { '>': 0 }, type: 'or test' }
           ]
-        }).exec(function(err, users) {
+        })
+        .sort('first_name')
+        .exec(function(err, users) {
           if(err) return done(err);
 
           assert(Array.isArray(users));
@@ -78,7 +81,9 @@ describe('Queryable Interface', function() {
             { first_name: { contains: 'user1' } },
             { first_name: { endsWith: 'user2' } }
           ]
-        }).exec(function(err, users) {
+        })
+        .sort('first_name')
+        .exec(function(err, users) {
           if(err) return done(err);
 
           assert(Array.isArray(users));

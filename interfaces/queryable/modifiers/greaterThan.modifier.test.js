@@ -31,7 +31,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with greaterThan key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { greaterThan: 40 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { greaterThan: 40 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage > usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '>': 40 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '>': 40 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -86,7 +86,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with greaterThan key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { greaterThan: new Date(2013, 10, 9) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { greaterThan: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -96,7 +96,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage > usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '>': new Date(2013, 10, 9) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '>': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -136,7 +136,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with greaterThanOrEqual key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { greaterThanOrEqual: 41 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { greaterThanOrEqual: 41 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -146,7 +146,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage >= usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '>=': 41 }}, function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '>=': 41 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -191,7 +191,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with greaterThanOrEqual key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { greaterThanOrEqual: new Date(2013, 10, 9) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { greaterThanOrEqual: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
@@ -201,7 +201,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage >= usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '>=': new Date(2013, 10, 9) }}, function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '>=': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
