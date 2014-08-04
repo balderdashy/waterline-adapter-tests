@@ -100,7 +100,7 @@ describe('Association Interface', function() {
       });
 
       it('should return undefined for profile when the profile is a non-existent foreign key', function(done) {
-        Associations.User_resource.create({ name: 'foobar2', profile: "123" }).exec(function(err, usr) {
+        Associations.User_resource.create({ name: 'foobar2', profile: '123' }).exec(function(err, usr) {
           assert(!err, err);
           Associations.User_resource.find({ name: 'foobar2' })
           .populate('profile')

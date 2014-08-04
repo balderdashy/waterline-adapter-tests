@@ -17,7 +17,7 @@ describe('Queryable Interface', function() {
         var users = [];
 
         for(var i=40; i<44; i++) {
-          users.push({ first_name: testName, age: i });
+          users.push({ first_name: testName, age: i, email: i + '@test.com' });
         }
 
         Queryable.User.createEach(users, function(err) {
@@ -56,6 +56,20 @@ describe('Queryable Interface', function() {
           assert(Array.isArray(users));
           assert(users.length === 3);
           assert(users[0].age === 41);
+          done();
+        });
+      });
+
+      it('should return records using not comparisons on strings', function(done) {
+        Queryable.User.find({ first_name: testName, email: { '!': '41@test.com' }})
+        .sort('id asc')
+        .exec(function(err, users) {
+          assert(!err);
+
+          assert(Array.isArray(users));
+          assert(users.length === 3);
+          assert(users[0].age === 40);
+          assert(users[1].age === 42);
           done();
         });
       });
