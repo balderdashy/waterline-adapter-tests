@@ -10,6 +10,8 @@ describe('Association Interface', function() {
 
   describe('Has Many Association', function() {
 
+    var Customer;
+
     /////////////////////////////////////////////////////
     // TEST SETUP
     ////////////////////////////////////////////////////
@@ -28,6 +30,8 @@ describe('Association Interface', function() {
         .sort('id asc')
         .exec(function(err, customers) {
           if(err) return done(err);
+
+          Customer = customers[0];
 
           var payments = [];
 
@@ -106,6 +110,33 @@ describe('Association Interface', function() {
 
           done();
         });
+      });
+
+      it('should allow filtering by primary key', function(done) {
+
+        // Find the payments
+        Associations.Payment.findOne({ amount: 1, customer: Customer.id }).exec(function(err, payment) {
+          if(err) return done(err);
+
+          Associations.Customer.find({ name: 'hasMany find where' })
+          .populate('payments', { id: payment.id })
+          .sort('id asc')
+          .exec(function(err, customers) {
+            assert(!err);
+
+            assert(Array.isArray(customers));
+            assert(customers.length === 2);
+
+            assert(Array.isArray(customers[0].payments));
+            assert(Array.isArray(customers[1].payments));
+
+            assert(customers[0].payments.length === 1);
+            assert(customers[0].payments[0].amount === 1);
+            assert(customers[1].payments.length === 0);
+            done();
+          });
+        });
+
       });
 
     });
