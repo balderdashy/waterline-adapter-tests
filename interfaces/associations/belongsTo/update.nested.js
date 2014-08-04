@@ -147,7 +147,7 @@ describe('Association Interface', function() {
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, values) {
-              assert(!err);
+              assert(!err, err);
 
               // Look up the payment again to be sure the customer was linked
               Associations.Payment.findOne(values[0].id)
