@@ -10,6 +10,7 @@ var fixtures = {
   UserFixture: require('./fixtures/crud.fixture'),
   ProjectFixture: require('./fixtures/schema.fixture'),
   AlterFixture: require('./fixtures/alter.fixture'),
+  CustomFixture: require('./fixtures/custom.fixture'),
   DropFixture: require('./fixtures/drop.fixture'),
   SafeFixture: require('./fixtures/safe.fixture')
 };

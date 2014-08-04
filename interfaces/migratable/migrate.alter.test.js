@@ -8,41 +8,48 @@ var assert = require('assert'),
 describe('Migratable Interface', function() {
 
   describe('migrate: "alter"', function() {
+    runTests("Alter");
+  });
 
-    it('should have the proper migrate setting when bootstrapping', function() {
-      assert(Migratable.Alter.migrate === 'alter');
-    });
+  describe('migrate: "alter" with custom table and column names', function() {
+    runTests("Custom");
+  });
 
-    it('should have tables', function(done) {
-      Migratable.Alter.describe(function(err, schema) {
-        assert(!err);
-        assert(schema);
-        done();
-      });
-    });
+  function runTests(collectionName) {
 
-
-    describe('teardown and migrate existing data', function() {
-
-      before(function(done) {
-        Migratable.Alter.create({ name: 'blackbeard' }, done);
+      it('should have the proper migrate setting when bootstrapping', function() {
+        assert(Migratable[collectionName].migrate === 'alter');
       });
 
-      it('should retain the data when bootstrapped the second time', function(done) {
-        Migratable.waterline.teardown(function(err) {
-          bootstrapFn(function(err, obj) {
-            assert(!err);
-            var ontology = obj.ontology;
+      it('should have tables', function(done) {
+        Migratable[collectionName].describe(function(err, schema) {
+          assert(!err);
+          assert(schema);
+          done();
+        });
+      });
 
-            ontology.collections.alter.count().exec(function(err, numOfPirates) {
+
+      describe('teardown and migrate existing data', function() {
+
+        before(function(done) {
+          Migratable[collectionName].create({ name: 'blackbeard' }, done);
+        });
+
+        it('should retain the data when bootstrapped the second time', function(done) {
+          Migratable.waterline.teardown(function(err) {
+            bootstrapFn(function(err, obj) {
               assert(!err);
-              assert(numOfPirates === 1);
-              done();
+              var ontology = obj.ontology;
+              ontology.collections[collectionName.toLowerCase()].count().exec(function(err, numOfPirates) {
+                assert(!err);
+                assert(numOfPirates === 1, numOfPirates);
+                done();
+              });
             });
           });
         });
       });
-    });
 
-  });
+  }
 });

@@ -7,12 +7,16 @@ var Waterline = require('waterline');
 module.exports = Waterline.Collection.extend({
 
   identity: 'loadtest',
+  tableName: 'loadTestTable',
   adapter: 'test',
 
   attributes: {
     first_name: 'string',
     last_name: 'string',
-    email: 'string',
+    email: {
+      type: 'string',
+      columnName: 'emailAddress'
+    }, 
     title: 'string',
     phone: 'string',
     type: 'string',

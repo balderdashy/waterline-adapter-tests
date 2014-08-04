@@ -7,12 +7,16 @@ var Waterline = require('waterline');
 module.exports = Waterline.Collection.extend({
 
   identity: 'user',
+  tableName: 'userTable',
   connection: 'semantic',
 
   attributes: {
     first_name: 'string',
     last_name: 'string',
-    email: 'string',
+    email: {
+      type: 'string',
+      columnName: 'emailAddress'
+    },
     title: 'string',
     phone: 'string',
     type: 'string',
@@ -27,7 +31,10 @@ module.exports = Waterline.Collection.extend({
       defaultsTo: false
     },
     percent: 'float',
-    list: 'array',
+    list: {
+      type: 'array',
+      columnName: 'arrList'
+    },
     obj: 'json',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;
