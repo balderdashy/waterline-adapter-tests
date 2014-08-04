@@ -12,6 +12,7 @@ var fixtures = {
   CustomerBelongsFixture: require('./fixtures/belongsTo.parent.fixture'),
   PaymentHasManyFixture: require('./fixtures/hasMany.child.fixture'),
   CustomerHasManyFixture: require('./fixtures/hasMany.parent.fixture'),
+  ApartmentHasManyFixture: require('./fixtures/hasMany.customPK.fixture'),
   PaymentManyFixture: require('./fixtures/multipleAssociations.fixture').payment,
   CustomerManyFixture: require('./fixtures/multipleAssociations.fixture').customer,
   StadiumFixture: require('./fixtures/hasManyThrough.stadium.fixture'),
