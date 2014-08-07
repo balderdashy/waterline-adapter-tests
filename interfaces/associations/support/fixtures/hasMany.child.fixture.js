@@ -14,10 +14,12 @@ module.exports = Waterline.Collection.extend({
     amount: 'integer',
     type: 'string',
     apartment: {
-      model: 'apartment'
+      model: 'apartment',
+      columnName: 'apartment_id'
     },
     customer: {
-      model: 'Customer'
+      model: 'Customer',
+      columnName: 'customer_id'
     },
 
     toJSON: function() {

@@ -14,10 +14,12 @@ module.exports.payment = Waterline.Collection.extend({
     amount: 'integer',
     type: 'string',
     customer: {
-      model: 'customer_many'
+      model: 'customer_many',
+      columnName: 'customer_many_id'
     },
     patron: {
-      model: 'customer_many'
+      model: 'customer_many',
+      columnName: 'customer_many_patron_id'
     },
 
     toJSON: function() {

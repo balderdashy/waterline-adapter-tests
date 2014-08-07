@@ -14,7 +14,8 @@ module.exports = Waterline.Collection.extend({
     amount: 'integer',
     type: 'string',
     customer: {
-      model: 'Customerbelongs'
+      model: 'Customerbelongs',
+      columnName: 'customer_belongs'
     },
 
     toJSON: function() {
