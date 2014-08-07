@@ -51,4 +51,25 @@ describe('Association Interface', function() {
     });
 
   });
+
+  describe('destroying an entire collection', function () {
+
+    it('should not result in an error', function (done) {
+      Associations.Driver.destroy(function (err, status) {
+        assert(!err);
+        done();
+      });
+    });
+  });
+
+  describe('destroying an entire collection, now empty', function () {
+
+    it('should not result in an error', function (done) {
+      Associations.Driver.destroy(function (err, status) {
+        assert(!err);
+        done();
+      });
+    });
+  });
+
 });
