@@ -6,8 +6,8 @@ your adapter against the current Waterline API.
 
 ## Adapter Interface Specification
 
-+ [Reference](https://github.com/balderdashy/sails-docs/blob/master/adapter-specification.md)
-+ [Philosophy & Motivations](https://github.com/balderdashy/sails-docs/blob/master/intro-to-custom-adapters.md)
++ [Reference](https://github.com/balderdashy/sails-docs/blob/master/contributing/adapter-specification.md)
++ [Philosophy & Motivations](https://github.com/balderdashy/sails-docs/blob/master/contributing/intro-to-custom-adapters.md)
 
 
 ## Usage
