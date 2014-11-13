@@ -17,6 +17,7 @@ module.exports = Waterline.Collection.extend({
       type: 'string',
       columnName: 'emailAddress'
     },
+    avatar: 'binary',
     title: 'string',
     phone: 'string',
     type: 'string',
