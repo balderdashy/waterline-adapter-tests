@@ -62,7 +62,8 @@ describe('Semantic Interface', function() {
        Semantic. User.update({ type: 'update' }, { last_name: 'updated again' }).exec(function(err, users) {
           assert(!err);
           assert(users[0].id);
-          assert(users[0].fullName() === 'update_user0 updated again');
+          assert(users[0].first_name.indexOf('update_user') === 0);
+          assert(users[0].last_name === 'updated again');
           assert(toString.call(users[0].createdAt) == '[object Date]');
           assert(toString.call(users[0].updatedAt) == '[object Date]');
           done();
