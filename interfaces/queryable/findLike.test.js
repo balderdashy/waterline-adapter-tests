@@ -23,8 +23,8 @@ describe('Queryable Interface', function() {
           assert(!err);
           assert(Array.isArray(users));
           assert(users.length === 2, util.format('expected 2 users, but got %s, see?\n%s', users.length, util.inspect(users, false, null) ));
-          assert(users[0].first_name === testName);
-          assert(users[1].first_name === testName2);
+          assert((users[0].first_name === testName && users[1].first_name === testName2) ||
+                 (users[0].first_name === testName2 && users[1].first_name === testName))
           done();
         });
       });
