@@ -17,7 +17,7 @@ describe('Semantic Interface', function() {
         var buf = new Buffer(str, "utf-8");
         // store the binary thing
         Semantic.User.create({ avatar: buf }, function(err, record) {
-          assert(!err);
+          assert(!err, err);
           // read out the stored binary thing
           var outbuf = new Buffer(record.avatar);
           
