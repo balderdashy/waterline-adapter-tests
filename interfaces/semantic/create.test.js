@@ -65,7 +65,7 @@ describe('Semantic Interface', function() {
       Semantic.User.create(users, function(err, users) {
         assert(!err);
         assert(users[0].first_name === 'test_0');
-        assert(users[1].first_name === 'test_3');
+        assert(users[1].first_name === 'test_1');
         assert(users.length === 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
         done();
       });
