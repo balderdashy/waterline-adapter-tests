@@ -55,6 +55,21 @@ describe('Semantic Interface', function() {
       });
     });
 
+    it('should return rows in the correct order when creating multiple rows', function(done) {
+      var testName = '.create() with a list, returning values';
+      var users = [];
+
+      for(var i=0; i<4; i++) {
+        users.push({ first_name: 'test_' + i, type: testName });
+      }
+      Semantic.User.create(users, function(err, users) {
+        assert(!err)
+        assert(users[0].first_name === 'test_0')
+        assert(users[1].first_name === 'test_1')
+        assert(users.length === 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
+      });
+    });
+
     describe('overloaded usage of create', function() {
 
       /////////////////////////////////////////////////////
