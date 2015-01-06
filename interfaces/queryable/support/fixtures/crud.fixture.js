@@ -22,7 +22,7 @@ module.exports = Waterline.Collection.extend({
       type: 'string'
     },
     age: 'integer', // integer field that's not auto-incrementable
-    dob: 'datetime',
+    dob: 'date',
     status: {
       type: 'boolean',
       defaultsTo: false
