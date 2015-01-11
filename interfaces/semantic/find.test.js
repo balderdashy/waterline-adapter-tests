@@ -70,6 +70,14 @@ describe('Semantic Interface', function() {
       });
     });
 
+    it('should escape attribute names to prevent SQL injection attacks', function(done) {
+      Semantic.User.find({ type: 'find_test', 'first_name`IS NULL OR 1=1 #': 'whatever' }, function(err, users) {
+        assert(err, err, 'Should have escaped field name and prevented data from being returned (caused an error)');
+        assert(!users.length, 'Should have escaped field name and prevented data from being returned');
+        done();
+      });
+    });
+
     it('should work with no criteria passed in', function(done) {
       Semantic.User.find(function(err, users) {
         assert(!err);
