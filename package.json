@@ -12,7 +12,10 @@
   },
   "devDependencies": {
     "sails-postgresql": "balderdashy/sails-postgresql",
-    "sails-memory": "balderdashy/sails-memory"
+    "sails-memory": "balderdashy/sails-memory",
+    "sails-disk": "balderdashy/sails-disk",
+    "sails-mongo": "balderdashy/sails-mongo",
+    "sails-mysql": "balderdashy/sails-mysql"
   },
   "keywords": [
     "orm",
