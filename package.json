@@ -11,7 +11,8 @@
     "should": "~3.1.2"
   },
   "devDependencies": {
-    "sails-postgresql": "balderdashy/sails-postgresql"
+    "sails-postgresql": "balderdashy/sails-postgresql",
+    "sails-memory": "balderdashy/sails-memory"
   },
   "keywords": [
     "orm",

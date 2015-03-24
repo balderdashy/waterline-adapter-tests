@@ -1,10 +1,8 @@
-# SHELL:=/bin/bash
-POSTGRES=$(shell node test/integration/runner.js sails-postgresql)
 
 test: test-integration
 
 test-integration:
-	@echo "test results"
-	@echo "$(POSTGRES)"
-	
-	
+	@echo "\nRunning API integration tests against the official adapters"
+	chmod +x test/integration/runner.sh
+	test/integration/runner.sh
+	@echo "\n all done"
