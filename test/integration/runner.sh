@@ -13,22 +13,35 @@ function getStatus {
 	fi
 }
 
+function echoTest {
+	echo -e "\n\033[0;34m"
+	echo -e "--------------------------------------------------------------------------------"
+	echo -e "                                 $1"
+	echo -e "--------------------------------------------------------------------------------"
+	echo -e "\033[0m"
+}
+
+echoTest sails-postgresql
 node test/integration/runner.js sails-postgresql
 getStatus $?
 POSTGR=$STATUS
 
+echoTest sails-memory
 node test/integration/runner.js sails-memory
 getStatus $?
 MEMORY=$STATUS
 
+echoTest sails-disk
 node test/integration/runner.js sails-disk
 getStatus $?
 DISKST=$STATUS
 
+echoTest sails-mongo
 node test/integration/runner.js sails-mongo
 getStatus $?
 MONGOD=$STATUS
 
+echoTest sails-mysql
 node test/integration/runner.js sails-mysql
 getStatus $?
 MYSQLD=$STATUS

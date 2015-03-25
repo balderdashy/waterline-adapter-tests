@@ -7,7 +7,7 @@ var mocha = require('mocha');
 var adapterName = process.env.ADAPTER_NAME || process.argv[2];
 var TestRunner = require('../../lib');
 var Adapter = require(adapterName);
-
+var config = require('./config/' + adapterName + '.json');
 
 
 // Grab targeted interfaces from this adapter's `package.json` file:
@@ -54,9 +54,7 @@ new TestRunner({
     adapter: Adapter,
 
     // Default adapter config to use.
-    config: {
-      schema: false,
-    },
+    config: config,
 
     // The set of adapter interfaces to test against.
     // (grabbed these from this adapter's package.json file above)
@@ -65,7 +63,7 @@ new TestRunner({
     // Mocha options
     // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
     mocha: {
-      reporter: 'spec'
+      reporter: 'dot'
     },
     
     mochaChainableMethods: {},
