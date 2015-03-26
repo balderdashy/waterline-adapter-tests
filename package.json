@@ -10,6 +10,13 @@
     "async": "~0.2.9",
     "should": "~3.1.2"
   },
+  "devDependencies": {
+    "sails-postgresql": "balderdashy/sails-postgresql",
+    "sails-memory": "balderdashy/sails-memory",
+    "sails-disk": "balderdashy/sails-disk",
+    "sails-mongo": "balderdashy/sails-mongo",
+    "sails-mysql": "balderdashy/sails-mysql"
+  },
   "keywords": [
     "orm",
     "tests",
@@ -23,7 +30,9 @@
   "repository": "git://github.com/balderdashy/waterline-adapter-tests.git",
   "homepage": "http://github.com/balderdashy/waterline-adapter-tests",
   "main": "./lib/index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "make test"
+  },
   "engines": {
     "node": "*"
   },
