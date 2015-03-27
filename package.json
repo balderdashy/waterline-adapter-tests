@@ -11,11 +11,12 @@
     "should": "~3.1.2"
   },
   "devDependencies": {
-    "sails-postgresql": "balderdashy/sails-postgresql",
-    "sails-memory": "balderdashy/sails-memory",
+    "npm": "^2.7.4",
     "sails-disk": "balderdashy/sails-disk",
+    "sails-memory": "balderdashy/sails-memory",
     "sails-mongo": "balderdashy/sails-mongo",
-    "sails-mysql": "balderdashy/sails-mysql"
+    "sails-mysql": "balderdashy/sails-mysql",
+    "sails-postgresql": "balderdashy/sails-postgresql"
   },
   "keywords": [
     "orm",
