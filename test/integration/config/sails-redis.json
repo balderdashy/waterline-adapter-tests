@@ -1,6 +1,5 @@
 {
   "host": "localhost",
-  "database": "sails-mongo",
   "port": 6379,
   "schema": true,
   "poolSize": 1
