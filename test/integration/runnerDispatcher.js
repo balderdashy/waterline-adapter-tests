@@ -6,6 +6,7 @@ var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo',
 
 var status = {};
 process.env.FORCE_COLORS = true;
+var exitCode = 0;
 
 console.time('total time elapsed');
 
@@ -45,6 +46,7 @@ async.eachSeries(adapters, function(adapterName, next){
       + " |\n";
     
     console.log('exit code: ' + code);
+    if(code != 0) { exitCode = code; }
     next();
   });
 }, 
@@ -52,6 +54,7 @@ function(){
   resultTable += " --------------------------------------------- \n";
   console.log(resultTable);
   console.timeEnd('total time elapsed');
+  process.exit(exitCode);
 });
 
 
