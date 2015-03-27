@@ -16,7 +16,8 @@
     "sails-memory": "balderdashy/sails-memory",
     "sails-mongo": "balderdashy/sails-mongo",
     "sails-mysql": "balderdashy/sails-mysql",
-    "sails-postgresql": "balderdashy/sails-postgresql"
+    "sails-postgresql": "balderdashy/sails-postgresql",
+    "sails-redis": "balderdashy/sails-redis"
   },
   "keywords": [
     "orm",

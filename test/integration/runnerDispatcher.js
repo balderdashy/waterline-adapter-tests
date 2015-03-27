@@ -3,7 +3,7 @@ var async = require('async');
 var npm = require('npm');
 
 // The adapters being tested
-var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql'];
+var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql', 'sails-redis'];
 
 var status = {};
 var npmData;
