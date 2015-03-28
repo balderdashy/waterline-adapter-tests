@@ -20,7 +20,7 @@ The adapters are configured to run their tests against the **stable** versions o
 
 ## Why not have these tests ran in waterline core builds?
 
-These tests will likely break more often as they are dependendent on the adapters themselves so there is a risk for false positives and we don't want to add noise to the waterline-core builds. Still, a subset of these adapter tests has been added to waterline ([PR #896](https://github.com/balderdashy/waterline/pull/896)). It only tests waterline core against sails-memory and it constitutes a *canary test* to detect API breaks.
+These tests will likely break more often as they are dependent on the adapters themselves so there is a risk for false positives and we don't want to add noise to the waterline core builds. Still, a subset of these adapter tests has been added to waterline ([PR #896](https://github.com/balderdashy/waterline/pull/896)). It only tests waterline core against sails-memory and it constitutes a *canary test* to detect API breaks.
 
 
 For more details check the following PRs: [#36](https://github.com/balderdashy/waterline-adapter-tests/pull/36), [#39](https://github.com/balderdashy/waterline-adapter-tests/pull/39).
