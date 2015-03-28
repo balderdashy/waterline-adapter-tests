@@ -1,14 +1,34 @@
 var exec = require('child_process').exec;
 var async = require('async');
 var npm = require('npm');
+var jpath = require('jpath');
+
+
+/////////////////////////////////////////////////////////////////////
+//
+// Config
 
 // The adapters being tested
 var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql', 'sails-redis'];
 
-var status = {};
-var npmData;
+// Core modules npm Dependencies path
+var coreModulesPaths = {
+  "waterline":               ".dependencies.waterline",
+  "- anchor":                ".dependencies.waterline.dependencies.anchor",
+  "- waterline-schema":      ".dependencies.waterline.dependencies.waterline-schema",
+  "waterline-adapter-tests": "."
+};
+
+var wlSequelPath = ".dependencies.%s.dependencies.waterline-sequel";
+
+//
+/////////////////////////////////////////////////////////////////////
+
+
+var status = {},
+    npmData,
+    exitCode = 0;
 process.env.FORCE_COLORS = true;
-var exitCode = 0;
 
 console.time('total time elapsed');
 
@@ -18,7 +38,7 @@ resultTable += "| adapter          | version | status  | failed | total | wl-seq
 resultTable += "|------------------|---------|---------|--------|-------|-----------|\n";
 
 function getNpmDetails(cb){
-  npm.load({ depth: 1 }, function (er) {
+  npm.load({ depth: 2 }, function (er) {
   if (er) return process.exit(1);
 
   npm.commands.ls('', true, function(err, data){
@@ -53,14 +73,13 @@ function runTests(cb){
     child.on('close', function(code) {
       status[adapterName].exitCode = code;
       var message = code == 0 ? "\033[0;32msuccess\033[0m" : "\033[0;31mfailed \033[0m";
-      var adapterNpm = npmData.dependencies[adapterName];
-      var wlSequel = adapterName.indexOf('sql') > 0 ? processVersion(adapterNpm.dependencies['waterline-sequel']) : "";
+      var wlSequel = getWlSequelVersion(adapterName);
       resultTable += "| " + padRight(adapterName, 16) 
-        + " | " + padRight(processVersion(adapterNpm), 7)
+        + " | " + padLeft(processVersion(npmData.dependencies[adapterName]), 7)
         + " | " + message 
         + " | " + padLeft(status[adapterName].failed, 6) 
         + " | " + padLeft(status[adapterName].total, 5)
-        + " | " + padRight(wlSequel, 9)
+        + " | " + padLeft(wlSequel, 9)
         + " |\n";
       
       console.log('exit code: ' + code);
@@ -74,18 +93,19 @@ function runTests(cb){
 function printCoreModulesVersions(cb){
   var coreModules = "\n";
   coreModules += " ----------------------------------- \n";
-  coreModules += "| Core Modules            | version |\n";
+  coreModules += "| core modules            | version |\n";
   coreModules += "|-------------------------|---------|\n";
-  coreModules += getModuleRow('waterline', npmData.dependencies['waterline']);
-  coreModules += getModuleRow('waterline-adapter-tests', npmData);
+  for(var moduleName in coreModulesPaths){
+    coreModules += getModuleRow(moduleName, jpath(npmData, coreModulesPaths[moduleName])[0]);
+  }
   coreModules += " ----------------------------------- \n";
   console.log(coreModules);
   cb();
 }
 
-function getModuleRow(name, module){
+function getModuleRow(name, module){;
   return "| "+ padRight(name, 23) + " | " 
-    + padRight(processVersion(module), 7) 
+    + padLeft(processVersion(module), 7) 
     + " |\n";
 }
 
@@ -99,6 +119,8 @@ async.series([getNpmDetails, runTests, printCoreModulesVersions], function(err, 
   }
   process.exit(exitCode);
 });
+
+
 
 /**
  * Aux functions
@@ -138,5 +160,12 @@ function processVersion(dependency){
   if(dependency.gitHead){
     return dependency.gitHead.slice(0, 7);
   }
+  // console.warn('WARN: Not sure we found the dependency that was resolved.');
   return dependency.version;
+}
+
+function getWlSequelVersion(adapterName){
+  if(adapterName.indexOf('sql') < 0) { return ""; }
+  var path = wlSequelPath.replace('%s', adapterName);
+  return processVersion(jpath(npmData, path)[0]);
 }
