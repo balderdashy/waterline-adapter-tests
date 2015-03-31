@@ -62,6 +62,7 @@ var waterline = setupWaterline({
 function loadTest(cb){
   
   var n = 0;
+  console.log('\n' + n + ': ' + reportMemory());
   
   function findAndPopulate (item, next) {
     WL_MODELS.pet.find().populate('owner')
@@ -90,7 +91,7 @@ function reportMemory(){
 }
 
 function roundMB(num){
-  return (num/10e6).toFixed(2);
+  return (num/1e6).toFixed(2);
 }
 
 function boostrapCollections(cb){
