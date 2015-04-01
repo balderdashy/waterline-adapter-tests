@@ -3,6 +3,7 @@
  */
 var util = require('util');
 var mocha = require('mocha');
+var customDotReporter = require('./customDotReporter');
 
 var adapterName = process.env.ADAPTER_NAME || process.argv[2];
 var TestRunner = require('../../lib');
@@ -63,7 +64,7 @@ new TestRunner({
     // Mocha options
     // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
     mocha: {
-      reporter: 'dot'
+      reporter: customDotReporter
     },
     
     mochaChainableMethods: {},
