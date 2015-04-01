@@ -17,8 +17,6 @@ var connections = { 'load_test': config };
 connections.load_test.adapter = 'default';
 
 
-console.time('time elapsed');
-
 var waterline = setupWaterline({
   adapters: {
     'default': require(adapterName)
@@ -30,24 +28,28 @@ var waterline = setupWaterline({
   connections: connections
 }, function waterlineReady (err, ontology) {
   if (err) throw err;
+  console.log('waterline initialized');
 
   // Our collections (i.e. models):
   global.WL_MODELS = ontology.collections;
   
   boostrapCollections(function(err){
     if(err) { handleError(err, 'failed to populate collections'); }
-    console.log('collections initialized');
+    console.log('collections created');
     
     console.log('Hitting the db with ' + hitsNumber + ' requests...');
+    console.time('time elapsed');
     loadTest(function(err){
+      console.log();
       if(err) { handleError(err, 'failed to perform load test'); }
+      
+      console.timeEnd('time elapsed');
+      console.log();
       
       tearDown(ontology.collections, function(err){
         if(err) { handleError(err, 'failed to teardown adapter'); }
         console.log('collections teardown done');
         
-        
-        console.timeEnd('time elapsed');
         process.exit(0);
       });
     });
@@ -61,17 +63,17 @@ var waterline = setupWaterline({
 
 function loadTest(cb){
   
+  process.stdout.write('\n 0: ' + reportMemory());
   var n = 0;
-  console.log('\n' + n + ': ' + reportMemory());
   
   function findAndPopulate (item, next) {
     WL_MODELS.pet.find().populate('owner')
       .then(function(){
         n++;
         if(n % reportFreq === 0){ 
-          console.log('\n' + n + ': ' + reportMemory());
+          process.stdout.write('\n' + n + ': ' + reportMemory());
         } else {
-          process.stdout.write('.');
+          process.stdout.write(' .');
         }
         next();
        })
@@ -79,7 +81,7 @@ function loadTest(cb){
   }
   
   // async.each / async.eachSeries
-  async.each(_.range(0, hitsNumber), findAndPopulate, cb); 
+  async.each(_.range(1, hitsNumber+1), findAndPopulate, cb); 
 }
 
 function reportMemory(){
