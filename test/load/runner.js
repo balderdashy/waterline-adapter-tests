@@ -37,8 +37,9 @@ var waterline = setupWaterline({
     if(err) { handleError(err, 'failed to populate collections'); }
     console.log('collections created');
     
-    console.log('Hitting the db with ' + hitsNumber + ' requests...');
+    process.stdout.write('\nHitting the db with ' + hitsNumber + ' requests...');
     console.time('time elapsed');
+    
     loadTest(function(err){
       console.log();
       if(err) { handleError(err, 'failed to perform load test'); }
@@ -46,17 +47,22 @@ var waterline = setupWaterline({
       console.timeEnd('time elapsed');
       console.log();
       
-      tearDown(ontology.collections, function(err){
-        if(err) { handleError(err, 'failed to teardown adapter'); }
-        console.log('collections teardown done');
+      // stay idle and then check memory
+      setTimeout(function(){
         
-        process.exit(0);
-      });
+        console.log('idle: ' + reportMemory() + '\n');
+        
+        tearDown(ontology.collections, function(err){
+          if(err) { handleError(err, 'failed to teardown adapter'); }
+          console.log('collections teardown done');
+          
+          process.exit(0);
+        });
+      }, 1000);
+
     });
 
-  });
-
-  
+  });  
 
 });
 
