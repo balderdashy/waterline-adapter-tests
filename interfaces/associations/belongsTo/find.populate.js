@@ -47,7 +47,7 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return customer when the populate criteria is added', function(done) {
-        Associations.Payment.find({ type: 'belongsTo find' })
+        Associations.Payment.find({ type: 'belongsTo find', sort: 'amount ASC' })
         .populate('customer')
         .exec(function(err, _payments) {
           assert(!err, err);
