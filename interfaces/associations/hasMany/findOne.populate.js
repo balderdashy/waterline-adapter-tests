@@ -20,7 +20,7 @@ describe('Association Interface', function() {
         var payments = [];
 
         for(var i=0; i<4; i++) {
-          payments.push({ amount: i, customer: customer.id });
+          payments.push({ amount: i, a_customer: customer.id });
         }
 
         Associations.Payment.createEach(payments, function(err) {

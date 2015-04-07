@@ -31,8 +31,8 @@ describe('Association Interface', function() {
           // Create 8 payments, 4 from one customer, 4 from another
           var payments = [];
           for(var i=0; i<8; i++) {
-            if(i < 4) payments.push({ amount: i, customer: customers[0].id });
-            if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
+            if(i < 4) payments.push({ amount: i, a_customer: customers[0].id });
+            if(i >= 4) payments.push({ amount: i, a_customer: customers[1].id });
           }
 
           Associations.Payment.createEach(payments, function(err, payments) {
