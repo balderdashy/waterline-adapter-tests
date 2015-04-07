@@ -1,3 +1,4 @@
 *.sw*
 dump.rdb
 node_modules
+.tmp
