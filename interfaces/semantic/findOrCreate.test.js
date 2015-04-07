@@ -60,12 +60,12 @@ describe('Semantic Interface', function() {
         assert(users[0].id);
         assert(users[0].fullName() === 'findOrCreate() array');
         assert(toString.call(users[0].createdAt) == '[object Date]');
-        assert(toString.call(user[0].updatedAt) == '[object Date]');
+        assert(toString.call(users[0].updatedAt) == '[object Date]');
 
         assert(users[1].id);
         assert(users[1].fullName() === 'Mark Vegetables');
         assert(toString.call(users[1].createdAt) == '[object Date]');
-        assert(toString.call(user[1].updatedAt) == '[object Date]');
+        assert(toString.call(users[1].updatedAt) == '[object Date]');
         done();
       });
     });
