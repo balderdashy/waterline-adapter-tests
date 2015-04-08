@@ -191,6 +191,59 @@ describe('Association Interface', function() {
           });
           
         });
+        
+        
+        describe('when associations already exist', function() {
+
+          /////////////////////////////////////////////////////
+          // TEST SETUP
+          ////////////////////////////////////////////////////
+
+          var Driver;
+
+          before(function(done) {
+
+            var data = {
+              name: 'm:m update nested save',
+              taxis: [ { medallion: 1000 } ]
+            };
+
+            Associations.Driver.create(data).exec(function(err, driver) {
+              if(err) return done(err);
+              Driver = driver;
+              done();
+            });
+
+          });
+
+
+          /////////////////////////////////////////////////////
+          // TEST METHODS
+          ////////////////////////////////////////////////////
+
+          it('should update association values with save()', function(done) {
+            
+            Associations.Driver.findOne({ id: Driver.id })
+            .populate('taxis')
+            .exec(function(err, model) {
+              var taxi = model.taxis[0];
+              taxi.medallion = 1001;
+              taxi.save(function(err){
+                assert(!err);
+                
+                Associations.Driver.findOne({ id: Driver.id })
+                .populate('taxis')
+                .exec(function(err, model) {
+                  assert(!err);
+                  assert(model.taxis.length === 1);
+                  assert(model.taxis[0].medallion === 1001);
+                  done();
+                });
+              });
+              
+            });
+          });
+        });
 
         
         describe('when associations are sync\'ed rapidly', function() {
