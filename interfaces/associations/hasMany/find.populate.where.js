@@ -36,8 +36,8 @@ describe('Association Interface', function() {
           var payments = [];
 
           for(var i=0; i<8; i++) {
-            if(i < 4) payments.push({ amount: i, customer: customers[0].id });
-            if(i >= 4) payments.push({ amount: i, customer: customers[1].id });
+            if(i < 4) payments.push({ amount: i, a_customer: customers[0].id });
+            if(i >= 4) payments.push({ amount: i, a_customer: customers[1].id });
           }
 
           Associations.Payment.createEach(payments, function(err, payments) {
@@ -115,7 +115,7 @@ describe('Association Interface', function() {
       it('should allow filtering by primary key', function(done) {
 
         // Find the payments
-        Associations.Payment.findOne({ amount: 1, customer: Customer.id }).exec(function(err, payment) {
+        Associations.Payment.findOne({ amount: 1, a_customer: Customer.id }).exec(function(err, payment) {
           if(err) return done(err);
 
           Associations.Customer.find({ name: 'hasMany find where' })
