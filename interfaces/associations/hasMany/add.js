@@ -19,7 +19,7 @@ describe('Association Interface', function() {
             if(err) return done(err);
 
             customer = model;
-            Associations.Payment.create({ amount: 1, customer: customer.id }, done);
+            Associations.Payment.create({ amount: 1, a_customer: customer.id }, done);
           });
         });
 
@@ -65,7 +65,7 @@ describe('Association Interface', function() {
             if(err) return done(err);
 
             customer = models[0];
-            Associations.Payment.create({ amount: 1, customer: models[1].id }, function(err, paymentModel) {
+            Associations.Payment.create({ amount: 1, a_customer: models[1].id }, function(err, paymentModel) {
               if(err) return done(err);
 
               payment = paymentModel;

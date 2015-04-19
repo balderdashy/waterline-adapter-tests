@@ -34,7 +34,7 @@ describe('Association Interface', function() {
 
             var data = {
               amount: 200,
-              customer: {
+              a_customer: {
                 name: 'belongsTo nested update'
               }
             };
@@ -43,10 +43,10 @@ describe('Association Interface', function() {
               assert(!err);
 
               Associations.Payment.findOne(payment[0].id)
-              .populate('customer')
+              .populate('a_customer')
               .exec(function(err, paymnt) {
                 assert(!err);
-                assert(paymnt.customer.name === 'belongsTo nested update');
+                assert(paymnt.a_customer.name === 'belongsTo nested update');
                 done();
               });
             });
@@ -66,7 +66,7 @@ describe('Association Interface', function() {
 
             var data = {
               amount: 200,
-              customer: {
+              a_customer: {
                 name: 'belongsTo nested update'
               }
             };
@@ -88,7 +88,7 @@ describe('Association Interface', function() {
 
             var data = {
               amount: 100,
-              customer: {
+              a_customer: {
                 name: 'belongsTo nested update - updated'
               }
             };
@@ -98,12 +98,12 @@ describe('Association Interface', function() {
 
               // Look up the payment again to be sure the new customer was added
               Associations.Payment.findOne(Payment.id)
-              .populate('customer')
+              .populate('a_customer')
               .exec(function(err, model) {
                 assert(!err);
                 assert(model.amount === 100);
-                assert(model.customer);
-                assert(model.customer.name === 'belongsTo nested update - updated');
+                assert(model.a_customer);
+                assert(model.a_customer.name === 'belongsTo nested update - updated');
                 done();
               });
 
@@ -125,7 +125,7 @@ describe('Association Interface', function() {
               if(err) return done(err);
               Customers = customers;
 
-              Associations.Payment.create({ amount: 100, customer: customers[0].id })
+              Associations.Payment.create({ amount: 100, a_customer: customers[0].id })
               .exec(function(err, payment) {
                 if(err) return done(err);
                 Payment = payment;
@@ -143,7 +143,7 @@ describe('Association Interface', function() {
 
             var data = {
               amount: 200,
-              customer: Customers[1]
+              a_customer: Customers[1]
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, values) {
@@ -151,12 +151,12 @@ describe('Association Interface', function() {
 
               // Look up the payment again to be sure the customer was linked
               Associations.Payment.findOne(values[0].id)
-              .populate('customer')
+              .populate('a_customer')
               .exec(function(err, model) {
                 assert(!err);
 
                 assert(model.amount === 200);
-                assert(model.customer.name === 'bar');
+                assert(model.a_customer.name === 'bar');
 
                 done();
               });
