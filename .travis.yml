@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "0.12"
   - "0.11"
   - "0.10"
 services: 
@@ -16,5 +15,3 @@ before_script:
   - npm install balderdashy/waterline
   - psql -c 'create database sailspg;' -U postgres
   - mysql -e 'create database sails_mysql;'
-after_script:
-  - npm run test-load
