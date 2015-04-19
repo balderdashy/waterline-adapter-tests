@@ -12,7 +12,7 @@ var petsNumber = process.env.PETS_NUMBER || 100;
 var hitsNumber = process.env.HITS_NUMBER || 100;
 var reportFreq = process.env.REPORT_FREQ || 10;
 
-
+var measurements = [];
 var connections = { 'load_test': config };
 connections.load_test.adapter = 'default';
 
@@ -49,8 +49,8 @@ var waterline = setupWaterline({
       
       // stay idle and then check memory
       setTimeout(function(){
-        
-        console.log('idle: ' + reportMemory() + '\n');
+        console.log('idle: ' + reportMemory(process.memoryUsage()) + '\n');
+        printStats(measurements);
         
         tearDown(ontology.collections, function(err){
           if(err) { handleError(err, 'failed to teardown adapter'); }
@@ -69,15 +69,19 @@ var waterline = setupWaterline({
 
 function loadTest(cb){
   
-  process.stdout.write('\n 0: ' + reportMemory());
+  var memUsage = process.memoryUsage();
+  measurements.push(memUsage);
+  process.stdout.write('\n 0: ' + reportMemory(memUsage));
   var n = 0;
   
   function findAndPopulate (item, next) {
     WL_MODELS.pet.find().populate('owner')
       .then(function(){
         n++;
-        if(n % reportFreq === 0){ 
-          process.stdout.write('\n' + n + ': ' + reportMemory());
+        if(n % reportFreq === 0){
+          var memUsage = process.memoryUsage();
+          measurements.push(memUsage);
+          process.stdout.write('\n' + n + ': ' + reportMemory(memUsage));
         } else {
           process.stdout.write(' .');
         }
@@ -90,8 +94,7 @@ function loadTest(cb){
   async.each(_.range(1, hitsNumber+1), findAndPopulate, cb); 
 }
 
-function reportMemory(){
-  var memUsage = process.memoryUsage();
+function reportMemory(memUsage){
   return 'rss: ' + roundMB(memUsage.rss)
          + ' MB, heapTotal: ' + roundMB(memUsage.heapTotal) 
          + ' MB, heapUsed: ' + roundMB(memUsage.heapUsed)
@@ -100,6 +103,18 @@ function reportMemory(){
 
 function roundMB(num){
   return (num/1e6).toFixed(2);
+}
+
+function printStats(stats){
+  var maxRss = _.max(_.pluck(stats, 'rss'));
+  var maxHeapTotal = _.max(_.pluck(stats, 'heapTotal'));
+  var maxHeapUsed = _.max(_.pluck(stats, 'heapUsed'));
+  console.log('max: ' + reportMemory({ rss: maxRss, heapTotal: maxHeapTotal, heapUsed: maxHeapUsed }));
+  
+  var avgRss = _.reduce(_.pluck(stats, 'rss'), function(sum, num) { return sum + num; }) / stats.length;
+  var avgHeapTotal = _.reduce(_.pluck(stats, 'heapTotal'), function(sum, num) { return sum + num; }) / stats.length;
+  var avgHeapUsed = _.reduce(_.pluck(stats, 'heapUsed'), function(sum, num) { return sum + num; }) / stats.length;
+  console.log('avg: ' + reportMemory({ rss: avgRss, heapTotal: avgHeapTotal, heapUsed: avgHeapUsed }) + '\n');
 }
 
 function boostrapCollections(cb){
