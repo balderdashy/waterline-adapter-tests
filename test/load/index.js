@@ -2,6 +2,10 @@ var exec = require('child_process').exec,
     async = require('async');
 
 var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql', 'sails-redis'];
+if (process.argv.length > 2) {
+  adapters = process.argv.splice(2);
+}
+console.log('About to test ' + adapters + ' ...');
 
 console.time('total time elapsed');
 

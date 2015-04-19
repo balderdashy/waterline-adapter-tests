@@ -5,7 +5,12 @@ var setupWaterline = require('./support/bootstrap'),
     async = require('async'),
     _ = require('lodash');
 var adapterName = process.env.ADAPTER_NAME || process.argv[2];
-var config = require('../integration/config/' + adapterName + '.json');
+var config = {};
+try {
+  config = require('../integration/config/' + adapterName + '.json');
+} catch(e){
+  console.log('Failed to load config for ' + adapterName + ', will use default.');
+}
 
 var usersNumber = process.env.USERS_NUMBER || 3;
 var petsNumber = process.env.PETS_NUMBER || 100;
