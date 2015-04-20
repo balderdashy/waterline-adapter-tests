@@ -11,6 +11,9 @@ addons:
   postgresql: "9.3"
 env:
   - DB_USER=postgres DB_PASS=''
+before_install:
+  - export TZ=Europe/Amsterdam
+  - date
 before_script:
   - npm install balderdashy/waterline
   - psql -c 'create database sailspg;' -U postgres
