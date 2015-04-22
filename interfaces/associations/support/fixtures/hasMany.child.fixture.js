@@ -17,7 +17,7 @@ module.exports = Waterline.Collection.extend({
       model: 'apartment',
       columnName: 'apartment_id'
     },
-    customer: {
+    a_customer: {
       model: 'Customer',
       columnName: 'customer_id'
     },
