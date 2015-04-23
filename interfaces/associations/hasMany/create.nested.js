@@ -29,7 +29,7 @@ describe('Association Interface', function() {
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values.id)
-              .populate('payments')
+              .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 if(err) return done(err);
                 assert(model.payments.length === 2);
