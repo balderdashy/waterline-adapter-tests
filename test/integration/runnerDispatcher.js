@@ -50,6 +50,7 @@ function getNpmDetails(cb){
 
 function runTests(cb){
   async.eachSeries(adapters, function(adapterName, next){
+    var settings = getAdapterSettings(adapterName);
     status[adapterName] = { failed: 0, total: 0, exitCode: 0 };
     
     console.log("\n");
@@ -83,7 +84,7 @@ function runTests(cb){
         + " |\n";
       
       console.log('exit code: ' + code);
-      if(code != 0) { exitCode = code; }
+      if(code != 0 && !settings.returnZeroOnError) { exitCode = code; }
       next();
     });
   }, 
@@ -168,4 +169,14 @@ function getWlSequelVersion(adapterName){
   if(adapterName.indexOf('sql') < 0) { return ""; }
   var path = wlSequelPath.replace('%s', adapterName);
   return processVersion(jpath(npmData, path)[0]);
+}
+
+function getAdapterSettings(adapterName){
+  var settings = { config: {} };
+  try {
+    settings = require('./config/' + adapterName + '.json');
+  } catch(e){
+    console.warn("Warning: couldn't find config file for " + adapterName + ".");
+  }
+  return settings;
 }

@@ -1,4 +1,6 @@
 {
-  "filePath": ".tmp/",
-  "schema": false
+  "config": {
+    "filePath": ".tmp/",
+    "schema": false
+  }
 }
