@@ -33,9 +33,9 @@ process.env.FORCE_COLORS = true;
 console.time('total time elapsed');
 
 var resultTable = "\n";
-resultTable += " ------------------------------------------------------------------- \n";
-resultTable += "| adapter          | version | status  | failed | total | wl-sequel |\n";
-resultTable += "|------------------|---------|---------|--------|-------|-----------|\n";
+resultTable += " ------------------------------------------------------------------ \n";
+resultTable += "| adapter          | version | result | failed | total | wl-sequel |\n";
+resultTable += "|------------------|---------|--------|--------|-------|-----------|\n";
 
 function getNpmDetails(cb){
   npm.load({ depth: 2 }, function (er) {
@@ -73,7 +73,7 @@ function runTests(cb){
     });
     child.on('close', function(code) {
       status[adapterName].exitCode = code;
-      var message = code == 0 ? "\033[0;32msuccess\033[0m" : "\033[0;31mfailed \033[0m";
+      var message = code == 0 ? "\033[0;32mpassed\033[0m" : "\033[0;31mfailed\033[0m";
       var wlSequel = getWlSequelVersion(adapterName);
       resultTable += "| " + padRight(adapterName, 16) 
         + " | " + padLeft(processVersion(npmData.dependencies[adapterName]), 7)
