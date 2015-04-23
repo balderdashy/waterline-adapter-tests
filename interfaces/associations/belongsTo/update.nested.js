@@ -140,10 +140,13 @@ describe('Association Interface', function() {
           ////////////////////////////////////////////////////
 
           it('should update association values', function(done) {
+            
+            var customer = Customers[1].toObject();
+            customer.name = 'bar - updated';
 
             var data = {
               amount: 200,
-              a_customer: Customers[1]
+              a_customer: customer
             };
 
             Associations.Payment.update({ id: Payment.id }, data).exec(function(err, values) {
@@ -155,8 +158,9 @@ describe('Association Interface', function() {
               .exec(function(err, model) {
                 assert(!err);
 
-                assert(model.amount === 200);
-                assert(model.a_customer.name === 'bar');
+                assert.equal(model.amount, 200);
+                assert.equal(model.a_customer.id, Customers[1].id);
+                assert.equal(model.a_customer.name, 'bar - updated');
 
                 done();
               });

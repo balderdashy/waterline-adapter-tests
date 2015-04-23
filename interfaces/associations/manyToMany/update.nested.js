@@ -166,7 +166,11 @@ describe('Association Interface', function() {
 
             var taxiData = {
               name: 'm:m update nested - updated',
-              taxis: Taxis.map(function(taxi) { return taxi.toObject(); })
+              taxis: Taxis.map(function(taxi, idx) {
+                var res = taxi.toObject();
+                res.medallion = (idx + 1) * 10;
+                return res;
+              })
             };
 
             Associations.Driver.update({ id: Driver.id }, taxiData).exec(function(err, values) {
@@ -181,8 +185,10 @@ describe('Association Interface', function() {
                 assert(model.taxis.length === 2);
 
                 // Ensure association values were updated
-                assert(model.taxis[0].medallion === 1);
-                assert(model.taxis[1].medallion === 2);
+                assert.equal(model.taxis[0].id, Taxis[0].id);
+                assert.equal(model.taxis[0].medallion, 10);
+                assert.equal(model.taxis[1].id, Taxis[1].id);
+                assert.equal(model.taxis[1].medallion, 20);
 
                 done();
               });
