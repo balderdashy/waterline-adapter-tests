@@ -87,8 +87,9 @@ describe('Queryable Interface', function() {
       before(function(done) {
 
         var usersArray = [
-          { first_name: 'OTHER THINGS 0', type: 'case sensitivity' },
-          { first_name: 'OTHER THINGS 1', type: 'case sensitivity' },
+          { first_name: 'OTHER THINGS 0', type: 'case sensitivity gt' },
+          { first_name: 'oTHER THINGS 1', type: 'case sensitivity gt' },
+          { first_name: 'OTHER THINGS 2', type: 'case sensitivity gt' },
           { first_name: 'AR)H$daxx', type: 'case sensitivity' },
           { first_name: 'AR)H$daxxy', type: 'case sensitivity' },
           { first_name: '0n3 m0r3 est', type: 'case sensitivity' }
@@ -148,6 +149,30 @@ describe('Queryable Interface', function() {
           done();
         });
       });
+      
+      it('not should work in a case insensitive fashion by default', function(done) {
+        Queryable.User.find({ first_name: { not: 'THEtest', contains: 'Test' }, type: 'case sensitivity'}, function(err, users) {
+          assert(users);
+          assert.equal(users.length, 1);
+          assert.equal(users[0].first_name, 'tHeOtherTest');
+          done();
+        });
+      });
+      
+      it('greaterThan should work in a case insensitive fashion by default', function(done) {
+        Queryable.User.find({ first_name: { greaterThan: 'oTHER THINGS 1'}, type: 'case sensitivity gt'}, function(err, users) {
+          assert(users);
+          assert.equal(users.length, 1);
+          assert.equal(users[0].first_name, 'OTHER THINGS 2');
+          
+          Queryable.User.find({ first_name: { greaterThan: 'OTHER THINGS 0', lessThan: 'OTHER THINGS 2'}, type: 'case sensitivity gt'}, function(err, users) {
+            assert(users);
+            assert.equal(users.length, 1);
+            assert.equal(users[0].first_name, 'oTHER THINGS 1');
+            done();
+          });
+        });
+      });
 
     });
 
@@ -191,6 +216,6 @@ describe('Queryable Interface', function() {
         });
       });
     });
-
+    
   });
 });
