@@ -33,9 +33,9 @@ process.env.FORCE_COLORS = true;
 console.time('total time elapsed');
 
 var resultTable = "\n";
-resultTable += " ------------------------------------------------------------------- \n";
-resultTable += "| adapter          | version | status  | failed | total | wl-sequel |\n";
-resultTable += "|------------------|---------|---------|--------|-------|-----------|\n";
+resultTable += " ------------------------------------------------------------------ \n";
+resultTable += "| adapter          | version | result | failed | total | wl-sequel |\n";
+resultTable += "|------------------|---------|--------|--------|-------|-----------|\n";
 
 function getNpmDetails(cb){
   npm.load({ depth: 2 }, function (er) {
@@ -50,6 +50,7 @@ function getNpmDetails(cb){
 
 function runTests(cb){
   async.eachSeries(adapters, function(adapterName, next){
+    var settings = getAdapterSettings(adapterName);
     status[adapterName] = { failed: 0, total: 0, exitCode: 0 };
     
     console.log("\n");
@@ -72,7 +73,7 @@ function runTests(cb){
     });
     child.on('close', function(code) {
       status[adapterName].exitCode = code;
-      var message = code == 0 ? "\033[0;32msuccess\033[0m" : "\033[0;31mfailed \033[0m";
+      var message = code == 0 ? "\033[0;32mpassed\033[0m" : "\033[0;31mfailed\033[0m";
       var wlSequel = getWlSequelVersion(adapterName);
       resultTable += "| " + padRight(adapterName, 16) 
         + " | " + padLeft(processVersion(npmData.dependencies[adapterName]), 7)
@@ -83,7 +84,7 @@ function runTests(cb){
         + " |\n";
       
       console.log('exit code: ' + code);
-      if(code != 0) { exitCode = code; }
+      if(code != 0 && !settings.returnZeroOnError) { exitCode = code; }
       next();
     });
   }, 
@@ -168,4 +169,14 @@ function getWlSequelVersion(adapterName){
   if(adapterName.indexOf('sql') < 0) { return ""; }
   var path = wlSequelPath.replace('%s', adapterName);
   return processVersion(jpath(npmData, path)[0]);
+}
+
+function getAdapterSettings(adapterName){
+  var settings = { config: {} };
+  try {
+    settings = require('./config/' + adapterName + '.json');
+  } catch(e){
+    console.warn("Warning: couldn't find config file for " + adapterName + ".");
+  }
+  return settings;
 }
