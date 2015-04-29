@@ -96,7 +96,7 @@ describe('Semantic Interface', function() {
 
       it('should have saved the proper values (with auto-increment values)', function(done) {
         Semantic.User.find({ type: testName }, function(err, users) {
-          if (err) return next(err);
+          if (err) return done(err);
           assert(!err);
           assert(users.length === 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
           assert(users[0].first_name === 'test_0' );

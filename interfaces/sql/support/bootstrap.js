@@ -27,18 +27,16 @@ before(function(done) {
     waterline.loadCollection(fixtures[key]);
   });
 
-  var connections = { semantic: _.clone(Connections.test) };
-  
-  var defaults = { migrate: 'alter' };
+  var connections = { sql: _.clone(Connections.test) };
 
-  waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, _ontology) {
+  waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections }, function(err, _ontology) {
     if(err) return done(err);
 
     ontology = _ontology;
 
     Object.keys(_ontology.collections).forEach(function(key) {
       var globalName = key.charAt(0).toUpperCase() + key.slice(1);
-      global.Semantic[globalName] = _ontology.collections[key];
+      global.Sql[globalName] = _ontology.collections[key];
     });
 
     done();

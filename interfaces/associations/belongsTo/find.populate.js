@@ -25,11 +25,11 @@ describe('Association Interface', function() {
         Associations.Payment.createEach([{
             amount: 1,
             type: 'belongsTo find',
-            customer: customers[0].id
+            a_customer: customers[0].id
           }, {
             amount: 2,
             type: 'belongsTo find',
-            customer: customers[1].id
+            a_customer: customers[1].id
           }], function(err, _payments) {
           if(err) return done(err);
 
@@ -46,29 +46,29 @@ describe('Association Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
-      it('should return customer when the populate criteria is added', function(done) {
-        Associations.Payment.find({ type: 'belongsTo find' })
-        .populate('customer')
+      it('should return a customer when the populate criteria is added', function(done) {
+        Associations.Payment.find({ type: 'belongsTo find', sort: 'amount ASC' })
+        .populate('a_customer')
         .exec(function(err, _payments) {
           assert(!err, err);
 
           assert(Array.isArray(_payments));
           assert(_payments.length === 2, 'expected 2 payments, but got '+_payments.length+': '+require('util').inspect(_payments, false, null));
 
-          assert(_payments[0].customer);
-          assert(_payments[0].customer.id === customers[0].id);
-          assert(_payments[0].customer.name === 'foo',
-          'Expected `payments[0].customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(_payments[0].customer, false, null));
+          assert(_payments[0].a_customer);
+          assert(_payments[0].a_customer.id === customers[0].id);
+          assert(_payments[0].a_customer.name === 'foo',
+          'Expected `payments[0].a_customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(_payments[0].a_customer, false, null));
 
-          assert(_payments[1].customer);
-          assert(_payments[1].customer.id === customers[1].id,
-          'Expected `payments[1].customer.id` === '+customers[1].id+', instead payments[1].customer ===> '+ require('util').inspect(_payments[1].customer, false, null));
-          assert(_payments[1].customer.name === 'bar',
-          'Expected `payments[1].customer.name` === "bar", instead payments[1].customer ===> '+ require('util').inspect(_payments[1].customer, false, null)
+          assert(_payments[1].a_customer);
+          assert(_payments[1].a_customer.id === customers[1].id,
+          'Expected `payments[1].a_customer.id` === '+customers[1].id+', instead payments[1].a_customer ===> '+ require('util').inspect(_payments[1].a_customer, false, null));
+          assert(_payments[1].a_customer.name === 'bar',
+          'Expected `payments[1].a_customer.name` === "bar", instead payments[1].a_customer ===> '+ require('util').inspect(_payments[1].a_customer, false, null)
           );
 
-          assert(!_payments[0].toJSON().customer.name,
-          'Expected payments[0] to have `customer` populated with a `name`, but instead it looks like: '+require('util').inspect(_payments[0], false, null)
+          assert(!_payments[0].toJSON().a_customer.name,
+          'Expected payments[0] to have `a_customer` populated with a `name`, but instead it looks like: '+require('util').inspect(_payments[0], false, null)
           );
 
           done();
@@ -80,8 +80,8 @@ describe('Association Interface', function() {
         .exec(function(err, payments) {
           assert(!err);
 
-          assert(!_.isPlainObject(payments[0].customer));
-          assert(!_.isPlainObject(payments[1].customer));
+          assert(!_.isPlainObject(payments[0].a_customer));
+          assert(!_.isPlainObject(payments[1].a_customer));
 
           done();
         });
@@ -89,16 +89,16 @@ describe('Association Interface', function() {
 
       it('should call toJSON on associated record', function(done) {
         Associations.Payment.find()
-        .populate('customer')
+        .populate('a_customer')
         .exec(function(err, payments) {
           assert(!err);
 
           var obj = payments[0].toJSON();
 
           assert(!obj.type);
-          assert(obj.customer);
-          assert(obj.customer.createdAt);
-          assert(!obj.customer.name);
+          assert(obj.a_customer);
+          assert(obj.a_customer.createdAt);
+          assert(!obj.a_customer.name);
 
           done();
         });

@@ -6,14 +6,18 @@ var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
 
-  tableName: 'userTable2',
   identity: 'user',
-  connection: 'queryable',
+  tableName: 'usertablesql',
+  connection: 'sql',
 
   attributes: {
     first_name: 'string',
     last_name: 'string',
-    email: 'string',
+    email: {
+      type: 'string',
+      columnName: 'emailAddress'
+    },
+    avatar: 'binary',
     title: 'string',
     phone: 'string',
     type: 'string',
@@ -22,13 +26,16 @@ module.exports = Waterline.Collection.extend({
       type: 'string'
     },
     age: 'integer', // integer field that's not auto-incrementable
-    dob: 'date',
+    dob: 'datetime',
     status: {
       type: 'boolean',
       defaultsTo: false
     },
     percent: 'float',
-    list: 'array',
+    list: {
+      type: 'array',
+      columnName: 'arrList'
+    },
     obj: 'json',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;

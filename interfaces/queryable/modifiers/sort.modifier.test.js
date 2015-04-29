@@ -17,7 +17,7 @@ describe('Queryable Interface', function() {
 
       for(var i=0; i<10; i++) {
         date = new Date();
-        date.setMinutes(date.getMinutes() + i);
+        date.setDate(date.getDate() + i);
 
         users.push({
           first_name: 'sort_user' + i,

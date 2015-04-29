@@ -10,6 +10,10 @@ describe('Semantic Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
+      // SKIP FOR NOW
+      // Due to cloning of the data inside Waterline this fails anchor validations. We have
+      // Skipper to handle blob/binary data.
+
       it('should store proper binary value', function(done) {
         // use a string
         var str = 'test the things';

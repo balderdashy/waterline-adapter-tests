@@ -34,26 +34,26 @@ describe('Association Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return customer when the dynamic finder method is used for findOne', function(done) {
-        Associations.Payment.findOneByCustomer(customerRecord.id)
+        Associations.Payment.findOneByA_customer(customerRecord.id)
         .exec(function(err, payment) {
           assert(!err);
 
-          assert(payment.customer);
-          assert(payment.customer.id === customerRecord.id);
-          assert(payment.customer.name === 'foobar');
+          assert(payment.a_customer);
+          assert(payment.a_customer.id === customerRecord.id);
+          assert(payment.a_customer.name === 'foobar');
 
           done();
         });
       });
 
       it('should return customer when the dynamic finder method is used for find', function(done) {
-        Associations.Payment.findByCustomer(customerRecord.id)
+        Associations.Payment.findByA_customer(customerRecord.id)
         .exec(function(err, payments) {
           assert(!err);
 
-          assert(payments[0].customer);
-          assert(payments[0].customer.id === customerRecord.id);
-          assert(payments[0].customer.name === 'foobar');
+          assert(payments[0].a_customer);
+          assert(payments[0].a_customer.id === customerRecord.id);
+          assert(payments[0].a_customer.name === 'foobar');
 
           done();
         });

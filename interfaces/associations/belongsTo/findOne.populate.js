@@ -15,7 +15,7 @@ describe('Association Interface', function() {
       Associations.Customer.create({ name: 'foobar' }, function(err, customer) {
         if(err) return done(err);
 
-        Associations.Payment.create({ amount: 1, customer: customer.id }, function(err, payment) {
+        Associations.Payment.create({ amount: 1, a_customer: customer.id }, function(err, payment) {
           if(err) return done(err);
 
           // Cache customer and payment
@@ -35,13 +35,13 @@ describe('Association Interface', function() {
 
       it('should return customer when the populate criteria is added', function(done) {
         Associations.Payment.findOne({ id: paymentRecord.id })
-        .populate('customer')
+        .populate('a_customer')
         .exec(function(err, payment) {
           assert(!err);
 
-          assert(payment.customer);
-          assert(payment.customer.id === customerRecord.id);
-          assert(payment.customer.name === 'foobar');
+          assert(payment.a_customer);
+          assert(payment.a_customer.id === customerRecord.id);
+          assert(payment.a_customer.name === 'foobar');
 
           done();
         });
@@ -52,7 +52,7 @@ describe('Association Interface', function() {
         .exec(function(err, payment) {
           assert(!err);
 
-          assert(!_.isPlainObject(payment.customer));
+          assert(!_.isPlainObject(payment.a_customer));
 
           done();
         });
@@ -60,16 +60,16 @@ describe('Association Interface', function() {
 
       it('should call toJSON on associated record', function(done) {
         Associations.Payment.findOne({ id: paymentRecord.id })
-        .populate('customer')
+        .populate('a_customer')
         .exec(function(err, payment) {
           assert(!err);
 
           var obj = payment.toJSON();
 
           assert(!obj.type);
-          assert(obj.customer);
-          assert(obj.customer.createdAt);
-          assert(!obj.customer.name);
+          assert(obj.a_customer);
+          assert(obj.a_customer.createdAt);
+          assert(!obj.a_customer.name);
 
           done();
         });
