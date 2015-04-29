@@ -107,9 +107,9 @@ describe('Association Interface', function() {
 
               // Look up the driver again to be sure the taxis were added
               Associations.Driver.findOne(values[0].id)
-              .populate('taxis')
+              .populate('taxis', { sort: 'medallion' })
               .exec(function(err, model) {
-                assert(!err);
+                assert(!err, 'Error: ' + err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 3);
                 assert(model.taxis[0].medallion === 3);

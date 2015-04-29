@@ -142,7 +142,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThanOrEqual key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }, sort: { id: 1 }}).sort('age').exec(function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -152,7 +152,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage <= usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '<=': 42 }, sort: { id: 1}}).sort('age').exec(function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '<=': 42 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
