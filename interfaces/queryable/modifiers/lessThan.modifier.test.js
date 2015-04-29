@@ -92,7 +92,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThan key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { lessThan: new Date(2013, 10, 2) }}).exec(function(err, users) {
+          Queryable.User.find({ type: testName, dob: { lessThan: new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -102,7 +102,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage < usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '<': new Date(2013, 10, 2) }}).exec(function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '<': new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
@@ -142,7 +142,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThanOrEqual key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }, sort: { age: 1 }}).exec(function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -152,7 +152,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage <= usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '<=': 42 }, sort: { age: 1}}).exec(function(err, users) {
+          Queryable.User.find({ first_name: testName, age: { '<=': 42 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 3);
@@ -197,7 +197,7 @@ describe('Queryable Interface', function() {
         ////////////////////////////////////////////////////
 
         it('should return records with lessThanOrEqual key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { lessThanOrEqual: new Date(2013, 10, 2) }}).sort({first_name : 1}).exec(function(err, users) {
+          Queryable.User.find({ type: testName, dob: { lessThanOrEqual: new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
@@ -207,7 +207,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage <= usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '<=': new Date(2013, 10, 2) }}).sort({first_name : 1}).exec(function(err, users) {
+          Queryable.User.find({ type: testName, dob: { '<=': new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
