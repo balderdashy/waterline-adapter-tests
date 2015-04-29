@@ -110,7 +110,7 @@ describe('Association Interface', function() {
               .sort('taxis')
               .populate('taxis')
               .exec(function(err, model) {
-                assert(!err);
+                assert(!err, 'Error: ' + err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 3);
                 assert(model.taxis[0].medallion === 3);
