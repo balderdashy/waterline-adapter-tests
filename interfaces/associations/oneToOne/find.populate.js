@@ -12,19 +12,19 @@ describe('Association Interface', function() {
     var users, profiles;
 
     before(function(done) {
-      Associations.User_resource.createEach([{ name: 'foo1' }, { name: 'bar1' }], function(err, models) {
+      Associations.User_resource.createEach([{ name: 'foo1' ,quantity : 1}, { name: 'bar1', quantity : 2 }], function(err, models) {
         if(err) return done(err);
 
         Associations.User_resource.find()
-        .sort('id asc')
+        .sort('quantity asc')
         .exec(function(err, models) {
           if(err) return done(err);
 
           users = models;
 
           var profileRecords = [
-            { name: 'profile one', user: users[0].id },
-            { name: 'profile two', user: users[1].id }
+            { name: 'profile one', user: users[0].id, level : 1},
+            { name: 'profile two', user: users[1].id, level : 2}
           ];
 
           Associations.Profile.createEach(profileRecords, function(err, models) {
@@ -52,7 +52,7 @@ describe('Association Interface', function() {
 
       it('should return user when the populate criteria is added on profile', function(done) {
         Associations.Profile.find()
-        .sort('id asc')
+        .sort('level asc')
         .populate('user')
         .exec(function(err, profiles) {
           assert(!err);
@@ -70,7 +70,7 @@ describe('Association Interface', function() {
       it('should return profile when the populate criteria is added on user', function(done) {
         Associations.User_resource.find()
         .populate('profile')
-        .sort('id asc')
+        .sort('quantity asc')
         .exec(function(err, users) {
           assert(!err);
 

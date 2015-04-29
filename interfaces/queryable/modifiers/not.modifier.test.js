@@ -31,7 +31,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should return records with string usage', function(done) {
-        Queryable.User.find({ first_name: testName, age: { not: 40 }})
+        Queryable.User.find({where : { first_name: testName, age: { not: 40 }},sort : {age : 1}})
         .sort('id asc')
         .exec(function(err, users) {
           assert(!err);
@@ -49,7 +49,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records with symbolic usage ! usage', function(done) {
-        Queryable.User.find({ first_name: testName, age: { '!': 40 }})
+        Queryable.User.find({where : { first_name: testName, age: { '!': 40 }},sort : {age : 1}})
         .sort('id asc')
         .exec(function(err, users) {
           assert(!err);
@@ -61,7 +61,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records using not comparisons on strings', function(done) {
-        Queryable.User.find({ first_name: testName, email: { '!': '41@test.com' }})
+        Queryable.User.find({where :{ first_name: testName, email: { '!': '41@test.com' }},sort : {age : 1}})
         .sort('id asc')
         .exec(function(err, users) {
           assert(!err);
