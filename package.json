@@ -35,7 +35,8 @@
   "homepage": "http://github.com/balderdashy/waterline-adapter-tests",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "node test/integration/runnerDispatcher.js"
+    "test": "node test/integration/runnerDispatcher.js",
+    "test-load": "node test/load"
   },
   "engines": {
     "node": "*"
