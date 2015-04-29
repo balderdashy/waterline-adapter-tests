@@ -1,7 +1,9 @@
 {
-  "host": "localhost",
-  "database": "sails-mongo",
-  "port": 27017,
-  "schema": true,
-  "poolSize": 1
+  "config": {
+    "host": "localhost",
+    "database": "sails-mongo",
+    "port": 27017,
+    "schema": true,
+    "poolSize": 1
+  }
 }

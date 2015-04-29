@@ -8,7 +8,12 @@ var customDotReporter = require('./customDotReporter');
 var adapterName = process.env.ADAPTER_NAME || process.argv[2];
 var TestRunner = require('../../lib');
 var Adapter = require(adapterName);
-var config = require('./config/' + adapterName + '.json');
+var settings = { config: {} };
+try {
+  settings = require('./config/' + adapterName + '.json');
+} catch(e){
+  console.warn("Warning: couldn't find config file for " + adapterName + ".");
+}
 
 
 // Grab targeted interfaces from this adapter's `package.json` file:
@@ -55,7 +60,7 @@ new TestRunner({
     adapter: Adapter,
 
     // Default adapter config to use.
-    config: config,
+    config: settings.config,
 
     // The set of adapter interfaces to test against.
     // (grabbed these from this adapter's package.json file above)
