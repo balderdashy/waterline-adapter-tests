@@ -109,7 +109,7 @@ describe('Association Interface', function() {
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values[0].id)
-              .populate('payments')
+              .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 assert(!err);
                 assert(model.name === '1:m update nested - updated');

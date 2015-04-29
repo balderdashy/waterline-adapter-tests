@@ -1,11 +1,13 @@
 {
-  "host": "localhost",
-  "port": 3306,
-  "user": "root",
-  "password": "",
-  "database": "sails_mysql",
-  "pool": true,
-  "connectionLimit": 10,
-  "queueLimit": 0,
-  "waitForConnections": true
+  "config": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "",
+    "database": "sails_mysql",
+    "pool": true,
+    "connectionLimit": 10,
+    "queueLimit": 0,
+    "waitForConnections": true
+  }
 }
