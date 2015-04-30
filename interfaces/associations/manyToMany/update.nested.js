@@ -109,7 +109,7 @@ describe('Association Interface', function() {
               Associations.Driver.findOne(values[0].id)
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
-                assert(!err);
+                assert(!err, 'Error: ' + err);
                 assert(model.name === 'm:m update nested - updated');
                 assert(model.taxis.length === 3);
                 assert(model.taxis[0].medallion === 3);
