@@ -17,7 +17,6 @@ describe('Association Interface', function() {
         before(function(done) {
           Associations.Customer.create({ name: 'hasMany add' }, function(err, model) {
             if(err) return done(err);
-
             customer = model;
             Associations.Payment.create({ amount: 1, a_customer: customer.id }, done);
           });
@@ -37,7 +36,6 @@ describe('Association Interface', function() {
             .populate('payments')
             .exec(function(err, model) {
               assert(!err);
-
               assert(model.payments.length === 2);
               assert(model.payments[1].amount === 1337);
               done();
