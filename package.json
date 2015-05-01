@@ -4,18 +4,18 @@
   "version": "0.10.10",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
-    "mocha": "~1.12.1",
-    "lodash": "~1.3.1",
-    "waterline": "~0.10.0",
     "async": "~0.2.9",
     "bluebird": "~2.9.0",
-    "should": "~3.1.2"
+    "lodash": "~3.8.0",
+    "mocha": "~1.12.1",
+    "sails-memory": "balderdashy/sails-memory",
+    "should": "~3.1.2",
+    "waterline": "~0.10.0"
   },
   "devDependencies": {
     "jpath": "^0.0.20",
     "npm": "^2.7.4",
     "sails-disk": "balderdashy/sails-disk",
-    "sails-memory": "balderdashy/sails-memory",
     "sails-mongo": "balderdashy/sails-mongo",
     "sails-mysql": "balderdashy/sails-mysql",
     "sails-postgresql": "balderdashy/sails-postgresql",
