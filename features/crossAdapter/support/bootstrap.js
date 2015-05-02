@@ -7,7 +7,7 @@ var _ = require('lodash');
 var async = require('async');
 
 // Require Fixtures
-var associationsFixturesPath = '../../associations/support/';
+var associationsFixturesPath = '../../../interfaces/associations/support/';
 
 var fixtures = {
   PaymentBelongsFixture: require(associationsFixturesPath + 'fixtures/belongsTo.child.fixture'),
