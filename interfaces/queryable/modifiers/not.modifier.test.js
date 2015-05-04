@@ -61,6 +61,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records using not comparisons on strings', function(done) {
+          
         Queryable.User.find({ first_name: testName, email: { '!': '41@test.com' }})
         .sort('age asc')
         .exec(function(err, users) {

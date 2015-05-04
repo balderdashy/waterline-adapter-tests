@@ -12,6 +12,7 @@ module.exports.user_resource = Waterline.Collection.extend({
 
   attributes: {
     name: 'string',
+    quantity: 'integer',
     profile: {
       model: 'profile',
       columnName: 'profile_id'
@@ -28,6 +29,7 @@ module.exports.profile = Waterline.Collection.extend({
 
   attributes: {
     name: 'string',
+    level : 'integer',
     user: {
       model: 'user_resource',
       columnName: 'user_resource_id'

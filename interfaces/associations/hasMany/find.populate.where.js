@@ -19,15 +19,15 @@ describe('Association Interface', function() {
     before(function(done) {
 
       Associations.Customer.createEach([{
-        name: 'hasMany find where'
+        name: 'hasMany find where', capital : 1000
       }, {
-        name: 'hasMany find where'
+        name: 'hasMany find where', capital : 2000
       }],
       function(err, customers) {
         if(err) return done(err);
 
         Associations.Customer.find({ name: 'hasMany find where'})
-        .sort('id asc')
+        .sort('capital asc')
         .exec(function(err, customers) {
           if(err) return done(err);
 
@@ -56,8 +56,8 @@ describe('Association Interface', function() {
 
       it('should return only payments less than or equal to 2', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
-        .populate('payments', { amount: { '<': 2 }, limit: 2, sort: { id: 1 }})
-        .sort('id asc')
+        .populate('payments', { amount: { '<': 2 }, limit: 2, sort: { amount: 1 }})
+        .sort('capital asc')
         .exec(function(err, customers) {
           assert(!err,err);
 
@@ -82,7 +82,7 @@ describe('Association Interface', function() {
       it('should return payments using skip and limit', function(done) {
         Associations.Customer.find({ name: 'hasMany find where' })
         .populate('payments', { skip: 1, limit: 2, sort: { amount: 1 } })
-        .sort('id asc')
+        .sort('capital asc')
         .exec(function(err, customers) {
           assert(!err);
 
@@ -119,8 +119,8 @@ describe('Association Interface', function() {
           if(err) return done(err);
 
           Associations.Customer.find({ name: 'hasMany find where' })
-          .populate('payments', { id: payment.id })
-          .sort('id asc')
+          .populate('payments', {where : { id: payment.id }, sort : {amount : 1}})
+          .sort('capital asc')
           .exec(function(err, customers) {
             assert(!err);
 

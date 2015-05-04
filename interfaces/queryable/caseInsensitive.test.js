@@ -12,10 +12,10 @@ describe('Queryable Interface', function() {
     before(function(done) {
 
       var usersArray = [
-        { first_name: 'tHeTest', type: 'case sensitivity' },
-        { first_name: 'thetest', type: 'case sensitivity' },
-        { first_name: 'THETEST', type: 'case sensitivity' },
-        { first_name: 'tHeOtherTest', type: 'case sensitivity' }
+        { first_name: 'tHeTest', type: 'case sensitivity', age : 10 },
+        { first_name: 'thetest', type: 'case sensitivity' , age : 11},
+        { first_name: 'THETEST', type: 'case sensitivity' , age : 12},
+        { first_name: 'tHeOtherTest', type: 'case sensitivity' , age : 13}
       ];
 
       Queryable.User.createEach(usersArray, function(err, users) {
@@ -31,7 +31,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should work in a case insensitve fashion by default', function(done) {
-        Queryable.User.findOne({ first_name: 'theothertest', type: 'case sensitivity'}, function(err, user) {
+        Queryable.User.findOne({where:{ first_name: 'theothertest', type: 'case sensitivity'}, sort:{age : 1}}, function(err, user) {
           assert(user.id);
           assert(user.first_name === 'tHeOtherTest');
           assert(toString.call(user.createdAt) == '[object Date]');
@@ -59,7 +59,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should work in a case insensitve fashion by default', function(done) {
-        Queryable.User.find({ first_name: 'thetest', type: 'case sensitivity'}, function(err, users) {
+        Queryable.User.find({where : { first_name: 'thetest', type: 'case sensitivity'}, sort:{age : 1}}, function(err, users) {
           assert(users.length === 3);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -68,7 +68,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work with findBy*()', function(done) {
-        Queryable.User.findByFirst_name('thetest', function(err, users) {
+        Queryable.User.findByFirst_name('thetest').sort({age : 1}).exec( function(err, users) {
           assert(users.length === 3);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -87,11 +87,11 @@ describe('Queryable Interface', function() {
       before(function(done) {
 
         var usersArray = [
-          { first_name: 'OTHER THINGS 0', type: 'case sensitivity' },
-          { first_name: 'OTHER THINGS 1', type: 'case sensitivity' },
-          { first_name: 'AR)H$daxx', type: 'case sensitivity' },
-          { first_name: 'AR)H$daxxy', type: 'case sensitivity' },
-          { first_name: '0n3 m0r3 est', type: 'case sensitivity' }
+          { first_name: 'OTHER THINGS 0', type: 'case sensitivity', age : 10 },
+          { first_name: 'OTHER THINGS 1', type: 'case sensitivity', age : 11 },
+          { first_name: 'AR)H$daxx', type: 'case sensitivity', age : 12 },
+          { first_name: 'AR)H$daxxy', type: 'case sensitivity', age : 13 },
+          { first_name: '0n3 m0r3 est', type: 'case sensitivity', age : 14 }
         ];
 
         Queryable.User.createEach(usersArray, function(err, users) {
@@ -105,7 +105,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('contains should work in a case insensitive fashion by default', function(done) {
-        Queryable.User.find({ first_name: { contains: 'hete'}, type: 'case sensitivity' }, function(err, users) {
+        Queryable.User.find({where : { first_name: { contains: 'hete'}, type: 'case sensitivity' },sort:{age : 1}}, function(err, users) {
           assert(users.length === 3);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -114,7 +114,7 @@ describe('Queryable Interface', function() {
       });
 
       it('startsWith should work in a case insensitive fashion by default', function(done) {
-        Queryable.User.find({ first_name: { startsWith: 'the'}, type: 'case sensitivity' }, function(err, users) {
+        Queryable.User.find({where : { first_name: { startsWith: 'the'}, type: 'case sensitivity' },sort:{age : 1}}, function(err, users) {
           assert(users.length === 4);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -123,7 +123,7 @@ describe('Queryable Interface', function() {
       });
 
       it('endsWith should work in a case insensitive fashion by default', function(done) {
-        Queryable.User.find({ first_name: { endsWith: 'est'}, type: 'case sensitivity' }, function(err, users) {
+        Queryable.User.find({where : { first_name: { endsWith: 'est'}, type: 'case sensitivity' },sort:{age : 1}}, function(err, users) {
           assert(users.length === 5);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -132,7 +132,7 @@ describe('Queryable Interface', function() {
       });
 
       it('like should work in a case insensitive fashion by default', function(done) {
-        Queryable.User.find({ first_name: { like: '%hete%'}, type: 'case sensitivity' }, function(err, users) {
+        Queryable.User.find({where : { first_name: { like: '%hete%'}, type: 'case sensitivity' },sort:{age : 1}}, function(err, users) {
           assert(users.length === 3);
           assert(users[0].id);
           assert(users[0].first_name === 'tHeTest');
@@ -141,7 +141,7 @@ describe('Queryable Interface', function() {
       });
 
       it('endsWith should actually enforce endswith', function(done) {
-        Queryable.User.find({ first_name: { endsWith: 'AR)H$daxx'}, type: 'case sensitivity' }, function(err, users) {
+        Queryable.User.find({where : { first_name: { endsWith: 'AR)H$daxx'}, type: 'case sensitivity' },sort:{age : 1}}, function(err, users) {
           assert(users.length === 1);
           assert(users[0].id);
           assert(users[0].first_name === 'AR)H$daxx');

@@ -29,7 +29,7 @@ describe('Association Interface', function() {
 
               // Look up the customer again to be sure the payments were added
               Associations.Driver.findOne(values.id)
-              .populate('taxis')
+              .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err);
                 assert(model.taxis.length === 2);
