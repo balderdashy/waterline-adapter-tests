@@ -168,7 +168,11 @@ describe('Association Interface', function() {
 
             var data = {
               name: '1:m update nested - updated',
-              payments: Payments.map(function(payment) { return payment.toObject(); })
+              payments: Payments.map(function(payment, idx) {
+                var res = payment.toObject();
+                res.amount = (idx + 1) * 10;
+                return res;
+              })
             };
 
             Associations.Customer.update({ id: Customer.id }, data).exec(function(err, values) {
@@ -183,8 +187,10 @@ describe('Association Interface', function() {
                 assert(model.payments.length === 2);
 
                 // Ensure association values were updated
-                assert(model.payments[0].amount === 1);
-                assert(model.payments[1].amount === 2);
+                assert.equal(model.payments[0].id, Payments[0].id);
+                assert.equal(model.payments[0].amount, 10);
+                assert.equal(model.payments[1].id, Payments[1].id);
+                assert.equal(model.payments[1].amount, 20);
 
                 done();
               });
