@@ -26,6 +26,18 @@ describe('Queryable Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
+      describe('when given an empty array', function () {
+
+        it('should return an empty array', function(done) {
+
+          Queryable.User.find({ first_name: [] }, function(err, users) {
+            assert(users);
+            assert(users.length === 0);
+            done();
+          });
+        });
+      });
+
       it('should return correct user', function(done) {
         Queryable.User.find({ first_name: ["foo", testName, "bar", "baz"] }, function(err, users) {
           assert(!err);
