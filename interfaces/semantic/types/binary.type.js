@@ -20,13 +20,15 @@ describe('Semantic Interface', function() {
         // to make a binary thing
         var buf = new Buffer(str, "utf-8");
         // store the binary thing
-        Semantic.User.create({ avatar: buf }, function(err, record) {
+        Semantic.User.create({ avatar: buf }, function(err, createdRecord) {
           assert(!err, err);
-          // read out the stored binary thing
-          var outbuf = new Buffer(record.avatar);
-          
-          assert(outbuf.toString('utf-8') === str);
-          done();
+          Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
+              assert(!err);
+              // read out the stored binary thing
+              var outbuf = new Buffer(record.avatar);
+              assert(outbuf.toString('utf-8') === str);
+              done();
+           });
         });
       });
 
