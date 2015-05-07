@@ -7,7 +7,7 @@ var setupWaterline = require('./support/bootstrap'),
 var adapterName = process.env.ADAPTER_NAME || process.argv[2];
 var config = {};
 try {
-  config = require('../integration/config/' + adapterName + '.json');
+  config = require('../integration/config/' + adapterName + '.json').config;
 } catch(e){
   console.log('Failed to load config for ' + adapterName + ', will use default.');
 }
