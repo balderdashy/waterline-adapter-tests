@@ -13,7 +13,7 @@ describe('Semantic Interface', function() {
       it('should store proper string value', function(done) {
         Semantic.User.create({ first_name: 'Foo' }, function(err, record) {
           assert(!err);
-          assert(record.first_name === 'Foo');
+          assert.equal(record.first_name, 'Foo');
           done();
         });
       });

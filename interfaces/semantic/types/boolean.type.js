@@ -13,7 +13,7 @@ describe('Semantic Interface', function() {
       it('should store proper boolean value', function(done) {
         Semantic.User.create({ status: true }, function(err, record) {
           assert(!err);
-          assert(record.status === true);
+          assert.equal(record.status, true);
           done();
         });
       });

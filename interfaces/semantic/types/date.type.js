@@ -19,7 +19,7 @@ describe('Semantic Interface', function() {
           var origDate = Date.parse(date);
           var resultDate = Date.parse(new Date(record.dob));
 
-          assert(origDate === resultDate);
+          assert.equal(origDate, resultDate);
           done();
         });
       });

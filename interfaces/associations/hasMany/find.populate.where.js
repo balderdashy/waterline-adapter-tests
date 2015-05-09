@@ -62,7 +62,7 @@ describe('Association Interface', function() {
           assert(!err,err);
 
           assert(Array.isArray(customers));
-          assert(customers.length === 2);
+          assert.equal(customers.length, 2);
 
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
@@ -70,10 +70,10 @@ describe('Association Interface', function() {
           assert(customers[0].payments.length === 2,
           'expecting customers[0] to have 2 payments, but actually she looks like: \n'+util.inspect(customers[0],false, null));
 
-          assert(customers[0].payments[0].amount === 0);
-          assert(customers[0].payments[1].amount === 1);
+          assert.equal(customers[0].payments[0].amount, 0);
+          assert.equal(customers[0].payments[1].amount, 1);
 
-          assert(customers[1].payments.length === 0);
+          assert.equal(customers[1].payments.length, 0);
 
           done();
         });
@@ -87,14 +87,14 @@ describe('Association Interface', function() {
           assert(!err);
 
           assert(Array.isArray(customers));
-          assert(customers.length === 2);
+          assert.equal(customers.length, 2);
 
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
 
-          assert(customers[0].payments.length === 2);
-          assert(customers[0].payments[0].amount === 1);
-          assert(customers[0].payments[1].amount === 2);
+          assert.equal(customers[0].payments.length, 2);
+          assert.equal(customers[0].payments[0].amount, 1);
+          assert.equal(customers[0].payments[1].amount, 2);
 
           assert(
             customers[1].payments.length === 2,
@@ -106,7 +106,7 @@ describe('Association Interface', function() {
             'expected customers[1].payments[0].amount === 5, but customers[1] ==>\n'+
             util.inspect(customers[1], false, null)
           );
-          assert(customers[1].payments[1].amount === 6);
+          assert.equal(customers[1].payments[1].amount, 6);
 
           done();
         });
@@ -125,14 +125,14 @@ describe('Association Interface', function() {
             assert(!err);
 
             assert(Array.isArray(customers));
-            assert(customers.length === 2);
+            assert.equal(customers.length, 2);
 
             assert(Array.isArray(customers[0].payments));
             assert(Array.isArray(customers[1].payments));
 
-            assert(customers[0].payments.length === 1);
-            assert(customers[0].payments[0].amount === 1);
-            assert(customers[1].payments.length === 0);
+            assert.equal(customers[0].payments.length, 1);
+            assert.equal(customers[0].payments[0].amount, 1);
+            assert.equal(customers[1].payments.length, 0);
             done();
           });
         });

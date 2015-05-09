@@ -10,7 +10,7 @@ describe('Migratable Interface', function() {
   describe('migrate: "safe"', function() {
 
     it('should have the proper migrate setting when bootstrapping', function() {
-      assert(Migratable.Safe.migrate === 'safe');
+      assert.equal(Migratable.Safe.migrate, 'safe');
     });
 
     it('should have NOT have tables', function(done) {

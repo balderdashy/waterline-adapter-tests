@@ -56,13 +56,13 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(customers));
-          assert(customers.length === 2, 'expected 2 customers, got these customers:'+require('util').inspect(customers, false, null));
+          assert.equal(customers.length, 2, 'expected 2 customers, got these customers:'+require('util').inspect(customers, false, null));
 
           assert(Array.isArray(customers[0].payments));
           assert(Array.isArray(customers[1].payments));
 
-          assert(customers[0].payments.length === 4);
-          assert(customers[1].payments.length === 4);
+          assert.equal(customers[0].payments.length, 4);
+          assert.equal(customers[1].payments.length, 4);
 
           done();
         });
@@ -78,11 +78,11 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(customers));
-          assert(customers.length === 1);
+          assert.equal(customers.length, 1);
 
           assert(Array.isArray(customers[0].payments));
-          assert(customers[0].payments.length === 4, 'Expected customers[0] to have 4 payments, but got '+customers[0].payments.length+'.  Customers: '+require('util').inspect(customers, false, null));
-          assert(customers[0].payments[0].amount === 0);
+          assert.equal(customers[0].payments.length, 4, 'Expected customers[0] to have 4 payments, but got '+customers[0].payments.length+'.  Customers: '+require('util').inspect(customers, false, null));
+          assert.equal(customers[0].payments[0].amount, 0);
 
           done();
         });
@@ -128,10 +128,10 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(customers));
-          assert(customers.length === 1);
+          assert.equal(customers.length, 1);
 
           assert(Array.isArray(customers[0].payments));
-          assert(customers[0].payments.length === 4);
+          assert.equal(customers[0].payments.length, 4);
           assert(customers[0].payments[0].amount === 4,
             'Expected customers[0].payments[0].amount === 4, but customers[0] ==>\n'+
             util.inspect(customers[0]));
@@ -161,7 +161,7 @@ describe('Association Interface', function() {
           var obj = customers[0].toJSON();
 
           assert(Array.isArray(obj.payments));
-          assert(obj.payments.length === 4);
+          assert.equal(obj.payments.length, 4);
 
           assert(!obj.payments[0].hasOwnProperty('type'));
           assert(!obj.payments[1].hasOwnProperty('type'));

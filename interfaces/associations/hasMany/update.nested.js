@@ -51,9 +51,9 @@ describe('Association Interface', function() {
               .populate('payments')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
-                assert(model.payments.length === 1);
-                assert(model.payments[0].amount === 1);
+                assert.equal(model.name, '1:m update nested - updated');
+                assert.equal(model.payments.length, 1);
+                assert.equal(model.payments[0].amount, 1);
                 done();
               });
 
@@ -112,11 +112,11 @@ describe('Association Interface', function() {
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
-                assert(model.payments.length === 3);
-                assert(model.payments[0].amount === 3);
-                assert(model.payments[1].amount === 4);
-                assert(model.payments[2].amount === 5);
+                assert.equal(model.name, '1:m update nested - updated');
+                assert.equal(model.payments.length, 3);
+                assert.equal(model.payments[0].amount, 3);
+                assert.equal(model.payments[1].amount, 4);
+                assert.equal(model.payments[2].amount, 5);
                 done();
               });
 
@@ -179,12 +179,12 @@ describe('Association Interface', function() {
               .populate('payments',{sort:{amount : 1}})
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
-                assert(model.payments.length === 2);
+                assert.equal(model.name, '1:m update nested - updated');
+                assert.equal(model.payments.length, 2);
 
                 // Ensure association values were updated
-                assert(model.payments[0].amount === 1);
-                assert(model.payments[1].amount === 2);
+                assert.equal(model.payments[0].amount, 1);
+                assert.equal(model.payments[1].amount, 2);
 
                 done();
               });

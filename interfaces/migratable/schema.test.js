@@ -19,7 +19,7 @@ describe('Migratable Interface', function() {
 
       it('should set attribute as primary key', function(done) {
         Migratable.Document.describe(function (err, user) {
-          assert(user.title.primaryKey === true);
+          assert.equal(user.title.primaryKey, true);
           done();
         });
       });
@@ -47,7 +47,7 @@ describe('Migratable Interface', function() {
       //       return done();
       //     }
 
-      //     assert(user.number.autoIncrement === true);
+      //     assert.equal(user.number.autoIncrement, true);
       //     done();
       //   });
       // });
@@ -64,9 +64,9 @@ describe('Migratable Interface', function() {
       //     }
 
       //     Document.create({ title: 'autoincrement 1' }, function(err, record) {
-      //       assert(record.number === 1);
+      //       assert.equal(record.number, 1);
       //       Document.create({ title: 'autoincrement 2' }, function(err, record) {
-      //         assert(record.number === 2);
+      //         assert.equal(record.number, 2);
       //         done();
       //       });
       //     });
@@ -75,7 +75,7 @@ describe('Migratable Interface', function() {
 
       it('should not allow multiple records with the same PK', function(done) {
         Migratable.Document.create({ title: '100' }, function(err, record) {
-          assert(record.title === '100');
+          assert.equal(record.title, '100');
           Migratable.Document.create({ title: '100' }, function(err, record) {
             assert(err);
             assert(!record);
@@ -94,7 +94,7 @@ describe('Migratable Interface', function() {
 
       it('should set unique on schema attribute', function(done) {
         Migratable.Document.describe(function (err, user) {
-          assert(user.serialNumber.unique === true);
+          assert.equal(user.serialNumber.unique, true);
           done();
         });
       });
@@ -102,7 +102,7 @@ describe('Migratable Interface', function() {
       it('should return an error if unique constraint fails', function(done) {
         Migratable.Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
           assert(!err);
-          assert(record.serialNumber === 'test');
+          assert.equal(record.serialNumber, 'test');
 
           Migratable.Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
             assert(!record);

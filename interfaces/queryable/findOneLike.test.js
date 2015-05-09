@@ -18,7 +18,7 @@ describe('Queryable Interface', function() {
 
         Queryable.User.findOneLike({ first_name: part }, function(err, user) {
           assert(!err);
-          assert(user.first_name === testName);
+          assert.equal(user.first_name, testName);
           done();
         });
       });

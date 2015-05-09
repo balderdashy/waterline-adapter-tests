@@ -32,7 +32,7 @@ describe('Queryable Interface', function() {
 
           Queryable.User.find({ first_name: [] }, function(err, users) {
             assert(users);
-            assert(users.length === 0);
+            assert.equal(users.length, 0);
             done();
           });
         });
@@ -41,8 +41,8 @@ describe('Queryable Interface', function() {
       it('should return correct user', function(done) {
         Queryable.User.find({ first_name: ["foo", testName, "bar", "baz"] }, function(err, users) {
           assert(!err);
-          assert(users.length === 1);
-          assert(users[0].first_name === testName);
+          assert.equal(users.length, 1);
+          assert.equal(users[0].first_name, testName);
           done();
         });
       });
@@ -50,7 +50,7 @@ describe('Queryable Interface', function() {
       it('should return a model instance', function(done) {
         Queryable.User.find({ first_name: ["foo", testName, "bar", "baz"] }, function(err, users) {
           assert(users[0].id);
-          assert(typeof users[0].fullName === 'function');
+          assert.equal(typeof users[0].fullName, 'function');
           assert(toString.call(users[0].createdAt) == '[object Date]');
           assert(toString.call(users[0].updatedAt) == '[object Date]');
           done();
@@ -66,7 +66,7 @@ describe('Queryable Interface', function() {
 
       it('should return an empty array', function(done) {
         Queryable.User.find({ first_name: ["foo", "bar", "baz"] }, function(err, users) {
-          assert(users.length === 0);
+          assert.equal(users.length, 0);
           done();
         });
       });

@@ -25,7 +25,7 @@ describe('Semantic Interface', function() {
           // read out the stored binary thing
           var outbuf = new Buffer(record.avatar);
           
-          assert(outbuf.toString('utf-8') === str);
+          assert.equal(outbuf.toString('utf-8'), str);
           done();
         });
       });

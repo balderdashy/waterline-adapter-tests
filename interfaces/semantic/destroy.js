@@ -26,16 +26,16 @@ describe('Semantic Interface', function() {
         Semantic.User.destroy({ first_name: 'Destroy' }, function(err, records) {
           assert(!err);
           assert(Array.isArray(records));
-          assert(records.length === 1);
-          assert(records[0].first_name === 'Destroy');
-          assert(records[0].last_name === 'Test');
+          assert.equal(records.length, 1);
+          assert.equal(records[0].first_name, 'Destroy');
+          assert.equal(records[0].last_name, 'Test');
           done();
         });
       });
 
       it('should return an empty array when searched for', function(done) {
         Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
-          assert(users.length === 0);
+          assert.equal(users.length, 0);
           done();
         });
       });
@@ -72,7 +72,7 @@ describe('Semantic Interface', function() {
 
       it('should return an empty array when searched for', function(done) {
         Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
-          assert(users.length === 0);
+          assert.equal(users.length, 0);
           done();
         });
       });
@@ -105,7 +105,7 @@ describe('Semantic Interface', function() {
 
       it('should return an empty array when searched for', function(done) {
         Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
-          assert(users.length === 0);
+          assert.equal(users.length, 0);
           done();
         });
       });

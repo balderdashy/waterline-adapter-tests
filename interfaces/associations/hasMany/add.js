@@ -38,8 +38,8 @@ describe('Association Interface', function() {
             .exec(function(err, model) {
               assert(!err);
 
-              assert(model.payments.length === 2);
-              assert(model.payments[1].amount === 1337);
+              assert.equal(model.payments.length, 2);
+              assert.equal(model.payments[1].amount, 1337);
               done();
             });
           });
@@ -89,8 +89,8 @@ describe('Association Interface', function() {
             .exec(function(err, data) {
               assert(!err);
 
-              assert(data.payments.length === 1);
-              assert(data.payments[0].amount === 1);
+              assert.equal(data.payments.length, 1);
+              assert.equal(data.payments[0].amount, 1);
               done();
             });
           });

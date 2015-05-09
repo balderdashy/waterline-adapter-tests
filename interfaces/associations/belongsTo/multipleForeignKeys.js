@@ -32,8 +32,8 @@ describe('Association Interface', function() {
       it('should create multiple foreign key values when passed association keys', function(done) {
         Associations.Payment_many.create({ amount: 1, customer: customer_1_id, patron: customer_2_id }).exec(function(err, payment) {
           assert(!err);
-          assert(payment.customer.toString() === customer_1_id.toString());
-          assert(payment.patron.toString() === customer_2_id.toString());
+          assert.equal(payment.customer.toString(), customer_1_id.toString());
+          assert.equal(payment.patron.toString(), customer_2_id.toString());
           done();
         });
       });
@@ -51,8 +51,8 @@ describe('Association Interface', function() {
             var obj = payment.toJSON();
 
             assert(obj.patron);
-            assert(obj.patron.id.toString() === customer_2_id.toString());
-            assert(obj.customer.toString() === customer_1_id.toString());
+            assert.equal(obj.patron.id.toString(), customer_2_id.toString());
+            assert.equal(obj.customer.toString(), customer_1_id.toString());
 
             done();
           });
