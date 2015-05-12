@@ -11,11 +11,16 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should store proper object value', function(done) {
-        Semantic.User.create({ obj: {foo: 'bar'} }, function(err, record) {
+        Semantic.User.create({ obj: {foo: 'bar'} }, function(err, createdRecord) {
           assert(!err);
-          assert(record.obj === Object(record.obj));
-          assert(record.obj.foo === 'bar');
-          done();
+          assert(createdRecord.obj === Object(createdRecord.obj));
+          assert(createdRecord.obj.foo === 'bar');
+          Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
+            assert(!err);
+            assert(record.obj === Object(record.obj));
+            assert(record.obj.foo === 'bar');
+            done();
+          });
         });
       });
 
