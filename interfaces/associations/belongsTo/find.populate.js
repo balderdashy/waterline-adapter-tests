@@ -56,7 +56,7 @@ describe('Association Interface', function() {
           assert.strictEqual(_payments.length, 2, 'expected 2 payments, but got '+_payments.length+': '+require('util').inspect(_payments, false, null));
 
           assert(_payments[0].a_customer);
-          assert(_payments[0].a_customer.id === customers[0].id);
+          assert.equal(_payments[0].a_customer.id, customers[0].id);
           assert(_payments[0].a_customer.name === 'foo',
           'Expected `payments[0].a_customer.name`==="foo", instead payments[0].customer ===> '+ require('util').inspect(_payments[0].a_customer, false, null));
 

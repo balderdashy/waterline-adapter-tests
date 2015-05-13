@@ -41,8 +41,8 @@ describe('Queryable Interface', function() {
       it('should return correct user', function(done) {
         Queryable.User.find({ first_name: ["foo", testName, "bar", "baz"] }, function(err, users) {
           assert(!err);
-          assert(users.length === 1);
-          assert(users[0].first_name === testName);
+          assert.equal(users.length, 1);
+          assert.equal(users[0].first_name, testName);
           done();
         });
       });

@@ -50,7 +50,7 @@ describe('Semantic Interface', function() {
     it('should normalize undefined values to null', function(done) {
       Semantic.User.create({ first_name: 'Yezy', last_name: undefined }, function(err, user) {
         assert(!err);
-        assert(user.last_name === null);
+        assert.equal(user.last_name, null);
         done();
       });
     });
@@ -65,9 +65,9 @@ describe('Semantic Interface', function() {
       Semantic.User.create(users, function(err, users) {
         assert(!err);
         users.forEach(function(val, idx){
-          assert(users[idx].first_name === 'test_' + idx);
+          assert.equal(users[idx].first_name, 'test_' + idx);
         });
-        assert(users.length === 30, 'Expecting 30 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
+        assert.equal(users.length, 30, 'Expecting 30 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
         done();
       });
     });
@@ -99,8 +99,8 @@ describe('Semantic Interface', function() {
         Semantic.User.find({where : { type: testName }, sort : {first_name : 1}}, function(err, users) {
           if (err) return done(err);
           assert(!err);
-          assert(users.length === 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
-          assert(users[0].first_name === 'test_0' );
+          assert.equal(users.length, 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
+          assert.equal(users[0].first_name, 'test_0' );
           done();
         });
       });

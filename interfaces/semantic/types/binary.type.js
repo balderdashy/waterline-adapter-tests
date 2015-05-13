@@ -22,12 +22,12 @@ describe('Semantic Interface', function() {
         // store the binary thing
         Semantic.User.create({ avatar: buf }, function(err, createdRecord) {
           assert(!err, err);
-          assert(new Buffer(createdRecord.avatar).toString('utf-8') === str);
+          assert.equal(new Buffer(createdRecord.avatar).toString('utf-8'), str);
           Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
               assert(!err);
               // read out the stored binary thing
               var outbuf = new Buffer(record.avatar);
-              assert(outbuf.toString('utf-8') === str);
+              assert.equal(outbuf.toString('utf-8'), str);
               done();
            });
         });
