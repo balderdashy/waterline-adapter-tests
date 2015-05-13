@@ -32,8 +32,8 @@ describe('Semantic Interface', function() {
       Semantic.User.create({ first_name: 'Foo', last_name: 'Bar' }, function(err, user) {
         if (err) { console.error(err); }
         assert(!err);
-        assert(toString.call(user.createdAt) == '[object Date]');
-        assert(toString.call(user.updatedAt) == '[object Date]');
+        assert.equal(toString.call(user.createdAt), '[object Date]');
+        assert.equal(toString.call(user.updatedAt), '[object Date]');
         done();
       });
     });

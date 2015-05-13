@@ -40,8 +40,8 @@ describe('Semantic Interface', function() {
       Semantic.User.createEach(usersArray, function(err, users) {
         assert(users[0].id);
         assert.equal(typeof users[0].fullName, 'function');
-        assert(toString.call(users[0].createdAt) == '[object Date]');
-        assert(toString.call(users[0].updatedAt) == '[object Date]');
+        assert.equal(toString.call(users[0].createdAt), '[object Date]');
+        assert.equal(toString.call(users[0].updatedAt), '[object Date]');
         done();
       });
     });

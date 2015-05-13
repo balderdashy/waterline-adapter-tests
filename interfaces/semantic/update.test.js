@@ -64,8 +64,8 @@ describe('Semantic Interface', function() {
           assert(users[0].id);
           assert.strictEqual(users[0].first_name.indexOf('update_user'), 0);
           assert.equal(users[0].last_name, 'updated again');
-          assert(toString.call(users[0].createdAt) == '[object Date]');
-          assert(toString.call(users[0].updatedAt) == '[object Date]');
+          assert.equal(toString.call(users[0].createdAt), '[object Date]');
+          assert.equal(toString.call(users[0].updatedAt), '[object Date]');
           done();
         });
       });

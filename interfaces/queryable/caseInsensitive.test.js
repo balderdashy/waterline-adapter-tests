@@ -34,8 +34,8 @@ describe('Queryable Interface', function() {
         Queryable.User.findOne({where:{ first_name: 'theothertest', type: 'case sensitivity'}, sort:{age : 1}}, function(err, user) {
           assert(user.id);
           assert.equal(user.first_name, 'tHeOtherTest');
-          assert(toString.call(user.createdAt) == '[object Date]');
-          assert(toString.call(user.updatedAt) == '[object Date]');
+          assert.equal(toString.call(user.createdAt), '[object Date]');
+          assert.equal(toString.call(user.updatedAt), '[object Date]');
           done();
         });
       });
@@ -44,8 +44,8 @@ describe('Queryable Interface', function() {
         Queryable.User.findOneByFirst_name('theothertest', function(err, user) {
           assert(user.id);
           assert.equal(user.first_name, 'tHeOtherTest');
-          assert(toString.call(user.createdAt) == '[object Date]');
-          assert(toString.call(user.updatedAt) == '[object Date]');
+          assert.equal(toString.call(user.createdAt), '[object Date]');
+          assert.equal(toString.call(user.updatedAt), '[object Date]');
           done();
         });
       });
