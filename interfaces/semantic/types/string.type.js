@@ -11,10 +11,14 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should store proper string value', function(done) {
-        Semantic.User.create({ first_name: 'Foo' }, function(err, record) {
+        Semantic.User.create({ first_name: 'Foo' }, function(err, createdRecord) {
           assert(!err);
-          assert.equal(record.first_name, 'Foo');
-          done();
+          assert(createdRecord.first_name === 'Foo');
+          Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
+            assert(!err);
+            assert(record.first_name === 'Foo');
+            done();
+          });
         });
       });
 
