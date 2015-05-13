@@ -14,11 +14,11 @@ describe('Semantic Interface', function() {
         Semantic.User.create({ list: [0,1,2,3] }, function(err, createdRecord) {
           assert(!err);
           assert(Array.isArray(createdRecord.list));
-          assert(createdRecord.list.length === 4);
+          assert.equal(createdRecord.list.length, 4);
           Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
             assert(!err);
             assert(Array.isArray(record.list));
-            assert(record.list.length === 4);
+            assert.equal(record.list.length, 4);
             done();
           });
         });
