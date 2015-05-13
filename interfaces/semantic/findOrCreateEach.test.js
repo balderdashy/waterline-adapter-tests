@@ -31,7 +31,7 @@ describe('Semantic Interface', function() {
         type: testName
       }], function(err, results) {
         assert(!err);
-        assert(results.length === 1);
+        assert.strictEqual(results.length, 1);
         done();
       });
     });
@@ -42,14 +42,14 @@ describe('Semantic Interface', function() {
         type: testName
       }], function(err, results) {
         assert(!err);
-        assert(results.length === 1);
+        assert.strictEqual(results.length, 1);
         done();
       });
     });
 
     it('should only have a single record for keys that exist', function(done) {
       Semantic.User.find({ first_name: 'NOT IN THE SET' }, function(err, users) {
-        assert(users.length === 1);
+        assert.strictEqual(users.length, 1);
         done();
       });
     });
@@ -65,9 +65,9 @@ describe('Semantic Interface', function() {
       Semantic.User.findOrCreateEach(['type', 'first_name'], [{ type: testName, first_name: 'NOT IN THE SET' }], function(err, users) {
         assert(!err);
         assert(users[0].id);
-        assert(typeof users[0].fullName === 'function');
-        assert(toString.call(users[0].createdAt) == '[object Date]');
-        assert(toString.call(users[0].updatedAt) == '[object Date]');
+        assert.equal(typeof users[0].fullName, 'function');
+        assert.equal(toString.call(users[0].createdAt), '[object Date]');
+        assert.equal(toString.call(users[0].updatedAt), '[object Date]');
         done();
       });
     });

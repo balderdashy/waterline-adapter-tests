@@ -40,8 +40,8 @@ describe('Association Interface', function() {
           assert(!err);
 
           assert(payment.a_customer);
-          assert(payment.a_customer.id === customerRecord.id);
-          assert(payment.a_customer.name === 'foobar');
+          assert.equal(payment.a_customer.id, customerRecord.id);
+          assert.equal(payment.a_customer.name, 'foobar');
 
           done();
         });

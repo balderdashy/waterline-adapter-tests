@@ -46,7 +46,7 @@ describe('Association Interface', function() {
               .populate('a_customer')
               .exec(function(err, paymnt) {
                 assert(!err);
-                assert(paymnt.a_customer.name === 'belongsTo nested update');
+                assert.equal(paymnt.a_customer.name, 'belongsTo nested update');
                 done();
               });
             });
@@ -101,9 +101,9 @@ describe('Association Interface', function() {
               .populate('a_customer')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.amount === 100);
+                assert.strictEqual(model.amount, 100);
                 assert(model.a_customer);
-                assert(model.a_customer.name === 'belongsTo nested update - updated');
+                assert.equal(model.a_customer.name, 'belongsTo nested update - updated');
                 done();
               });
 
@@ -155,8 +155,8 @@ describe('Association Interface', function() {
               .exec(function(err, model) {
                 assert(!err);
 
-                assert(model.amount === 200);
-                assert(model.a_customer.name === 'bar');
+                assert.strictEqual(model.amount, 200);
+                assert.equal(model.a_customer.name, 'bar');
 
                 done();
               });

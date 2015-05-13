@@ -32,8 +32,8 @@ describe('Association Interface', function() {
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 if(err) return done(err);
-                assert(model.payments.length === 2);
-                assert(model.payments[1].amount === 2);
+                assert.strictEqual(model.payments.length, 2);
+                assert.strictEqual(model.payments[1].amount, 2);
                 done();
               });
 
@@ -74,8 +74,8 @@ describe('Association Interface', function() {
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.payments.length === 2);
-                assert(model.payments[1].amount === 2);
+                assert.strictEqual(model.payments.length, 2);
+                assert.strictEqual(model.payments[1].amount, 2);
                 done();
               });
 

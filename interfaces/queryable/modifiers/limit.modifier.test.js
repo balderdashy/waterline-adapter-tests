@@ -32,7 +32,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 3);
+        assert.strictEqual(users.length, 3);
         done();
       });
     });
@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
       Queryable.User.findByType('limit test', { limit: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 3);
+        assert.strictEqual(users.length, 3);
         done();
       });
     });
@@ -50,7 +50,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where: { type: 'limit test' } }, { limit: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 3);
+        assert.strictEqual(users.length, 3);
         done();
       });
     });

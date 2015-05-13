@@ -34,8 +34,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ first_name: testName, age: { greaterThan: 40 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 3);
-            assert(users[0].age === 41);
+            assert.strictEqual(users.length, 3);
+            assert.strictEqual(users[0].age, 41);
             done();
           });
         });
@@ -44,8 +44,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ first_name: testName, age: { '>': 40 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 3);
-            assert(users[0].age === 41);
+            assert.strictEqual(users.length, 3);
+            assert.strictEqual(users[0].age, 41);
             done();
           });
         });
@@ -89,8 +89,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, dob: { greaterThan: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 1);
-            assert(users[0].first_name === 'greaterThan_dates_user9');
+            assert.strictEqual(users.length, 1);
+            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
             done();
           });
         });
@@ -99,8 +99,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, dob: { '>': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 1);
-            assert(users[0].first_name === 'greaterThan_dates_user9');
+            assert.strictEqual(users.length, 1);
+            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
             done();
           });
         });
@@ -142,8 +142,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, first_name: { greaterThan: '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 7);
-            assert(users[0].first_name === '3 greaterThan_strings_user');
+            assert.strictEqual(users.length, 7);
+            assert.equal(users[0].first_name, '3 greaterThan_strings_user');
             done();
           });
         });
@@ -152,8 +152,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, first_name: { '>': '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 7);
-            assert(users[0].first_name === '3 greaterThan_strings_user');
+            assert.strictEqual(users.length, 7);
+            assert.equal(users[0].first_name, '3 greaterThan_strings_user');
             done();
           });
         });
@@ -192,8 +192,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ first_name: testName, age: { greaterThanOrEqual: 41 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 3);
-            assert(users[0].age === 41);
+            assert.strictEqual(users.length, 3);
+            assert.strictEqual(users[0].age, 41);
             done();
           });
         });
@@ -202,8 +202,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ first_name: testName, age: { '>=': 41 }}).sort('age').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 3);
-            assert(users[0].age === 41);
+            assert.strictEqual(users.length, 3);
+            assert.strictEqual(users[0].age, 41);
             done();
           });
         });
@@ -247,8 +247,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, dob: { greaterThanOrEqual: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 2);
-            assert(users[0].first_name === 'greaterThanOrEqual_dates_user8');
+            assert.strictEqual(users.length, 2);
+            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
             done();
           });
         });
@@ -257,8 +257,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, dob: { '>=': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 2);
-            assert(users[0].first_name === 'greaterThanOrEqual_dates_user8');
+            assert.strictEqual(users.length, 2);
+            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
             done();
           });
         });
@@ -300,8 +300,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, first_name: { greaterThanOrEqual: '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 8);
-            assert(users[0].first_name === '2 greaterThanOrEqual_strings_user');
+            assert.strictEqual(users.length, 8);
+            assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
             done();
           });
         });
@@ -310,8 +310,8 @@ describe('Queryable Interface', function() {
           Queryable.User.find({ type: testName, first_name: { '>=': '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
             assert(!err);
             assert(Array.isArray(users));
-            assert(users.length === 8);
-            assert(users[0].first_name === '2 greaterThanOrEqual_strings_user');
+            assert.strictEqual(users.length, 8);
+            assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
             done();
           });
         });

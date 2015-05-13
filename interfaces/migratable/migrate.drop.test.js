@@ -10,7 +10,7 @@ describe('Migratable Interface', function() {
   describe('migrate: "drop"', function() {
 
     it('should have the proper migrate setting when bootstrapping', function() {
-      assert(Migratable.Drop.migrate === 'drop');
+      assert.equal(Migratable.Drop.migrate, 'drop');
     });
 
     it('should have tables', function(done) {
@@ -35,7 +35,7 @@ describe('Migratable Interface', function() {
 
             ontology.collections.drop.count().exec(function(err, numOfPirates) {
               assert(!err);
-              assert(numOfPirates === 0);
+              assert.strictEqual(numOfPirates, 0);
               done();
             });
           });

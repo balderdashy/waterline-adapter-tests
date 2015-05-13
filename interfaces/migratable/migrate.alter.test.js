@@ -18,7 +18,7 @@ describe('Migratable Interface', function() {
   function runTests(collectionName) {
 
       it('should have the proper migrate setting when bootstrapping', function() {
-        assert(Migratable[collectionName].migrate === 'alter');
+        assert.equal(Migratable[collectionName].migrate, 'alter');
       });
 
       it('should have tables', function(done) {
@@ -43,7 +43,7 @@ describe('Migratable Interface', function() {
               var ontology = obj.ontology;
               ontology.collections[collectionName.toLowerCase()].count().exec(function(err, numOfPirates) {
                 assert(!err);
-                assert(numOfPirates === 1, numOfPirates);
+                assert.strictEqual(numOfPirates, 1);
                 done();
               });
             });

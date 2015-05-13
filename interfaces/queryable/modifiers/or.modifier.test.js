@@ -37,9 +37,9 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
-          assert(users[0].first_name === 'OR_user0');
-          assert(users[1].first_name === 'OR_user1');
+          assert.strictEqual(users.length, 2);
+          assert.equal(users[0].first_name, 'OR_user0');
+          assert.equal(users[1].first_name, 'OR_user1');
           done();
         });
       });
@@ -48,9 +48,9 @@ describe('Queryable Interface', function() {
         Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
         .exec(function(err, users) {
           assert(users[0].id);
-          assert(typeof users[0].fullName === 'function');
-          assert(toString.call(users[0].createdAt) == '[object Date]');
-          assert(toString.call(users[0].updatedAt) == '[object Date]');
+          assert.equal(typeof users[0].fullName, 'function');
+          assert.equal(toString.call(users[0].createdAt), '[object Date]');
+          assert.equal(toString.call(users[0].updatedAt), '[object Date]');
           done();
         });
       });
@@ -67,9 +67,9 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
-          assert(users[0].first_name === 'OR_user0');
-          assert(users[1].first_name === 'OR_user1');
+          assert.strictEqual(users.length, 2);
+          assert.equal(users[0].first_name, 'OR_user0');
+          assert.equal(users[1].first_name, 'OR_user1');
           done();
         });
       });
@@ -87,9 +87,9 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
-          assert(users[0].first_name === 'OR_user1');
-          assert(users[1].first_name === 'OR_user2');
+          assert.strictEqual(users.length, 2);
+          assert.equal(users[0].first_name, 'OR_user1');
+          assert.equal(users[1].first_name, 'OR_user2');
           done();
         });
       });
@@ -104,7 +104,7 @@ describe('Queryable Interface', function() {
       it('should return an empty array', function(done) {
         Queryable.User.find({ where: { or: [{ first_name: 'OR_user10' }, { first_name: 'OR_user11' }]}})
         .exec(function(err, users) {
-          assert(users.length === 0);
+          assert.strictEqual(users.length, 0);
           done();
         });
       });

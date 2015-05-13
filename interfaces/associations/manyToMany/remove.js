@@ -54,7 +54,7 @@ describe('Association Interface', function() {
           .exec(function(err, data) {
             assert(!err);
 
-            assert(data.taxis.length === 1);
+            assert.strictEqual(data.taxis.length, 1);
             done();
           });
         });
@@ -87,8 +87,8 @@ describe('Association Interface', function() {
         driverRecord.save(function(err) {
           assert(err);
           assert(Array.isArray(err));
-          assert(err.length === 1);
-          assert(err[0].type === 'remove');
+          assert.strictEqual(err.length, 1);
+          assert.equal(err[0].type, 'remove');
 
           done();
         });

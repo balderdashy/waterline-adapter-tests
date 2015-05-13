@@ -49,9 +49,9 @@ describe('Association Interface', function() {
               .populate('taxis')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === 'm:m update nested - updated');
-                assert(model.taxis.length === 1);
-                assert(model.taxis[0].medallion === 1);
+                assert.equal(model.name, 'm:m update nested - updated');
+                assert.strictEqual(model.taxis.length, 1);
+                assert.strictEqual(model.taxis[0].medallion, 1);
                 done();
               });
 
@@ -110,11 +110,11 @@ describe('Association Interface', function() {
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err, 'Error: ' + err);
-                assert(model.name === 'm:m update nested - updated');
-                assert(model.taxis.length === 3);
-                assert(model.taxis[0].medallion === 3);
-                assert(model.taxis[1].medallion === 4);
-                assert(model.taxis[2].medallion === 5);
+                assert.equal(model.name, 'm:m update nested - updated');
+                assert.strictEqual(model.taxis.length, 3);
+                assert.strictEqual(model.taxis[0].medallion, 3);
+                assert.strictEqual(model.taxis[1].medallion, 4);
+                assert.strictEqual(model.taxis[2].medallion, 5);
                 done();
               });
 
@@ -177,12 +177,12 @@ describe('Association Interface', function() {
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === 'm:m update nested - updated');
-                assert(model.taxis.length === 2);
+                assert.equal(model.name, 'm:m update nested - updated');
+                assert.strictEqual(model.taxis.length, 2);
 
                 // Ensure association values were updated
-                assert(model.taxis[0].medallion === 1);
-                assert(model.taxis[1].medallion === 2);
+                assert.strictEqual(model.taxis[0].medallion, 1);
+                assert.strictEqual(model.taxis[1].medallion, 2);
 
                 done();
               });
@@ -235,8 +235,8 @@ describe('Association Interface', function() {
                 .populate('taxis')
                 .exec(function(err, model) {
                   assert(!err);
-                  assert(model.taxis.length === 1);
-                  assert(model.taxis[0].medallion === 1001);
+                  assert.strictEqual(model.taxis.length, 1);
+                  assert.strictEqual(model.taxis[0].medallion, 1001);
                   done();
                 });
               });
