@@ -18,7 +18,7 @@ describe('Migratable Interface', function() {
   function runTests(collectionName) {
 
       it('should have the proper migrate setting when bootstrapping', function() {
-        assert(Migratable[collectionName].migrate === 'alter');
+        assert.equal(Migratable[collectionName].migrate, 'alter');
       });
 
       it('should have tables', function(done) {

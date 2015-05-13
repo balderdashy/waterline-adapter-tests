@@ -14,11 +14,11 @@ describe('Semantic Interface', function() {
         Semantic.User.create({ obj: {foo: 'bar'} }, function(err, createdRecord) {
           assert(!err);
           assert(createdRecord.obj === Object(createdRecord.obj));
-          assert(createdRecord.obj.foo === 'bar');
+          assert.equal(createdRecord.obj.foo, 'bar');
           Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
             assert(!err);
             assert(record.obj === Object(record.obj));
-            assert(record.obj.foo === 'bar');
+            assert.equal(record.obj.foo, 'bar');
             done();
           });
         });

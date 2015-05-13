@@ -79,7 +79,7 @@ describe('Association Interface', function() {
             assert(err);
             assert(Array.isArray(err));
             assert(err.length === 1);
-            assert(err[0].type === 'remove');
+            assert.equal(err[0].type, 'remove');
 
             done();
           });

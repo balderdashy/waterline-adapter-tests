@@ -75,7 +75,7 @@ describe('Migratable Interface', function() {
 
       it('should not allow multiple records with the same PK', function(done) {
         Migratable.Document.create({ title: '100' }, function(err, record) {
-          assert(record.title === '100');
+          assert.equal(record.title, '100');
           Migratable.Document.create({ title: '100' }, function(err, record) {
             assert(err);
             assert(!record);
@@ -102,7 +102,7 @@ describe('Migratable Interface', function() {
       it('should return an error if unique constraint fails', function(done) {
         Migratable.Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
           assert(!err);
-          assert(record.serialNumber === 'test');
+          assert.equal(record.serialNumber, 'test');
 
           Migratable.Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {
             assert(!record);

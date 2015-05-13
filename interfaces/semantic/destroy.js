@@ -27,8 +27,8 @@ describe('Semantic Interface', function() {
           assert(!err);
           assert(Array.isArray(records));
           assert(records.length === 1);
-          assert(records[0].first_name === 'Destroy');
-          assert(records[0].last_name === 'Test');
+          assert.equal(records[0].first_name, 'Destroy');
+          assert.equal(records[0].last_name, 'Test');
           done();
         });
       });

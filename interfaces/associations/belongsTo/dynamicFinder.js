@@ -40,7 +40,7 @@ describe('Association Interface', function() {
 
           assert(payment.a_customer);
           assert(payment.a_customer.id === customerRecord.id);
-          assert(payment.a_customer.name === 'foobar');
+          assert.equal(payment.a_customer.name, 'foobar');
 
           done();
         });
@@ -53,7 +53,7 @@ describe('Association Interface', function() {
 
           assert(payments[0].a_customer);
           assert(payments[0].a_customer.id === customerRecord.id);
-          assert(payments[0].a_customer.name === 'foobar');
+          assert.equal(payments[0].a_customer.name, 'foobar');
 
           done();
         });

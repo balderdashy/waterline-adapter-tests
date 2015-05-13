@@ -51,7 +51,7 @@ describe('Association Interface', function() {
               .populate('payments')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
+                assert.equal(model.name, '1:m update nested - updated');
                 assert(model.payments.length === 1);
                 assert(model.payments[0].amount === 1);
                 done();
@@ -112,7 +112,7 @@ describe('Association Interface', function() {
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
+                assert.equal(model.name, '1:m update nested - updated');
                 assert(model.payments.length === 3);
                 assert(model.payments[0].amount === 3);
                 assert(model.payments[1].amount === 4);
@@ -179,7 +179,7 @@ describe('Association Interface', function() {
               .populate('payments',{sort:{amount : 1}})
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === '1:m update nested - updated');
+                assert.equal(model.name, '1:m update nested - updated');
                 assert(model.payments.length === 2);
 
                 // Ensure association values were updated

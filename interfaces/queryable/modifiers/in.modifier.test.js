@@ -50,7 +50,7 @@ describe('Queryable Interface', function() {
       it('should return a model instance', function(done) {
         Queryable.User.find({ first_name: ["foo", testName, "bar", "baz"] }, function(err, users) {
           assert(users[0].id);
-          assert(typeof users[0].fullName === 'function');
+          assert.equal(typeof users[0].fullName, 'function');
           assert(toString.call(users[0].createdAt) == '[object Date]');
           assert(toString.call(users[0].updatedAt) == '[object Date]');
           done();

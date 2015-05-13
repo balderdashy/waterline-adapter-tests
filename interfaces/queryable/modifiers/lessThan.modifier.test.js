@@ -96,7 +96,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
-            assert(users[0].first_name === 'lessThan_dates_user0');
+            assert.equal(users[0].first_name, 'lessThan_dates_user0');
             done();
           });
         });
@@ -106,7 +106,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
-            assert(users[0].first_name === 'lessThan_dates_user0');
+            assert.equal(users[0].first_name, 'lessThan_dates_user0');
             done();
           });
         });
@@ -201,7 +201,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
-            assert(users[1].first_name === 'lessThanOrEqual_dates_user1');
+            assert.equal(users[1].first_name, 'lessThanOrEqual_dates_user1');
             done();
           });
         });
@@ -211,7 +211,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
-            assert(users[1].first_name === 'lessThanOrEqual_dates_user1');
+            assert.equal(users[1].first_name, 'lessThanOrEqual_dates_user1');
             done();
           });
         });

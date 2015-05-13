@@ -25,7 +25,7 @@ describe('Semantic Interface', function() {
     it('should return a single record', function(done) {
       Semantic.User.findOne({ first_name: 'findOne test' }, function(err, user) {
         assert(!err);
-        assert(user.first_name === 'findOne test');
+        assert.equal(user.first_name, 'findOne test');
         done();
       });
     });
@@ -33,7 +33,7 @@ describe('Semantic Interface', function() {
     it('should return a model instance', function(done) {
       Semantic.User.findOne({ first_name: 'findOne test' }, function(err, user) {
         assert(user.id);
-        assert(typeof user.fullName === 'function');
+        assert.equal(typeof user.fullName, 'function');
         assert(toString.call(user.createdAt) == '[object Date]');
         assert(toString.call(user.updatedAt) == '[object Date]');
         done();
@@ -51,7 +51,7 @@ describe('Semantic Interface', function() {
     it('should work with just an id passed in', function(done) {
       Semantic.User.findOne(id, function(err, user) {
         assert(!err);
-        assert(user.first_name === 'findOne test');
+        assert.equal(user.first_name, 'findOne test');
         done();
       });
     });

@@ -13,7 +13,7 @@ describe('Semantic Interface', function() {
       Semantic.User.create({ first_name: 'Foo' }, function(err, record) {
         if (err) { console.error(err); }
         assert(!err);
-        assert(record.first_name === 'Foo');
+        assert.equal(record.first_name, 'Foo');
         done();
       });
     });
@@ -22,7 +22,7 @@ describe('Semantic Interface', function() {
       Semantic.User.create({ first_name: 'FooBar' }, function(err, user) {
         if (err) { console.error(err); }
         assert(!err);
-        assert(user.first_name === 'FooBar');
+        assert.equal(user.first_name, 'FooBar');
         assert(user.id);
         done();
       });
@@ -42,7 +42,7 @@ describe('Semantic Interface', function() {
       Semantic.User.create({ first_name: 'Foo', last_name: 'Bar' }, function(err, user) {
         if (err) { console.error(err); }
         assert(!err);
-        assert(user.fullName() === 'Foo Bar');
+        assert.equal(user.fullName(), 'Foo Bar');
         done();
       });
     });

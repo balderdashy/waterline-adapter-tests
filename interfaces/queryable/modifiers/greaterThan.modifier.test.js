@@ -90,7 +90,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
-            assert(users[0].first_name === 'greaterThan_dates_user9');
+            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
             done();
           });
         });
@@ -100,7 +100,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 1);
-            assert(users[0].first_name === 'greaterThan_dates_user9');
+            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
             done();
           });
         });
@@ -143,7 +143,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 7);
-            assert(users[0].first_name === '3 greaterThan_strings_user');
+            assert.equal(users[0].first_name, '3 greaterThan_strings_user');
             done();
           });
         });
@@ -153,7 +153,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 7);
-            assert(users[0].first_name === '3 greaterThan_strings_user');
+            assert.equal(users[0].first_name, '3 greaterThan_strings_user');
             done();
           });
         });
@@ -248,7 +248,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
-            assert(users[0].first_name === 'greaterThanOrEqual_dates_user8');
+            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
             done();
           });
         });
@@ -258,7 +258,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 2);
-            assert(users[0].first_name === 'greaterThanOrEqual_dates_user8');
+            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
             done();
           });
         });
@@ -301,7 +301,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 8);
-            assert(users[0].first_name === '2 greaterThanOrEqual_strings_user');
+            assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
             done();
           });
         });
@@ -311,7 +311,7 @@ describe('Queryable Interface', function() {
             assert(!err);
             assert(Array.isArray(users));
             assert(users.length === 8);
-            assert(users[0].first_name === '2 greaterThanOrEqual_strings_user');
+            assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
             done();
           });
         });

@@ -53,7 +53,7 @@ describe('Semantic Interface', function() {
           assert(!err);
           assert(Array.isArray(users));
           assert(users.length === 10);
-          assert(users[0].last_name === 'updated');
+          assert.equal(users[0].last_name, 'updated');
           done();
         });
       });
@@ -63,7 +63,7 @@ describe('Semantic Interface', function() {
           assert(!err);
           assert(users[0].id);
           assert(users[0].first_name.indexOf('update_user') === 0);
-          assert(users[0].last_name === 'updated again');
+          assert.equal(users[0].last_name, 'updated again');
           assert(toString.call(users[0].createdAt) == '[object Date]');
           assert(toString.call(users[0].updatedAt) == '[object Date]');
           done();
@@ -73,7 +73,7 @@ describe('Semantic Interface', function() {
       it('should work with just an ID passed in', function(done) {
         Semantic.User.update(id, { first_name: 'foo' }).sort('first_name').exec(function(err, users) {
           assert(!err);
-          assert(users[0].first_name === 'foo');
+          assert.equal(users[0].first_name, 'foo');
           done();
         });
       });
@@ -82,7 +82,7 @@ describe('Semantic Interface', function() {
         Semantic.User.update({}, { type: 'update all' }, function(err, users) {
           assert(!err);
           assert(users.length === 10);
-          assert(users[0].type === 'update all');
+          assert.equal(users[0].type, 'update all');
           done();
         });
       });
@@ -131,8 +131,8 @@ describe('Semantic Interface', function() {
         Semantic.User.find({ type: 'updateFind' }, function(err, users) {
           assert(!err);
           assert(users.length === 2);
-          assert(users[0].last_name === 'Updated Find');
-          assert(users[1].last_name === 'Updated Find');
+          assert.equal(users[0].last_name, 'Updated Find');
+          assert.equal(users[1].last_name, 'Updated Find');
           done();
         });
       });

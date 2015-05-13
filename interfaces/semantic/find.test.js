@@ -63,7 +63,7 @@ describe('Semantic Interface', function() {
       Semantic.User.find({ type: 'find test' }, function(err, users) {
         assert(!err, err);
         assert(users[0].id);
-        assert(typeof users[0].fullName === 'function');
+        assert.equal(typeof users[0].fullName, 'function');
         assert(toString.call(users[0].createdAt) == '[object Date]');
         assert(toString.call(users[0].updatedAt) == '[object Date]', 'Expected the first user in results to have a Date for its `updatedAt` value, instead, the first user looks like:' + require('util').inspect(users[0], false, null));
         done();

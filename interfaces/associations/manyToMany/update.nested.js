@@ -49,7 +49,7 @@ describe('Association Interface', function() {
               .populate('taxis')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === 'm:m update nested - updated');
+                assert.equal(model.name, 'm:m update nested - updated');
                 assert(model.taxis.length === 1);
                 assert(model.taxis[0].medallion === 1);
                 done();
@@ -110,7 +110,7 @@ describe('Association Interface', function() {
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err, 'Error: ' + err);
-                assert(model.name === 'm:m update nested - updated');
+                assert.equal(model.name, 'm:m update nested - updated');
                 assert(model.taxis.length === 3);
                 assert(model.taxis[0].medallion === 3);
                 assert(model.taxis[1].medallion === 4);
@@ -177,7 +177,7 @@ describe('Association Interface', function() {
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.name === 'm:m update nested - updated');
+                assert.equal(model.name, 'm:m update nested - updated');
                 assert(model.taxis.length === 2);
 
                 // Ensure association values were updated
