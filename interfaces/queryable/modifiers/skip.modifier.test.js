@@ -32,7 +32,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where: { type: 'skip test' }, skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 7);
+        assert.equal(users.length, 7);
         done();
       });
     });
@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
       Queryable.User.findByType('skip test', { skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 7);
+        assert.equal(users.length, 7);
         done();
       });
     });
@@ -50,7 +50,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where: { type: 'skip test' } }, { skip: 3 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 7);
+        assert.equal(users.length, 7);
         done();
       });
     });

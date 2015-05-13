@@ -21,8 +21,8 @@ describe('Queryable Interface', function() {
             Queryable.User.endsWith({ first_name: part }, function(err, users) {
               assert(!err);
               assert(Array.isArray(users));
-              assert(users.length === 1);
-              assert(users[0].first_name === testName);
+              assert.equal(users.length, 1);
+              assert.equal(users[0].first_name, testName);
               done();
             });
           });
@@ -45,8 +45,8 @@ describe('Queryable Interface', function() {
             Queryable.User.where({ first_name: { endsWith: part }}, function(err, users) {
               assert(!err);
               assert(Array.isArray(users));
-              assert(users.length === 1);
-              assert(users[0].first_name === testName);
+              assert.equal(users.length, 1);
+              assert.equal(users[0].first_name, testName);
               done();
             });
           });
@@ -69,8 +69,8 @@ describe('Queryable Interface', function() {
             Queryable.User.typeEndsWith(part, function(err, users) {
               assert(!err);
               assert(Array.isArray(users));
-              assert(users.length === 1);
-              assert(users[0].type === testType);
+              assert.equal(users.length, 1);
+              assert.equal(users[0].type, testType);
               done();
             });
           });

@@ -54,13 +54,13 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(apartments));
-          assert(apartments.length === 2, 'expected 2 apartments, got these apartments:'+require('util').inspect(apartments, false, null));
+          assert.equal(apartments.length, 2, 'expected 2 apartments, got these apartments:'+require('util').inspect(apartments, false, null));
 
           assert(Array.isArray(apartments[0].payments));
           assert(Array.isArray(apartments[1].payments));
 
-          assert(apartments[0].payments.length === 4);
-          assert(apartments[1].payments.length === 4);
+          assert.equal(apartments[0].payments.length, 4);
+          assert.equal(apartments[1].payments.length, 4);
 
           done();
         });

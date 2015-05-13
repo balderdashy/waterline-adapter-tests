@@ -12,7 +12,7 @@ describe('Semantic Interface', function() {
     it('should create a new record', function(done) {
       Semantic.User.findOrCreate({ first_name: "findOrCreate()" }, { first_name: "findOrCreate()" }, function(err, user) {
         assert(!err);
-        assert(user.first_name === 'findOrCreate()');
+        assert.equal(user.first_name, 'findOrCreate()');
         done();
       });
     });
@@ -20,7 +20,7 @@ describe('Semantic Interface', function() {
     it('should return a single record', function(done) {
       Semantic.User.findOrCreate({ first_name: "findOrCreate()" }, { first_name: "findOrCreate()" }, function(err, user) {
         assert(!err);
-        assert(user.first_name === 'findOrCreate()');
+        assert.equal(user.first_name, 'findOrCreate()');
         done();
       });
     });
@@ -28,7 +28,7 @@ describe('Semantic Interface', function() {
     it('should only have a single record in the database', function(done) {
       Semantic.User.find({ first_name: 'findOrCreate()' }, function(err, users) {
         assert(!err);
-        assert(users.length === 1);
+        assert.equal(users.length, 1);
         done();
       });
     });
@@ -36,7 +36,7 @@ describe('Semantic Interface', function() {
     it('should return a model instance', function(done) {
      Semantic.User.findOrCreate({ first_name: "model findOrCreate()" }, { first_name: "model findOrCreate()", last_name: 'test' }, function(err, user) {
         assert(user.id);
-        assert(user.fullName() === 'model findOrCreate() test');
+        assert.equal(user.fullName(), 'model findOrCreate() test');
         assert(toString.call(user.createdAt) == '[object Date]');
         assert(toString.call(user.updatedAt) == '[object Date]');
         done();
@@ -46,7 +46,7 @@ describe('Semantic Interface', function() {
     it('should take search criteria as values', function(done) {
      Semantic.User.findOrCreate({ first_name: "findOrCreate()", last_name: 'search criteria' }, function(err, user) {
         assert(user.id);
-        assert(user.fullName() === 'findOrCreate() search criteria');
+        assert.equal(user.fullName(), 'findOrCreate() search criteria');
         assert(toString.call(user.createdAt) == '[object Date]');
         assert(toString.call(user.updatedAt) == '[object Date]');
         done();
@@ -58,12 +58,12 @@ describe('Semantic Interface', function() {
        { first_name: "findOrCreate()", last_name: 'array' },
        { first_name: 'Mark', last_name: 'Vegetables'}], function(err, users) {
         assert(users[0].id);
-        assert(users[0].fullName() === 'findOrCreate() array');
+        assert.equal(users[0].fullName(), 'findOrCreate() array');
         assert(toString.call(users[0].createdAt) == '[object Date]');
         assert(toString.call(users[0].updatedAt) == '[object Date]');
 
         assert(users[1].id);
-        assert(users[1].fullName() === 'Mark Vegetables');
+        assert.equal(users[1].fullName(), 'Mark Vegetables');
         assert(toString.call(users[1].createdAt) == '[object Date]');
         assert(toString.call(users[1].updatedAt) == '[object Date]');
         done();

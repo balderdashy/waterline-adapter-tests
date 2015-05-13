@@ -40,11 +40,11 @@ describe('Association Interface', function() {
             .exec(function(err, customer) {
               assert(!err);
 
-              assert(customer.payments.length === 2);
-              assert(customer.payments[1].amount === 1337);
+              assert.equal(customer.payments.length, 2);
+              assert.equal(customer.payments[1].amount, 1337);
 
-              assert(customer.transactions.length === 1, 'Expected customer to have 1 transaction, but actually it has '+customer.transactions.length+', see?  \n'+require('util').inspect(customer,false,null));
-              assert(customer.transactions[0].amount === 100);
+              assert.equal(customer.transactions.length, 1, 'Expected customer to have 1 transaction, but actually it has '+customer.transactions.length+', see?  \n'+require('util').inspect(customer,false,null));
+              assert.equal(customer.transactions[0].amount, 100);
               done();
             });
           });
@@ -94,8 +94,8 @@ describe('Association Interface', function() {
             .exec(function(err, data) {
               assert(!err);
 
-              assert(data.payments.length === 1);
-              assert(data.payments[0].amount === 1);
+              assert.equal(data.payments.length, 1);
+              assert.equal(data.payments[0].amount, 1);
               done();
             });
           });

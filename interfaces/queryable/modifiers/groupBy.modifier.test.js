@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
 
         asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
-            assert(result.age === 45); // 45 === 0+1+2+3+4+5+6+7+8+9
+            assert.equal(result.age, 45); // 45 === 0+1+2+3+4+5+6+7+8+9
             return true;
           }
           return false;
@@ -61,7 +61,7 @@ describe('Queryable Interface', function() {
 
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test' && result.age === 1) {
-            assert(result.percent === 0.5);
+            assert.equal(result.percent, 0.5);
             return true;
           }
         });
@@ -79,8 +79,8 @@ describe('Queryable Interface', function() {
         assert(!err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
-            assert(result.age === 45);
-            assert(result.percent === 2.25);
+            assert.equal(result.age, 45);
+            assert.equal(result.percent, 2.25);
             return true;
           }
         });
@@ -98,8 +98,8 @@ describe('Queryable Interface', function() {
         assert(!err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
-            assert(result.age === 30);
-            assert(result.percent === 3.75);
+            assert.equal(result.age, 30);
+            assert.equal(result.percent, 3.75);
             return true;
           }
         });

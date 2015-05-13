@@ -44,7 +44,7 @@ describe('Association Interface', function() {
         Associations.Driver_taxis__taxi_drivers.find({ driver_taxis: parentId })
         .exec(function(err, records) {
           assert(!err);
-          assert(records.length === 0);
+          assert.equal(records.length, 0);
           done();
         });
       });

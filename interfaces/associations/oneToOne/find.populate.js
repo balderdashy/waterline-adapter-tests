@@ -60,8 +60,8 @@ describe('Association Interface', function() {
           assert(profiles[0].user);
           assert(profiles[1].user);
 
-          assert(profiles[0].user.name === 'foo1');
-          assert(profiles[1].user.name === 'bar1');
+          assert.equal(profiles[0].user.name, 'foo1');
+          assert.equal(profiles[1].user.name, 'bar1');
 
           done();
         });
@@ -77,8 +77,8 @@ describe('Association Interface', function() {
           assert(users[0].profile);
           assert(users[1].profile);
 
-          assert(users[0].profile.name === 'profile one');
-          assert(users[1].profile.name === 'profile two');
+          assert.equal(users[0].profile.name, 'profile one');
+          assert.equal(users[1].profile.name, 'profile two');
 
           done();
         });
