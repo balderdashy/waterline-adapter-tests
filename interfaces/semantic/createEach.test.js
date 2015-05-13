@@ -18,7 +18,7 @@ describe('Semantic Interface', function() {
       Semantic.User.createEach(usersArray, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 2);
+        assert.strictEqual(users.length, 2);
         done();
       });
     });
@@ -26,7 +26,7 @@ describe('Semantic Interface', function() {
     it('should insert 2 records verififed by find', function(done) {
       Semantic.User.find({ type: 'createEach' }, function(err, users) {
         assert(!err);
-        assert(users.length === 2);
+        assert.strictEqual(users.length, 2);
         done();
       });
     });

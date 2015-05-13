@@ -35,7 +35,7 @@ describe('Migratable Interface', function() {
 
             ontology.collections.drop.count().exec(function(err, numOfPirates) {
               assert(!err);
-              assert(numOfPirates === 0);
+              assert.strictEqual(numOfPirates, 0);
               done();
             });
           });

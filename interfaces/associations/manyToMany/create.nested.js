@@ -32,8 +32,8 @@ describe('Association Interface', function() {
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.taxis.length === 2);
-                assert(model.taxis[1].medallion === 2);
+                assert.strictEqual(model.taxis.length, 2);
+                assert.strictEqual(model.taxis[1].medallion, 2);
                 done();
               });
 
@@ -74,8 +74,8 @@ describe('Association Interface', function() {
               .populate('taxis')
               .exec(function(err, model) {
                 assert(!err);
-                assert(model.taxis.length === 2);
-                assert(model.taxis[1].medallion === 2);
+                assert.strictEqual(model.taxis.length, 2);
+                assert.strictEqual(model.taxis[1].medallion, 2);
                 done();
               });
 

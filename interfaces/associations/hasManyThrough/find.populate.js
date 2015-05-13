@@ -41,9 +41,9 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(stadiums));
-          assert(stadiums.length === 1);
+          assert.strictEqual(stadiums.length, 1);
           assert(Array.isArray(stadiums[0].teams));
-          assert(stadiums[0].teams.length === 1);
+          assert.strictEqual(stadiums[0].teams.length, 1);
 
           done();
         });
@@ -70,7 +70,7 @@ describe('Association Interface', function() {
           var obj = stadiums[0].toJSON();
 
           assert(Array.isArray(obj.teams));
-          assert(obj.teams.length === 1);
+          assert.strictEqual(obj.teams.length, 1);
           assert(!obj.teams[0].mascot);
 
           done();

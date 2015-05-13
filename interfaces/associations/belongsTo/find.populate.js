@@ -53,7 +53,7 @@ describe('Association Interface', function() {
           assert(!err, err);
 
           assert(Array.isArray(_payments));
-          assert(_payments.length === 2, 'expected 2 payments, but got '+_payments.length+': '+require('util').inspect(_payments, false, null));
+          assert.strictEqual(_payments.length, 2, 'expected 2 payments, but got '+_payments.length+': '+require('util').inspect(_payments, false, null));
 
           assert(_payments[0].a_customer);
           assert(_payments[0].a_customer.id === customers[0].id);

@@ -46,7 +46,7 @@ describe('Association Interface', function() {
             .exec(function(err, data) {
               assert(!err);
 
-              assert(data.payments.length === 0);
+              assert.strictEqual(data.payments.length, 0);
               done();
             });
           });
@@ -78,7 +78,7 @@ describe('Association Interface', function() {
           customerRecord.save(function(err) {
             assert(err);
             assert(Array.isArray(err));
-            assert(err.length === 1);
+            assert.strictEqual(err.length, 1);
             assert.equal(err[0].type, 'remove');
 
             done();

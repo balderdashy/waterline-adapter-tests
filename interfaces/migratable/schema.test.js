@@ -19,7 +19,7 @@ describe('Migratable Interface', function() {
 
       it('should set attribute as primary key', function(done) {
         Migratable.Document.describe(function (err, user) {
-          assert(user.title.primaryKey === true);
+          assert.strictEqual(user.title.primaryKey, true);
           done();
         });
       });
@@ -47,7 +47,7 @@ describe('Migratable Interface', function() {
       //       return done();
       //     }
 
-      //     assert(user.number.autoIncrement === true);
+      //     assert.strictEqual(user.number.autoIncrement, true);
       //     done();
       //   });
       // });
@@ -64,9 +64,9 @@ describe('Migratable Interface', function() {
       //     }
 
       //     Document.create({ title: 'autoincrement 1' }, function(err, record) {
-      //       assert(record.number === 1);
+      //       assert.strictEqual(record.number, 1);
       //       Document.create({ title: 'autoincrement 2' }, function(err, record) {
-      //         assert(record.number === 2);
+      //         assert.strictEqual(record.number, 2);
       //         done();
       //       });
       //     });
@@ -94,7 +94,7 @@ describe('Migratable Interface', function() {
 
       it('should set unique on schema attribute', function(done) {
         Migratable.Document.describe(function (err, user) {
-          assert(user.serialNumber.unique === true);
+          assert.strictEqual(user.serialNumber.unique, true);
           done();
         });
       });

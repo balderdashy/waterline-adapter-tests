@@ -37,7 +37,7 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
+          assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user0');
           assert.equal(users[1].first_name, 'OR_user1');
           done();
@@ -67,7 +67,7 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
+          assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user0');
           assert.equal(users[1].first_name, 'OR_user1');
           done();
@@ -87,7 +87,7 @@ describe('Queryable Interface', function() {
           if(err) return done(err);
 
           assert(Array.isArray(users));
-          assert(users.length === 2);
+          assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user1');
           assert.equal(users[1].first_name, 'OR_user2');
           done();
@@ -104,7 +104,7 @@ describe('Queryable Interface', function() {
       it('should return an empty array', function(done) {
         Queryable.User.find({ where: { or: [{ first_name: 'OR_user10' }, { first_name: 'OR_user11' }]}})
         .exec(function(err, users) {
-          assert(users.length === 0);
+          assert.strictEqual(users.length, 0);
           done();
         });
       });

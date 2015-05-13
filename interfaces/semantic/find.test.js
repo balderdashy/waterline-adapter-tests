@@ -32,7 +32,7 @@ describe('Semantic Interface', function() {
       Semantic.User.find({ type: 'find test' }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 10);
+        assert.strictEqual(users.length, 10);
         done();
       });
     });
@@ -41,7 +41,7 @@ describe('Semantic Interface', function() {
       Semantic.User.find({ age: 10 }, function(err, users) {
         assert(!err);
         assert(Array.isArray(users));
-        assert(users.length === 1);
+        assert.strictEqual(users.length, 1);
         done();
       });
     });

@@ -37,7 +37,7 @@ describe('Queryable Interface', function() {
     it('should get the maximum of the key', function(done) {
       Queryable.User.find({where:{type: 'max test'}, max: ['age'] }, function(err, summed) {
         assert(!err);
-        assert(summed[0].age === 9010);
+        assert.strictEqual(summed[0].age, 9010);
         done();
       });
     });
@@ -45,8 +45,8 @@ describe('Queryable Interface', function() {
     it('should max multiple keys', function(done) {
       Queryable.User.find({where:{type: 'max test'}, max: ['age', 'percent'] }, function(err, summed) {
         assert(!err);
-        assert(summed[0].age === 9010);
-        assert(summed[0].percent === 9005.5);
+        assert.strictEqual(summed[0].age, 9010);
+        assert.strictEqual(summed[0].percent, 9005.5);
         done();
       });
     });
@@ -58,8 +58,8 @@ describe('Queryable Interface', function() {
         average: ['percent']
       }, function(err, summed) {
         assert(!err);
-        assert(summed[0].age === 9010);
-        assert(summed[0].percent === 9003.25);
+        assert.strictEqual(summed[0].age, 9010);
+        assert.strictEqual(summed[0].percent, 9003.25);
         done();
       });
     });

@@ -38,8 +38,8 @@ describe('Association Interface', function() {
           .exec(function(err, driver) {
             assert(!err);
 
-            assert(driver.taxis.length === 1, 'Expected driver to have one taxi, but actually there are '+driver.taxis.length+', see? `driver.taxi` =>'+require('util').inspect(driver.taxis,false,null));
-            assert(driver.taxis[0].medallion === 1);
+            assert.strictEqual(driver.taxis.length, 1, 'Expected driver to have one taxi, but actually there are '+driver.taxis.length+', see? `driver.taxi` =>'+require('util').inspect(driver.taxis,false,null));
+            assert.strictEqual(driver.taxis[0].medallion, 1);
 
             done();
           });
@@ -87,8 +87,8 @@ describe('Association Interface', function() {
           .exec(function(err, data) {
             assert(!err);
 
-            assert(data.taxis.length === 1);
-            assert(data.taxis[0].medallion === 20);
+            assert.strictEqual(data.taxis.length, 1);
+            assert.strictEqual(data.taxis[0].medallion, 20);
             done();
           });
         });
@@ -108,8 +108,8 @@ describe('Association Interface', function() {
             .exec(function(err, data) {
               assert(!err);
   
-              assert(data.taxis.length === 1);
-              assert(data.taxis[0].medallion === 30);
+              assert.strictEqual(data.taxis.length, 1);
+              assert.strictEqual(data.taxis[0].medallion, 30);
               done();
             });
           });
@@ -121,7 +121,7 @@ describe('Association Interface', function() {
         driverRecord.save(function(err) {
           assert(err);
           assert(Array.isArray(err));
-          assert(err.length === 1);
+          assert.strictEqual(err.length, 1);
           done();
         });
       });

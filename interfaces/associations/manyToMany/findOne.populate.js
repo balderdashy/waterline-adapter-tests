@@ -39,7 +39,7 @@ describe('Association Interface', function() {
         assert(!err);
 
         assert(Array.isArray(driver.taxis));
-        assert(driver.taxis.length === 2);
+        assert.strictEqual(driver.taxis.length, 2);
 
         done();
       });
@@ -67,7 +67,7 @@ describe('Association Interface', function() {
         assert(!obj.name);
 
         assert(Array.isArray(obj.taxis));
-        assert(obj.taxis.length === 2);
+        assert.strictEqual(obj.taxis.length, 2);
 
         assert(obj.taxis[0].hasOwnProperty('createdAt'));
         assert(!obj.taxis[0].hasOwnProperty('medallion'));

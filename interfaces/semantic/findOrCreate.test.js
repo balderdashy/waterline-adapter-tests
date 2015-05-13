@@ -28,7 +28,7 @@ describe('Semantic Interface', function() {
     it('should only have a single record in the database', function(done) {
       Semantic.User.find({ first_name: 'findOrCreate()' }, function(err, users) {
         assert(!err);
-        assert(users.length === 1);
+        assert.strictEqual(users.length, 1);
         done();
       });
     });
