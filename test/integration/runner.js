@@ -22,6 +22,7 @@ var interfaces = [];
 try {
     package = require('../../node_modules/' + adapterName + '/package.json');
     interfaces = package['waterlineAdapter'].interfaces;
+    features = package['waterlineAdapter'].features;
 }
 catch (e) {
     throw new Error(
@@ -65,6 +66,10 @@ new TestRunner({
     // The set of adapter interfaces to test against.
     // (grabbed these from this adapter's package.json file above)
     interfaces: interfaces,
+    
+    // The set of adapter features to test against.
+    // (grabbed these from this adapter's package.json file above)
+    features: features,
     
     // Mocha options
     // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically

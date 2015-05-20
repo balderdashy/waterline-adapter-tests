@@ -84,7 +84,7 @@ function runTests(cb){
         + " |\n";
       
       console.log('exit code: ' + code);
-      if(code != 0 && !settings.returnZeroOnError) { exitCode = code; }
+      if(code != 0 && !settings.returnZeroOnError) { exitCode = exitCode + code; }
       next();
     });
   }, 
