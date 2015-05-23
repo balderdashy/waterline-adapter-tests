@@ -84,9 +84,19 @@ describe('unique attribute feature', function() {
     });
   });
 
-  it('should work (do nothing) when updating a unique field to the same value', function(done) {
-    UniqueModel.update(id0, { email: email0 }).exec(function(err, records) {
+  it('should work (do nothing) when updating the field of an existing record to the same value', function(done) {
+    UniqueModel.update(id0, { id: id0, name: 'testUnique0', email: email0, type: 'unique' }).exec(function(err, records) {
       assert(!err, 'Expected no error when updating to the same value');
+      assert.equal(records.length, 1);
+      assert.equal(records[0].id, id0);
+      assert.equal(records[0].email, email0);
+      done();
+    });
+  });
+
+  it('should work when updating a unique field to the same value based on search parameters', function(done) {
+    UniqueModel.update({email: email0}, { email: email0 }).exec(function(err, records) {
+      assert(!err, 'Expected no error when updating to the same value on searched records');
       assert.equal(records.length, 1);
       assert.equal(records[0].id, id0);
       assert.equal(records[0].email, email0);
