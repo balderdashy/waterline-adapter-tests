@@ -1,0 +1,104 @@
+var assert = require('assert');
+var _ = require('lodash');
+
+/**
+ * If the adapter will provide sequential unique values, for example increasing integers,
+ * then it is further guaranteed that the next value will be the last saved value plus one
+ * increment. If a value is provided and is larger than the current auto-inc counter the
+ * counter will be bumped to the provided value. If a provided value is less than or equal
+ * to the auto-inc counter value the counter will remain unchanged, and again there will
+ * be no guaranteed that this value is unique. This extended feature is indicated with
+ * the `autoIncrementSequential` feature flag.
+ */
+describe('autoIncrement attribute Sequential feature', function() {
+
+  /////////////////////////////////////////////////////
+  // TEST SETUP
+  ////////////////////////////////////////////////////
+
+  var Waterline = require('waterline');
+  var defaults = { migrate: 'alter' };
+  var waterline;
+
+  var AutoIncFixture = require('../autoIncrement/support/autoInc.fixture.js')
+  var AutoIncModel;
+
+
+  before(function(done) {
+    waterline = new Waterline();
+    waterline.loadCollection(AutoIncFixture);
+
+    var connections = { autoIncConn: _.clone(Connections.test) };
+
+    Adapter.teardown('autoIncConn', function adapterTeardown(){
+      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
+        if(err) return done(err);
+        AutoIncModel = ontology.collections['autoinc'];
+        done();
+      });
+    });
+  });
+
+  after(function(done) {
+    if(!Adapter.hasOwnProperty('drop')) {
+      waterline.teardown(done);
+    } else {
+      AutoIncModel.drop(function(err1) {
+        waterline.teardown(function(err2) {
+          return done(err1 || err2);
+        });
+      });
+    }
+  });
+
+
+  /////////////////////////////////////////////////////
+  // TEST METHODS
+  ////////////////////////////////////////////////////
+
+  var lastValue;
+
+
+  it('should generate sequential values', function(done) {
+    var records = [];
+    for(var i=0; i<3; i++) {
+      records.push({ name: 'ais_' + i });
+    }
+
+    AutoIncModel.create(records, function(err, records) {
+      if (err) return done(err);
+      assert(records[0].aiField < records[1].aiField);
+      assert(records[1].aiField < records[2].aiField);
+      
+      lastValue = records[2].aiField;
+      done();
+    });
+  });
+
+  it('should continue auto-incrementing from the last provided larger value', function(done) {
+    AutoIncModel.create({ aiField: lastValue + 20, name: 'FooBar+20' }, function(err, record) {
+      if (err) return done(err);
+      assert.equal(record.aiField, lastValue + 20);
+
+      AutoIncModel.create({ name: 'FooBar+21' }, function(err, user) {
+        if (err) return done(err);
+        assert.equal(user.aiField, lastValue + 21);
+        done();
+      });
+    });
+  });
+
+  it('should not update the auto-incrementing counter on smaller values', function(done) {
+    AutoIncModel.create({ aiField: lastValue + 10, name: 'FooBar+10' }, function(err, user) {
+      if (err) return done(err);
+      assert.equal(user.aiField, lastValue + 10);
+
+      AutoIncModel.create({ name: 'FooBar+22' }, function(err, user) {
+        if (err) return done(err);
+        assert.equal(user.aiField, lastValue + 22);
+        done();
+      });
+    });
+  });
+
+});
