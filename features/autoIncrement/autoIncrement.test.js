@@ -1,6 +1,15 @@
 var assert = require('assert');
 var _ = require('lodash');
 
+/**
+ * When `autoIncrement` is set to `true` on an attribute and no value is provided for it a
+ * new unique value will be assigned by the adapter before the record is created. It is
+ * guaranteed that the adapter will assign a unique value not present on any existing record.
+ * The values assigned automatically will not necessarily be sequential, which accommodates
+ * the use of UUIDs. If a value for the attribute is present in the data provided for a new
+ * record it will be saved as-is without any guarantee of uniqueness. The `autoIncrement`
+ * option has no effect when updating existing records. The feature flag is `autoIncrement`.
+ */
 describe('autoIncrement attribute feature', function() {
 
   /////////////////////////////////////////////////////
