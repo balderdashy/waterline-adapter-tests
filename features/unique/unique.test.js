@@ -61,7 +61,7 @@ describe('unique attribute feature', function() {
   ////////////////////////////////////////////////////
 
   it('should error when creating with a duplicate value', function(done) {
-    UniqueModel.create({ email: email0 }, function(err, records) {
+    UniqueModel.create({ email: email0, type: 'unique' }, function(err, records) {
       assert(err);
       assert(!records);
       UniqueModel.find({type: 'unique'}).exec(function(err, records) {
