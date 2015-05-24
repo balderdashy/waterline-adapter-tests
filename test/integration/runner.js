@@ -40,6 +40,10 @@ catch (e) {
 console.info('Testing `' + package.name + '`, a Sails adapter.');
 console.info('Running `waterline-adapter-tests` against ' + interfaces.length + ' interfaces...');
 console.info('( ' + interfaces.join(', ') + ' )');
+if (features.length) {
+  console.info('and against ' + features.length + ' feature tests...');
+  console.info('( ' + features.join(', ') + ' )');
+}
 console.log();
 console.log('Latest draft of Waterline adapter interface spec:');
 console.info('https://github.com/balderdashy/sails-docs/blob/master/contributing/adapter-specification.md');
