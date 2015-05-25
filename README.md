@@ -2,8 +2,9 @@ Waterline Adapter Tests
 ==========================
 [![Build Status](https://travis-ci.org/balderdashy/waterline-adapter-tests.svg?branch=master)](https://travis-ci.org/balderdashy/waterline-adapter-tests)
 [![npm version](https://badge.fury.io/js/waterline-adapter-tests.svg)](http://badge.fury.io/js/waterline-adapter-tests)
+[![Dependency Status](https://david-dm.org/balderdashy/waterline-adapter-tests.svg)](https://david-dm.org/balderdashy/waterline-adapter-tests)
 
-A set of integration tests that can be included in you Waterline Adapter module and used to test
+A set of integration tests that can be included in your Waterline Adapter module and used to test
 your adapter against the current Waterline API.
 
 ## Adapter Interface Specification
