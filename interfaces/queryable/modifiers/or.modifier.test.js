@@ -16,8 +16,14 @@ describe('Queryable Interface', function() {
         // Insert 3 Users
         var users = [];
 
-        for(var i=0; i<3; i++) {
-          users.push({first_name: 'OR_user' + i, type: 'or test', age: i });
+        for(var i=0; i<4; i++) {
+          users.push({
+            first_name: 'OR_user' + i, 
+            last_name: 'contains_user' + i,
+            title: 'contains_title' + i,
+            type: 'or test', 
+            age: i 
+          });          
         }
 
         Queryable.User.createEach(users, function(err, users) {
@@ -90,6 +96,28 @@ describe('Queryable Interface', function() {
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user1');
           assert.equal(users[1].first_name, 'OR_user2');
+          done();
+        });
+      });
+    
+      it('should work correctly when OR is used with multiple contains modifiers', function(done) {
+        Queryable.User.find({
+          type: 'or test',
+          or: [
+            { first_name: { contains: 'user0' } },
+            { last_name:  { contains: 'user1' } },
+            { title:      { contains: 'title2' } }
+          ]
+        })
+        .sort('first_name')
+        .exec(function(err, users) {
+          if(err) return done(err);
+
+          assert(Array.isArray(users));
+          assert.strictEqual(users.length, 3);
+          assert.equal(users[0].first_name, 'OR_user0');
+          assert.equal(users[1].last_name, 'contains_user1');
+          assert.equal(users[2].title, 'contains_title2');
           done();
         });
       });
