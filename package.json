@@ -1,7 +1,7 @@
 {
   "name": "waterline-adapter-tests",
   "description": "Integration tests for waterline adapters",
-  "version": "0.10.11",
+  "version": "0.10.12",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
     "async": "~1.0.0",
