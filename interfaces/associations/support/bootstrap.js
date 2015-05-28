@@ -9,7 +9,9 @@ var async = require('async');
 // Require Fixtures
 var fixtures = {
   PaymentBelongsFixture: require('./fixtures/belongsTo.child.fixture'),
+  PaymentBelongsCustomFixture: require('./fixtures/belongsTo.child.customPK.fixture'),
   CustomerBelongsFixture: require('./fixtures/belongsTo.parent.fixture'),
+  CustomerBelongsCustomFixture: require('./fixtures/belongsTo.parent.customPK.fixture'),
   PaymentHasManyFixture: require('./fixtures/hasMany.child.fixture'),
   CustomerHasManyFixture: require('./fixtures/hasMany.parent.fixture'),
   ApartmentHasManyFixture: require('./fixtures/hasMany.customPK.fixture'),
@@ -20,6 +22,8 @@ var fixtures = {
   VenueFixture: require('./fixtures/hasManyThrough.venue.fixture'),
   TaxiFixture: require('./fixtures/manyToMany.taxi.fixture'),
   DriverFixture: require('./fixtures/manyToMany.driver.fixture'),
+  TaxiCustomFixture: require('./fixtures/manyToMany.taxi.customPK.fixture'),
+  DriverCustomFixture: require('./fixtures/manyToMany.driver.customPK.fixture'),
   UserOneFixture: require('./fixtures/oneToOne.fixture').user_resource,
   ProfileOneFixture: require('./fixtures/oneToOne.fixture').profile
 };

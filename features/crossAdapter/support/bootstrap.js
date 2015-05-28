@@ -11,7 +11,9 @@ var associationsFixturesPath = '../../../interfaces/associations/support/';
 
 var fixtures = {
   PaymentBelongsFixture: require(associationsFixturesPath + 'fixtures/belongsTo.child.fixture'),
+  PaymentBelongsCustomFixture: require(associationsFixturesPath + 'fixtures/belongsTo.child.customPK.fixture'),
   CustomerBelongsFixture: require('./fixtures/belongsTo.parent.fixture'),
+  CustomerBelongsCustomFixture: require(associationsFixturesPath + 'fixtures/belongsTo.parent.customPK.fixture'),
   PaymentHasManyFixture: require('./fixtures/hasMany.child.fixture'),
   CustomerHasManyFixture: require(associationsFixturesPath + 'fixtures/hasMany.parent.fixture'),
   ApartmentHasManyFixture: require(associationsFixturesPath + 'fixtures/hasMany.customPK.fixture'),
@@ -22,6 +24,8 @@ var fixtures = {
   VenueFixture: require(associationsFixturesPath + 'fixtures/hasManyThrough.venue.fixture'),
   TaxiFixture: require('./fixtures/manyToMany.taxi.fixture'),
   DriverFixture: require(associationsFixturesPath + 'fixtures/manyToMany.driver.fixture'),
+  TaxiCustomFixture: require(associationsFixturesPath + 'fixtures/manyToMany.taxi.customPK.fixture'),
+  DriverCustomFixture: require(associationsFixturesPath + 'fixtures/manyToMany.driver.customPK.fixture'),
   UserOneFixture: require(associationsFixturesPath + 'fixtures/oneToOne.fixture').user_resource,
   ProfileOneFixture: require(associationsFixturesPath + 'fixtures/oneToOne.fixture').profile
 };
@@ -42,23 +46,23 @@ before(function(done) {
   });
 
   var connections = { associations: _.clone(Connections.test), associations2: _.clone(Connections.test2) };
-  
+
   // in case previous teardown failed
   Adapter.teardown('associations', function adapterTeardown(){
 
     waterline.initialize({ adapters: { wl_tests: Adapter, wl_tests2: MemoryAdapter }, connections: connections }, function(err, _ontology) {
       if(err) return done(err);
-  
+
       ontology = _ontology;
-  
+
       Object.keys(_ontology.collections).forEach(function(key) {
         var globalName = key.charAt(0).toUpperCase() + key.slice(1);
         global.Associations[globalName] = _ontology.collections[key];
       });
-  
+
       done();
     });
-  
+
   });
 });
 
