@@ -13,7 +13,7 @@ describe('Association Interface', function() {
 
       it('should create a parent and child record and store the foreign key on the parent', function(done) {
         var data = {
-          invoice: 100,
+          invoice: 1000,
           amount: 200,
           customer: {
             username: 'belongsTo',
@@ -36,7 +36,7 @@ describe('Association Interface', function() {
             assert(!err, err);
 
             // Test the parent is correct
-            assert.equal(_payment.invoice, 100);
+            assert.equal(_payment.invoice, 1000);
 
             // Test the child is correct
             assert.equal(_payment.customer.username, 'belongsTo');

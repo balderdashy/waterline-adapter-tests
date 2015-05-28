@@ -19,8 +19,8 @@ describe('Association Interface', function() {
               username: 'foo',
               name: 'has many nested',
               payments: [
-                { invoice: 100, amount: 1 },
-                { invoice: 101, amount: 2 }
+                { invoice: 2000, amount: 1 },
+                { invoice: 2001, amount: 2 }
               ]
             };
 
@@ -36,10 +36,10 @@ describe('Association Interface', function() {
                 if(err) return done(err);
                 assert.equal(model.payments.length, 2);
 
-                assert.equal(model.payments[0].invoice, 100);
+                assert.equal(model.payments[0].invoice, 2000);
                 assert.equal(model.payments[0].amount, 1);
 
-                assert.equal(model.payments[1].invoice, 101);
+                assert.equal(model.payments[1].invoice, 2001);
                 assert.equal(model.payments[1].amount, 2);
 
                 done();

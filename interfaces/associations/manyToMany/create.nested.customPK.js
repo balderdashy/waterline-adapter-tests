@@ -17,7 +17,7 @@ describe('Association Interface', function() {
           it('should create a new driver and taxis and associate them', function(done) {
 
             var data = {
-              number: 100,
+              number: 101,
               name: 'many to many nested',
               taxis: [
                 { vin: 'a001', medallion: 1 },
