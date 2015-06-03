@@ -5,5 +5,5 @@
     "schema": true,
     "poolSize": 1
   },
-  "returnZeroOnError": true
+  "returnZeroOnError": false
 }
