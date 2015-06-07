@@ -1,6 +1,10 @@
 var assert = require('assert'),
     _ = require('lodash');
 
+function assertNotProperty(obj, prop){
+  assert(prop in obj === false, 'property [' + prop + '] should not exist, but it exists and has value: ' + obj[prop]);
+}
+
 describe('Queryable Interface', function() {
 
   describe('SELECT Query Modifier', function() {
@@ -36,12 +40,12 @@ describe('Queryable Interface', function() {
         assert(!err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
-        assert.equal(user.last_name, undefined);
-        assert.equal(user.email, undefined);
-        assert.equal(user.title, undefined);
-        assert.equal(user.age, undefined);
-        assert.equal(user.type, undefined);
-        assert.equal(user.dob, undefined);
+        assertNotProperty(user, 'last_name');
+        assertNotProperty(user, 'email');
+        assertNotProperty(user, 'title');
+        assertNotProperty(user, 'age');
+        assertNotProperty(user, 'type');
+        assertNotProperty(user, 'dob');
         done();
       });
     });
@@ -50,12 +54,12 @@ describe('Queryable Interface', function() {
       Queryable.User.findOne({ where: { type: 'select test' }, select: ['first_name'] }, function(err, user) {
         assert(!err);
         assert.equal(user.first_name, 'select_user');
-        assert.equal(user.last_name, undefined);
-        assert.equal(user.email, undefined);
-        assert.equal(user.title, undefined);
-        assert.equal(user.age, undefined);
-        assert.equal(user.type, undefined);
-        assert.equal(user.dob, undefined);
+        assertNotProperty(user, 'last_name');
+        assertNotProperty(user, 'email');
+        assertNotProperty(user, 'title');
+        assertNotProperty(user, 'age');
+        assertNotProperty(user, 'type');
+        assertNotProperty(user, 'dob');
         done();
       });
     });
@@ -65,12 +69,12 @@ describe('Queryable Interface', function() {
         assert(!err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
-        assert.equal(user.last_name, undefined);
-        assert.equal(user.email, undefined);
-        assert.equal(user.title, undefined);
+        assertNotProperty(user, 'last_name');
+        assertNotProperty(user, 'email');
+        assertNotProperty(user, 'title');
         assert.strictEqual(user.age, 30);
-        assert.equal(user.type, undefined);
-        assert.equal(user.dob, undefined);
+        assertNotProperty(user, 'type');
+        assertNotProperty(user, 'dob');
         done();
       });
     });
