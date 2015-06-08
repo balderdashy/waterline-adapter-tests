@@ -11,7 +11,7 @@ describe('unique attribute feature', function() {
   var defaults = { migrate: 'alter' };
   var waterline;
 
-  var UniqueFixture = require('./support/unique.fixture.js')
+  var UniqueFixture = require('../support/unique.fixture.js')
   var UniqueModel;
 
   var id0, id1, email0;
