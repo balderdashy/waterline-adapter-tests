@@ -62,7 +62,6 @@ describe('autoIncrement attribute feature', function() {
 
   var testName = '.create() test autoInc unique values';
   var lastIds;
-  var lastValues;
 
 
   it('should auto generate unique values', function(done) {
@@ -81,16 +80,11 @@ describe('autoIncrement attribute feature', function() {
 
         assert(records[0].id);
         assert.equal(records[0].name, 'ai_0');
-        assert(records[0].aiField);
         assert(records[0].normalField === null || records[0].normalField === undefined);
 
         var ids = lastIds = _.pluck(records, 'id');
         assert.equal(ids.length, 10);
         assert.equal(_.unique(ids).length, 10, 'Generated ids are not unique: '+ids.join(', '));
-
-        var aiValues = lastValues = _.pluck(records, 'aiField');
-        assert.equal(aiValues.length, 10);
-        assert.equal(_.unique(aiValues).length, 10, 'Generated values are not unique: '+aiValues.join(', '));
 
         done();
       });
@@ -105,7 +99,7 @@ describe('autoIncrement attribute feature', function() {
     // used the first values are already taken.
     var records = [];
     for(var i=0; i<5; i++) {
-      records.push({ id: lastIds[i], name: 'ai_' + i, aiField: lastValues[i], normalField: 10, type: testName });
+      records.push({ id: lastIds[i], name: 'ai_' + i, normalField: 10, type: testName });
     }
 
     AutoIncModel.create(records, function(err) {
@@ -118,14 +112,10 @@ describe('autoIncrement attribute feature', function() {
 
         assert.equal(records[0].id, lastIds[0]);
         assert.equal(records[0].name, 'ai_0');
-        assert.equal(records[0].aiField, lastValues[0]);
         assert.equal(records[0].normalField, 10);
 
         var ids = _.pluck(records, 'id');
         assert.deepEqual(ids, lastIds.slice(0,5));
-
-        var aiValues = _.pluck(records, 'aiField');
-        assert.deepEqual(aiValues, lastValues.slice(0,5));
 
 
         // Create another set of records without auto inc values set. The generated values should be
@@ -145,19 +135,13 @@ describe('autoIncrement attribute feature', function() {
 
             assert.equal(records[0].id, lastIds[0]);
             assert.equal(records[0].name, 'ai_0');
-            assert.equal(records[0].aiField, lastValues[0]);
 
             assert(records[5].id);
             assert.equal(records[5].name, 'ai_5');
-            assert(records[5].aiField);
 
             var ids = _.pluck(records, 'id');
             assert.equal(ids.length, 10);
             assert.equal(_.unique(ids).length, 10, 'Preset and generated ids are not unique: '+ids.join(', '));
-
-            var aiValues = _.pluck(records, 'aiField');
-            assert.equal(aiValues.length, 10);
-            assert.equal(_.unique(aiValues).length, 10, 'Preset and generated values are not unique: '+aiValues.join(', '));
 
             done();
           });

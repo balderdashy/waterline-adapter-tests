@@ -12,10 +12,6 @@ module.exports = Waterline.Collection.extend({
 
   attributes: {
     name: 'string',
-    aiField: {
-      type: "integer",
-      autoIncrement: true
-    },
     normalField: 'integer',
     type: 'string'
   }

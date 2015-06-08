@@ -67,35 +67,35 @@ describe('autoIncrement attribute Sequential feature', function() {
 
     AutoIncModel.create(records, function(err, records) {
       if (err) return done(err);
-      assert(records[0].aiField < records[1].aiField);
-      assert(records[1].aiField < records[2].aiField);
+      assert(records[0].id < records[1].id);
+      assert(records[1].id < records[2].id);
       
-      lastValue = records[2].aiField;
+      lastValue = records[2].id;
       done();
     });
   });
 
   it('should continue auto-incrementing from the last provided larger value', function(done) {
-    AutoIncModel.create({ aiField: lastValue + 20, name: 'FooBar+20' }, function(err, record) {
+    AutoIncModel.create({ id: lastValue + 20, name: 'FooBar+20' }, function(err, record) {
       if (err) return done(err);
-      assert.equal(record.aiField, lastValue + 20);
+      assert.equal(record.id, lastValue + 20);
 
       AutoIncModel.create({ name: 'FooBar+21' }, function(err, user) {
         if (err) return done(err);
-        assert.equal(user.aiField, lastValue + 21);
+        assert.equal(user.id, lastValue + 21);
         done();
       });
     });
   });
 
   it('should not update the auto-incrementing counter on smaller values', function(done) {
-    AutoIncModel.create({ aiField: lastValue + 10, name: 'FooBar+10' }, function(err, user) {
+    AutoIncModel.create({ id: lastValue + 10, name: 'FooBar+10' }, function(err, user) {
       if (err) return done(err);
-      assert.equal(user.aiField, lastValue + 10);
+      assert.equal(user.id, lastValue + 10);
 
       AutoIncModel.create({ name: 'FooBar+22' }, function(err, user) {
         if (err) return done(err);
-        assert.equal(user.aiField, lastValue + 22);
+        assert.equal(user.id, lastValue + 22);
         done();
       });
     });
