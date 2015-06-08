@@ -14,15 +14,17 @@ Download and install:
 
 **On Windows hosts:** Install the [Win-NFSD plugin](https://github.com/GM-Alex/vagrant-winnfsd) from 
 the command line in your project folder to enable NFS support for Windows hosts which is much faster than the 
-default Virtual Box file system drivers: `vagrant plugin install vagrant-winnfsd`
+default Virtual Box file system drivers: 
+
+`vagrant plugin install vagrant-winnfsd`
 
 #### Step 2
 
 The VM is configured using the [Puppet Server Management](https://puppetlabs.com) tool. It relies on puppet
 modules which should be installed as git sub-modules, therefore, run:
- 
- `$ git submodule init`
- `$ git submodule update`
+
+`$ git submodule init`  
+`$ git submodule update`
 
 #### Step 3
 
@@ -33,19 +35,19 @@ not the virtual host.
 Start up your VM with the following command which will download the VM image, boot it up and
 configure the environment (install all dbs) the first time:
 
-  `$ vagrant up`
+`$ vagrant up`
   
 Now SSH into the VM to run the tests:
   
-  `$ vagrant ssh` (Note: If ssh.exe is not found on Windows add `C:\Program Files (x86)\Git\bin` to your path) 
-  `$ cd /vagrant`
-  `$ npm install` (If not done earlier)
+`$ vagrant ssh` (Note: If ssh.exe is not found on Windows add `C:\Program Files (x86)\Git\bin` to your path)  
+`$ cd /vagrant`  
+`$ npm install` (If not done earlier)
 
 #### Step 4
   
 You are now in the mounted project folder within the VM and can run tests as usual:
 
-  `$ npm test`
+`$ npm test`
   
 Once you're finished, be sure to shut down the VM from the host terminal:
   
