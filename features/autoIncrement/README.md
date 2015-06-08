@@ -1,5 +1,5 @@
-autoIncrement Feature
-=====================
+Feature: autoIncrement
+======================
 
 Enable this test in `package.json` with: `"features": ["autoIncrement"]`
 
