@@ -20,7 +20,7 @@ describe('autoIncrement attribute feature', function() {
   var defaults = { migrate: 'alter' };
   var waterline;
 
-  var AutoIncFixture = require('./support/autoInc.fixture.js')
+  var AutoIncFixture = require('./../support/autoInc.fixture.js')
   var AutoIncModel;
 
 
