@@ -25,7 +25,7 @@ describe('Semantic Interface', function() {
       // TEST SETUP
       ////////////////////////////////////////////////////
 
-      var id;
+      var id, thingId;
 
       before(function(done) {
 
@@ -39,7 +39,11 @@ describe('Semantic Interface', function() {
         Semantic.User.createEach(users, function(err, users) {
           if(err) return done(err);
           id = users[0].id.toString();
-          done();
+          Semantic.Thing.create({ name: 'The Thing', description: 'A thing', age: 10 }, function(err, thing) {
+            if(err) return done(err);
+            thingId = thing.id;
+            done();
+          });
         });
       });
 
@@ -91,6 +95,17 @@ describe('Semantic Interface', function() {
         Semantic.User.update(id, { age: null }, function(err, users) {
           assert(!err);
           assert.strictEqual(users[0].age, null);
+          done();
+        });
+      });
+      
+      it('should update model attributes without supplying required fields', function(done) {
+        Semantic.Thing.update(thingId, { description: 'An updated thing' }, function(err, things) {
+          assert(!err);
+          assert(Array.isArray(things));
+          assert.strictEqual(things.length, 1);
+          assert.equal(things[0].id, thingId);
+          assert.equal(things[0].description, 'An updated thing');
           done();
         });
       });
