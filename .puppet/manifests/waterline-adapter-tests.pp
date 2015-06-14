@@ -74,30 +74,32 @@ class { '::mysql::server':
 
 ### PostgreSQL ###
 
-#class {'postgresql::globals':
-#  version => '9.3',
-#  manage_package_repo => true,
-#  encoding => 'UTF8',
-#}->
-#class { 'postgresql::server':
-##  user => 'vagrant',
-#  listen_addresses => '*',
-#}->
-#postgresql::server::role { 'vagrant':
-#  superuser => true,
-#}->
-#postgresql::server::database{ 'sailspg':
-#  owner => 'vagrant',
-#}
-#postgresql::server::database_grant { 'postgres_sailspg':
-#  privilege => 'ALL',
-#  db        => 'sailspg',
-#  role      => 'postgres',
-#}
-#
-#class { 'postgresql::server::contrib':
-#  package_ensure => 'present',
-#}
+class { 'postgresql::server': }
+
+postgresql::server::role{ 'vagrant':
+  superuser => true,
+  require   => Class['postgresql::server'],
+}
+
+postgresql::server::database{ 'sailspg':
+  owner     => 'postgres',
+  require   => Class['postgresql::server'],
+}->
+postgresql::server::database_grant { 'postgres_sailspg':
+  privilege => 'ALL',
+  db        => 'sailspg',
+  role      => 'postgres',
+}
+
+# Ensure the postgres username can be used without a password
+postgresql::server::pg_hba_rule { 'allow local connections without password':
+  type        => 'host',
+  database    => 'all',
+  user        => 'postgres',
+  address     => '127.0.0.1/8',
+  auth_method => 'trust',
+  order       => '000',
+}
 
 
 ### Redis ###
