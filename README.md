@@ -55,6 +55,18 @@ new TestRunner({
 $ node runner.js
 ```
 
+
+## Running Tests in a Vagrant VM
+
+Since it is not necessarily desirable to install all the databases on the local host 
+where this package is tested a [Vagrant](https://www.vagrantup.com) configuration for 
+a fully configured virtual host is provided. To run the tests using this virtual host
+follow [these steps](.puppet/README.md). 
+
+Using Vagrant is entirely optional. If you prefer to just run the test on your host
+directly just ensure the various databases being tested are installed.
+
+
 ## MIT License
 
 See LICENSE.md.
