@@ -20,7 +20,7 @@ describe('autoIncrement attribute Sequential feature', function() {
   var defaults = { migrate: 'alter' };
   var waterline;
 
-  var AutoIncFixture = require('../support/autoInc.fixture.js')
+  var AutoIncFixture = require('../support/autoInc.fixture.js');
   var AutoIncModel;
 
 
@@ -69,7 +69,7 @@ describe('autoIncrement attribute Sequential feature', function() {
       if (err) return done(err);
       assert(records[0].id < records[1].id);
       assert(records[1].id < records[2].id);
-      
+
       lastValue = records[2].id;
       done();
     });
@@ -78,11 +78,11 @@ describe('autoIncrement attribute Sequential feature', function() {
   it('should continue auto-incrementing from the last provided larger value', function(done) {
     AutoIncModel.create({ id: lastValue + 20, name: 'FooBar+20' }, function(err, record) {
       if (err) return done(err);
-      assert.equal(record.id, lastValue + 20);
+      assert.equal(record.id, lastValue + 20, 'Create item with a given larger than last id');
 
       AutoIncModel.create({ name: 'FooBar+21' }, function(err, user) {
         if (err) return done(err);
-        assert.equal(user.id, lastValue + 21);
+        assert.equal(user.id, lastValue + 21, 'AutoInc id should follow the previous given value');
         done();
       });
     });
@@ -91,11 +91,11 @@ describe('autoIncrement attribute Sequential feature', function() {
   it('should not update the auto-incrementing counter on smaller values', function(done) {
     AutoIncModel.create({ id: lastValue + 10, name: 'FooBar+10' }, function(err, user) {
       if (err) return done(err);
-      assert.equal(user.id, lastValue + 10);
+      assert.equal(user.id, lastValue + 10, 'Create item with a given smaller than last id');
 
       AutoIncModel.create({ name: 'FooBar+22' }, function(err, user) {
         if (err) return done(err);
-        assert.equal(user.id, lastValue + 22);
+        assert.equal(user.id, lastValue + 22,  'AutoInc should continue from the largest id to avoid clashing later');
         done();
       });
     });

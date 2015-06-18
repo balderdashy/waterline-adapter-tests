@@ -20,7 +20,7 @@ describe('autoIncrement attribute feature', function() {
   var defaults = { migrate: 'alter' };
   var waterline;
 
-  var AutoIncFixture = require('./../support/autoInc.fixture.js')
+  var AutoIncFixture = require('./../support/autoInc.fixture.js');
   var AutoIncModel;
 
 
@@ -43,16 +43,15 @@ describe('autoIncrement attribute feature', function() {
   });
 
   afterEach(function(done) {
-    if(!Adapter.hasOwnProperty('drop')) return done();
-    
-    AutoIncModel.drop(function(err) {
-      if(err) return done(err);
-      done();
-    });
-  });
-
-  after(function(done) {
-    waterline.teardown(done);
+    if(!Adapter.hasOwnProperty('drop')) {
+      waterline.teardown(done);
+    } else {
+      AutoIncModel.drop(function(err1) {
+        waterline.teardown(function(err2) {
+          return done(err1 || err2);
+        });
+      });
+    }
   });
 
 
