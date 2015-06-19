@@ -9,7 +9,7 @@
 
 var Path = require('path'),
     _ = require('lodash'),
-    utils = require('./utils'),
+    utils = require('../../../lib/utils'),
     mocha = require('mocha'),
     memoryAdapter = require('sails-memory');
 
@@ -49,11 +49,11 @@ function CrossAdapter(options, cb) {
 
   var files = [];
 
-  var bootstrapPath = Path.resolve(__dirname,'../features/crossAdapter');
+  var bootstrapPath = Path.resolve(__dirname,'../support');
   files = files.concat(utils.fileLookup(bootstrapPath, filter, true));
 
   this.associationTypes.forEach(function(type) {
-    var interfacePath = Path.resolve(__dirname,'../interfaces/associations/' + type);
+    var interfacePath = Path.resolve(__dirname,'../../../interfaces/associations/' + type);
     files = files.concat(utils.fileLookup(interfacePath, filter, true));
   });
  
