@@ -16,16 +16,19 @@ describe('Queryable Interface', function() {
     before(function(done) {
 
       // Insert 1 Users
-      var user = {
+      var users = [];
+      for (var i = 0; i < 10; i++) {
+        users.push({
           first_name: 'select_user',
-          last_name: 'select_name',
+          last_name: 'select_name_' + i,
           email: 'select_email',
           title: 'select_title',
-          age: 30,
+          age: 30 + i,
           type: 'select test'
-        };
+        });
+      }
 
-      Queryable.User.create(user, function(err, model) {
+      Queryable.User.create(users, function(err, model) {
         if(err) return done(err);
         done();
       });
@@ -36,7 +39,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should return a record with a single field first_name', function(done) {
-      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name'] }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name'], sort: 'age' }, function(err, users) {
         assert(!err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
@@ -46,6 +49,24 @@ describe('Queryable Interface', function() {
         assertNotProperty(user, 'age');
         assertNotProperty(user, 'type');
         assertNotProperty(user, 'dob');
+        done();
+      });
+    });
+    
+    it('should return multiples records with a single field first_name', function(done) {
+      Queryable.User.find({ where: {}, select: ['first_name'], sort: 'age' }, function(err, users) {
+        assert(!err);
+        assert(users.length > 1);
+        for(var i=0; i<users.length; i++){
+          var user = users[i];
+          assert('first_name' in user);
+          assertNotProperty(user, 'last_name');
+          assertNotProperty(user, 'email');
+          assertNotProperty(user, 'title');
+          assertNotProperty(user, 'age');
+          assertNotProperty(user, 'type');
+          assertNotProperty(user, 'dob');
+        }
         done();
       });
     });
@@ -65,7 +86,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return a record with multiple fields', function(done) {
-      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name', 'age'] }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name', 'age'], sort: 'age' }, function(err, users) {
         assert(!err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
@@ -80,11 +101,11 @@ describe('Queryable Interface', function() {
     });
 
     it('in absence of SELECT modifier should return a record with all fields', function(done) {
-      Queryable.User.find({ where: { type: 'select test' } }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, sort: 'age' }, function(err, users) {
         assert(!err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
-        assert.equal(user.last_name, 'select_name');
+        assert.equal(user.last_name, 'select_name_0');
         assert.equal(user.email, 'select_email');
         assert.equal(user.title, 'select_title');
         assert.strictEqual(user.age, 30);
