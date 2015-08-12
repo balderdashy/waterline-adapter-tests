@@ -113,8 +113,8 @@ describe('autoIncrement attribute feature', function() {
         assert.equal(records[0].normalField, 10);
 
         var ids = _.pluck(records, 'id');
-        assert.equal(_.difference(ids, lastIds.slice(0, 5)).length, 0);
-
+        assert.equal(ids.length, 5)
+        assert.equal(_.unique(ids).length, 5)
 
         // Create another set of records without auto inc values set. The generated values should be
         // unique, even when compared to those set explicitly.
