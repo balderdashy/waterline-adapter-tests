@@ -109,13 +109,12 @@ describe('autoIncrement attribute feature', function() {
         assert(!err);
         assert.equal(records.length, 5, 'Expecting 5 records, but got '+records.length);
 
-        assert.equal(records[0].id, lastIds[0]);
         assert.equal(records[0].name, 'ai_0');
         assert.equal(records[0].normalField, 10);
 
         var ids = _.pluck(records, 'id');
-        assert.equal(_.difference(ids, lastIds.slice(0, 5)).length, 0);
-
+        assert.equal(ids.length, 5)
+        assert.equal(_.unique(ids).length, 5)
 
         // Create another set of records without auto inc values set. The generated values should be
         // unique, even when compared to those set explicitly.
@@ -132,7 +131,6 @@ describe('autoIncrement attribute feature', function() {
             assert(!err);
             assert.equal(records.length, 10, 'Expecting 10 records, but got '+records.length);
 
-            assert.equal(records[0].id, lastIds[0]);
             assert.equal(records[0].name, 'ai_0');
 
             assert(records[5].id);
