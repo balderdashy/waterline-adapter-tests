@@ -2,15 +2,22 @@ language: node_js
 node_js:
   - "0.12"
   - "0.10"
+
 services: 
   - postgresql
   - mongodb
   - mysql
   - redis-server
+
 addons:
   postgresql: "9.3"
+
 env:
   - DB_USER=postgres DB_PASS=''
+
+# run in docker
+sudo: false
+
 before_script:
   - npm install balderdashy/waterline
   - psql -c 'create database sailspg;' -U postgres
