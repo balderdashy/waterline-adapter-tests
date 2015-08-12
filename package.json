@@ -4,12 +4,12 @@
   "version": "0.10.13",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
-    "async": "~1.2.0",
+    "async": "^1.4",
     "bluebird": "~2.9.0",
-    "lodash": "~3.9.2",
+    "lodash": "^3.10",
     "mocha": "~2.2.5",
     "sails-memory": "balderdashy/sails-memory",
-    "should": "~6.0.3",
+    "should": "^7.0",
     "waterline": "~0.10.0"
   },
   "devDependencies": {
