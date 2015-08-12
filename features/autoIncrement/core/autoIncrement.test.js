@@ -109,7 +109,6 @@ describe('autoIncrement attribute feature', function() {
         assert(!err);
         assert.equal(records.length, 5, 'Expecting 5 records, but got '+records.length);
 
-        assert.equal(records[0].id, lastIds[0]);
         assert.equal(records[0].name, 'ai_0');
         assert.equal(records[0].normalField, 10);
 
@@ -132,7 +131,6 @@ describe('autoIncrement attribute feature', function() {
             assert(!err);
             assert.equal(records.length, 10, 'Expecting 10 records, but got '+records.length);
 
-            assert.equal(records[0].id, lastIds[0]);
             assert.equal(records[0].name, 'ai_0');
 
             assert(records[5].id);
