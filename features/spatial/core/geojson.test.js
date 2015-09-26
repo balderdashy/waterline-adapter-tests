@@ -19,6 +19,7 @@ describe('spatial feature', function () {
           marker: Fixtures.point
         })
         .then(function (model) {
+          console.log('model', model);
           assert(_.isObject(model.marker));
           assert.equal(model.marker.type, 'Point');
           assert(model.id);
