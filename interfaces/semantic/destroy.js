@@ -109,6 +109,38 @@ describe('Semantic Interface', function() {
           done();
         });
       });
+    });
+
+    describe('IN query', function() {
+
+      /////////////////////////////////////////////////////
+      // TEST SETUP
+      ////////////////////////////////////////////////////
+
+      beforeEach(function(done) {
+        Semantic.User.createEach([
+          { first_name: 'dummy_test' },
+          { first_name: 'dummy_test' },
+          { first_name: 'dummy_test' }
+        ], done);
+      });
+
+      /////////////////////////////////////////////////////
+      // TEST METHODS
+      ////////////////////////////////////////////////////
+
+      it('should not destroy any records', function(done) {
+        Semantic.User.destroy({ id: [] }, function(err, users) {
+          assert(!err);
+          assert.strictEqual(users.length, 0);
+
+          Semantic.User.find({ first_name: 'dummy_test' }, function(err, users) {
+            assert(!err);
+            assert.strictEqual(users.length, 3);
+            done();
+          });
+        });
+      });
 
     });
   });
