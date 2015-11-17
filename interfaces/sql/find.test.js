@@ -61,5 +61,13 @@ describe('SQL Interface', function() {
       });
     });
 
+    it('should escape values when using like modifier to prevent SQL injection attacks', function(done) {
+      var part = '\\\\\\" OR 1=1; -- %_';
+      Sql.User.find({ first_name: { like: part }}, function(err, users) {
+        assert(!users || !users.length, 'Should have escaped first name and prevented data from being returned');
+        done();
+      });
+    });
+
   });
 });
