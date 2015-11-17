@@ -77,6 +77,36 @@ describe('Queryable Interface', function() {
         });
       });
 
+      describe('escaping values', function() {
+
+        // Insert multiple users so we test we get back a valid result set
+        before(function(done) {
+          Queryable.User.createEach([
+            { first_name: 'bob' },
+            { first_name: 'joe' },
+            { first_name: 'gale' },
+            { first_name: 'emily' }
+          ]).exec(done);
+        });
+
+        it('should escape startsWith queries so nothing will be returned', function(done) {
+          var part = '\\\\\\" OR 1=1; -- %_';
+          var testName = 'long_xxj8xrxh!!!r endsWith query test';
+
+          Queryable.User.create({ first_name: testName }, function(err) {
+            if (err) return done(err);
+
+            Queryable.User.where({ first_name: { endsWith: part }}, function(err, users) {
+              assert(!err);
+              assert(Array.isArray(users));
+              assert.equal(users.length, 0);
+              done();
+            });
+          });
+        });
+
+      });
+
     });
   });
 });
