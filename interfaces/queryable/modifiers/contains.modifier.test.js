@@ -77,20 +77,6 @@ describe('Queryable Interface', function() {
         });
       });
 
-      describe('escaping values', function() {
-
-        // Insert multiple users so we test we get back a valid result set
-        before(function(done) {
-          Queryable.User.createEach([
-            { first_name: 'bob' },
-            { first_name: 'joe' },
-            { first_name: 'gale' },
-            { first_name: 'emily' }
-          ]).exec(done);
-        });
-
-      });
-
     });
   });
 });
