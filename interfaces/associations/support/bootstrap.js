@@ -22,6 +22,8 @@ var fixtures = {
   VenueFixture: require('./fixtures/hasManyThrough.venue.fixture'),
   TaxiFixture: require('./fixtures/manyToMany.taxi.fixture'),
   DriverFixture: require('./fixtures/manyToMany.driver.fixture'),
+  TaxiWithSchemaFixture: require('./fixtures/manyToMany.taxi.withSchema.fixture'),
+  DriverWithSchemaFixture: require('./fixtures/manyToMany.driver.withSchema.fixture'),
   TaxiCustomFixture: require('./fixtures/manyToMany.taxi.customPK.fixture'),
   DriverCustomFixture: require('./fixtures/manyToMany.driver.customPK.fixture'),
   UserOneFixture: require('./fixtures/oneToOne.fixture').user_resource,
