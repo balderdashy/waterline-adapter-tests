@@ -6,7 +6,7 @@ var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
 
-  tableName: 'driverTable',
+  tableName: 'driverWithSchemaTable',
   meta: {
     schemaName: 'foo'
   },

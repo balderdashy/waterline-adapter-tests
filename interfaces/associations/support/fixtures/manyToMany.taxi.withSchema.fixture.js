@@ -6,7 +6,7 @@ var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
 
-  tableName: 'taxiTable',
+  tableName: 'taxiWithSchemaTable',
   meta: {
     schemaName: 'bar'
   },
