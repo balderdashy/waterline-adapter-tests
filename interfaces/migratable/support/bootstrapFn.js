@@ -10,13 +10,20 @@ var fixtures = {
   UserFixture: require('./fixtures/crud.fixture'),
   ProjectFixture: require('./fixtures/schema.fixture'),
   AlterFixture: require('./fixtures/alter.fixture'),
+  CreateFixture: require('./fixtures/create.fixture'),
   CustomFixture: require('./fixtures/custom.fixture'),
   DropFixture: require('./fixtures/drop.fixture'),
   SafeFixture: require('./fixtures/safe.fixture')
 };
 
 
-module.exports = function(cb) {
+module.exports = function(newFixtures, cb) {
+  if(!cb){
+    cb = newFixtures;
+    newFixtures = undefined;
+  }
+  newFixtures = newFixtures || {};
+  fixtures = _.defaults(newFixtures, fixtures);
 
   var waterline = new Waterline();
 
