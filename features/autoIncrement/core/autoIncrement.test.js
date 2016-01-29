@@ -92,7 +92,7 @@ describe('autoIncrement attribute feature', function() {
   });
 
 
-  it('should auto generate unique values even when values have been set', function(done) {
+  it.skip('should auto generate unique values even when values have been set', function(done) {
     // Create some initial records with auto inc values already set. Type matches are ensured by using the
     // values generated in the previous test, also ensuring that if there is a fixed sequence of values being
     // used the first values are already taken.
