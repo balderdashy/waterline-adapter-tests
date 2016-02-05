@@ -10,7 +10,7 @@
     "mocha": "2.4.5",
     "sails-memory": "balderdashy/sails-memory",
     "should": "8.2.1",
-    "waterline": "~0.10.31"
+    "waterline": "~0.11.0"
   },
   "devDependencies": {
     "jpath": "0.0.20",
