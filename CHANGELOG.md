@@ -1,5 +1,9 @@
 # Waterline Adapter Tests Changelog
 
+### 0.10.18
+
+* [ENHANCEMENT] Add a test for querying dates when they are a string. See [#100](https://github.com/balderdashy/waterline-adapter-tests/pull/100) for more details.
+
 ### 0.10.17
 
 * [STABILITY] Skip failing binary test that isn't compatible with Waterline feature set. This was hiding actual patches that break core or another adapter. See [#98](https://github.com/balderdashy/waterline-adapter-tests/pull/98) for more details.
