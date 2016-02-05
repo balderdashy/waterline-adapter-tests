@@ -86,9 +86,10 @@ describe('Association Interface', function() {
         driverRecord.taxis.remove({ medallion: 1337 });
         driverRecord.save(function(err) {
           assert(err);
-          assert(Array.isArray(err));
-          assert.strictEqual(err.length, 1);
-          assert.equal(err[0].type, 'remove');
+          assert(err.failedTransactions);
+          assert(Array.isArray(err.failedTransactions));
+          assert.strictEqual(err.failedTransactions.length, 1);
+          assert.equal(err.failedTransactions[0].type, 'remove');
 
           done();
         });
