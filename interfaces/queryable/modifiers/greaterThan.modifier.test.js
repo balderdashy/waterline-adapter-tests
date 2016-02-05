@@ -263,6 +263,16 @@ describe('Queryable Interface', function() {
           });
         });
 
+        it('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
+          Queryable.User.find({ type: testName, dob: { '>=': 'Sat Nov 09 2013 00:00:00 GMT-0600 (CST)' }}).sort('first_name').exec(function(err, users) {
+            assert(!err);
+            assert(Array.isArray(users));
+            assert.strictEqual(users.length, 2);
+            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
+            done();
+          });
+        });
+
       });
 
       describe('strings', function() {
