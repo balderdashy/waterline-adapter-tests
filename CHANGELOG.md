@@ -1,5 +1,9 @@
 # Waterline Adapter Tests Changelog
 
+### 0.10.19
+
+* [BUG] Fix previous date test that only checked CST
+
 ### 0.10.18
 
 * [ENHANCEMENT] Add a test for querying dates when they are a string. See [#100](https://github.com/balderdashy/waterline-adapter-tests/pull/100) for more details.
