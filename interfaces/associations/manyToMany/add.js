@@ -93,7 +93,7 @@ describe('Association Interface', function() {
           });
         });
       });
-      
+
       it('after populating parent should link a payment to a customer through a join table', function(done) {
         Associations.Driver.findOne(driverRecord.id)
         .populate('taxis')
@@ -101,13 +101,13 @@ describe('Association Interface', function() {
           driver.taxis.add(taxiRecord2.id);
           driver.save(function(err) {
             assert(!err);
-  
+
             // Look up the driver again to be sure the taxi was added
             Associations.Driver.findOne(driverRecord.id)
             .populate('taxis', { medallion: 30 })
             .exec(function(err, data) {
               assert(!err);
-  
+
               assert.strictEqual(data.taxis.length, 1);
               assert.strictEqual(data.taxis[0].medallion, 30);
               done();
@@ -120,8 +120,9 @@ describe('Association Interface', function() {
         driverRecord.taxis.add(taxiRecord.id + 2);
         driverRecord.save(function(err) {
           assert(err);
-          assert(Array.isArray(err));
-          assert.strictEqual(err.length, 1);
+          assert(err.failedTransactions);
+          assert(Array.isArray(err.failedTransactions));
+          assert.strictEqual(err.failedTransactions.length, 1);
           done();
         });
       });
