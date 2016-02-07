@@ -25,9 +25,9 @@ var wlSequelPath = ".dependencies.%s.dependencies.waterline-sequel";
 /////////////////////////////////////////////////////////////////////
 
 
-var status = {},
-    npmData,
-    exitCode = 0;
+var status = {};
+var npmData;
+var exitCode = 0;
 process.env.FORCE_COLORS = true;
 
 console.time('total time elapsed');
@@ -39,55 +39,58 @@ resultTable += "|------------------|---------|--------|--------|-------|--------
 
 function getNpmDetails(cb){
   npm.load({ depth: 2 }, function (er) {
-  if (er) return process.exit(1);
+    if (er) return process.exit(1);
 
-  npm.commands.ls('', true, function(err, data){
-    npmData = data;
-    cb(err, data);
+    npm.commands.ls('', true, function(err, data){
+      npmData = data;
+      cb(err, data);
+    });
   });
-});
 }
 
 function runTests(cb){
   async.eachSeries(adapters, function(adapterName, next){
     var settings = getAdapterSettings(adapterName);
     status[adapterName] = { failed: 0, total: 0, exitCode: 0 };
-    
+
     console.log("\n");
     console.log("\033[0;34m-------------------------------------------------------------------------------------------\033[0m");
     console.log("\033[0;34m                                     %s \033[0m", adapterName);
     console.log("\033[0;34m-------------------------------------------------------------------------------------------\033[0m");
     console.log();
-    
+
     var child = exec('node ./test/integration/runner.js ' + adapterName, { env: process.env });
+
     child.stdout.on('data', function(data) {
       if(isDot(data)) { status[adapterName].total++; }
       process.stdout.write(data);
     });
+
     child.stderr.on('data', function(data) {
-      if(isDot(data)) { 
+      if(isDot(data)) {
         status[adapterName].total++;
         status[adapterName].failed++;
       }
       process.stdout.write(data);
     });
+
     child.on('close', function(code) {
       status[adapterName].exitCode = code;
       var message = code == 0 ? "\033[0;32mpassed\033[0m" : "\033[0;31mfailed\033[0m";
       var wlSequel = getWlSequelVersion(adapterName);
-      resultTable += "| " + padRight(adapterName, 16) 
+      resultTable += "| " + padRight(adapterName, 16)
         + " | " + padLeft(processVersion(npmData.dependencies[adapterName]), 7)
-        + " | " + message 
-        + " | " + padLeft(status[adapterName].failed, 6) 
+        + " | " + message
+        + " | " + padLeft(status[adapterName].failed, 6)
         + " | " + padLeft(status[adapterName].total, 5)
         + " | " + padLeft(wlSequel, 9)
         + " |\n";
-      
+
       console.log('exit code: ' + code);
       if(code != 0 && !settings.returnZeroOnError) { exitCode = exitCode + code; }
       next();
     });
-  }, 
+  },
   cb);
 }
 
@@ -105,8 +108,8 @@ function printCoreModulesVersions(cb){
 }
 
 function getModuleRow(name, module){;
-  return "| "+ padRight(name, 23) + " | " 
-    + padLeft(processVersion(module), 7) 
+  return "| "+ padRight(name, 23) + " | "
+    + padLeft(processVersion(module), 7)
     + " |\n";
 }
 
@@ -172,9 +175,9 @@ function getWlSequelVersion(adapterName){
 }
 
 function getAdapterSettings(adapterName){
-  var settings = { config: {} };
+  var settings = {};
   try {
-    settings = require('./config/' + adapterName + '.json');
+    settings = require('./config/' + adapterName);
   } catch(e){
     console.warn("Warning: couldn't find config file for " + adapterName + ".");
   }
