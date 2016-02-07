@@ -1,5 +1,10 @@
 # Waterline Adapter Tests Changelog
 
+### 0.11.0
+
+* [UPGRADE] Add test that checks the new function signature of `.save()` in Waterline 0.11.0
+* [ENHANCEMENT] Add a Docker config for getting all the various databases installed and configured to run the tests.
+
 ### 0.10.19
 
 * [BUG] Fix previous date test that only checked CST
