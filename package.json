@@ -36,7 +36,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "node test/integration/runnerDispatcher.js",
-    "test-load": "node test/load"
+    "test-load": "node test/load",
+    "docker": "docker-compose run adapter bash"
   },
   "engines": {
     "node": "*"
