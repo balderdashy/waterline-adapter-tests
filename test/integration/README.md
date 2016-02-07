@@ -15,7 +15,7 @@ A set of integration tests that test the official adapters against waterline cor
 
 ## What's the difference between these tests and the ones ran by the individual adapters?
 
-The adapters are configured to run their tests against the **stable** versions of waterline core and waterline-adapter-tests. From an adapter point of view, this makes sense since the adapter is only responsible for supporting the stable versions of its dependencies. These tests run against waterline core **edge** version (latest in github) and the objective is to prevent changes in waterline core to accidently break the adapters.
+The adapters are configured to run their tests against the **stable** versions of waterline core and waterline-adapter-tests. From an adapter point of view, this makes sense since the adapter is only responsible for supporting the stable versions of its dependencies. These tests run against waterline core **edge** version (latest in github) and the objective is to prevent changes in waterline core from accidentally breaking the adapters.
 
 
 ## Why not have these tests ran in waterline core builds?
