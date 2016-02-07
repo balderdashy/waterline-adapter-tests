@@ -1,0 +1,32 @@
+adapter:
+  build: .
+  volumes:
+   - .:/usr/src/app
+  links:
+   - postgres
+   - mysql
+   - mongo
+   - redis
+  environment:
+   - NODE_ENV=test
+
+mysql:
+  image: mysql
+  environment:
+   - MYSQL_DATABASE=sails_mysql
+   - MYSQL_USER=sails
+   - MYSQL_PASSWORD=sails
+   - MYSQL_ROOT_PASSWORD=sails
+
+postgres:
+  image: postgres:9.4
+  environment:
+   - POSTGRES_PASSWORD=sails
+   - POSTGRES_USER=sails
+   - POSTGRES_DB=sailspg
+
+mongo:
+  image: mongo
+
+redis:
+  image: redis
