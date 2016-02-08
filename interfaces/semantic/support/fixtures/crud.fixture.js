@@ -3,6 +3,7 @@
  */
 
 var Waterline = require('waterline');
+var _ = require('lodash');
 
 module.exports = Waterline.Collection.extend({
 
@@ -39,7 +40,13 @@ module.exports = Waterline.Collection.extend({
     obj: 'json',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;
-    }
+    },
+  },
+  
+  afterUpdate: function (values, cb) {
+    var afterUpdateValues = _.cloneDeep(values);
+    values.afterUpdateValues = afterUpdateValues;
+    cb();
   }
 
 });
