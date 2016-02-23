@@ -38,7 +38,7 @@ if (adapterFeatures.indexOf('schemas') > -1) {
         Associations.Driverwithschema.find({ name: 'manymany find' })
         .populate('taxis')
         .exec(function(err, drivers) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(Array.isArray(drivers));
           assert.strictEqual(drivers.length, 1);
@@ -52,7 +52,7 @@ if (adapterFeatures.indexOf('schemas') > -1) {
       it('should not return a taxis object when the populate is not added', function(done) {
         Associations.Driverwithschema.find()
         .exec(function(err, drivers) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = drivers[0].toJSON();
           assert(!obj.taxis);
@@ -65,7 +65,7 @@ if (adapterFeatures.indexOf('schemas') > -1) {
         Associations.Driverwithschema.find({ name: 'manymany find' })
         .populate('taxis')
         .exec(function(err, drivers) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = drivers[0].toJSON();
           assert(!obj.name);

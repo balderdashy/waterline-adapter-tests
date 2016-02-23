@@ -24,7 +24,7 @@ describe('Semantic Interface', function() {
 
       it('should destroy a record', function(done) {
         Semantic.User.destroy({ first_name: 'Destroy' }, function(err, records) {
-          assert(!err);
+          assert.ifError(err);
           assert(Array.isArray(records));
           assert.strictEqual(records.length, 1);
           assert.equal(records[0].first_name, 'Destroy');
@@ -65,7 +65,7 @@ describe('Semantic Interface', function() {
 
       it('should destroy a record', function(done) {
         Semantic.User.destroy(user.id, function(err, status) {
-          assert(!err);
+          assert.ifError(err);
           done();
         });
       });
@@ -98,7 +98,7 @@ describe('Semantic Interface', function() {
 
       it('should destroy all the records', function(done) {
         Semantic.User.destroy(function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           done();
         });
       });
@@ -131,11 +131,11 @@ describe('Semantic Interface', function() {
 
       it('should not destroy any records', function(done) {
         Semantic.User.destroy({ id: [] }, function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           assert.strictEqual(users.length, 0);
 
           Semantic.User.find({ first_name: 'dummy_test_in' }, function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert.strictEqual(users.length, 3);
             done();
           });

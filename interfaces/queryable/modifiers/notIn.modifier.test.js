@@ -33,7 +33,7 @@ describe('Queryable Interface', function() {
 
       it('should return correct user', function(done) {
         Queryable.User.find({ first_name: { '!': ["foo", testName, "bar", "baz"] }}, function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           assert.strictEqual(users.length, 1);
           assert.equal(users[0].first_name, 'something else');
           done();

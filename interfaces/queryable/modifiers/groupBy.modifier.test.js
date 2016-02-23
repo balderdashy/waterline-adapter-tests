@@ -36,7 +36,7 @@ describe('Queryable Interface', function() {
 
     it('should group by keys and sum values', function(done) {
       Queryable.User.find({ groupBy: ['type'], sum: ['age'] }, function(err, grouped) {
-        assert(!err);
+        assert.ifError(err);
         var asserted = false;
 
         asserted = grouped.filter(function(result){
@@ -57,7 +57,7 @@ describe('Queryable Interface', function() {
 
     it('should group by multiple keys and sum values', function(done) {
       Queryable.User.find({ groupBy: ['type', 'age'], sum: ['percent'] }, function(err, grouped) {
-        assert(!err);
+        assert.ifError(err);
 
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test' && result.age === 1) {
@@ -76,7 +76,7 @@ describe('Queryable Interface', function() {
 
     it('should group by keys and both sum and average values', function(done) {
       Queryable.User.find({ groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
-        assert(!err);
+        assert.ifError(err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
             assert.strictEqual(result.age, 45);
@@ -95,7 +95,7 @@ describe('Queryable Interface', function() {
 
     it('should allow match query with groupBy', function(done){
       Queryable.User.find({where: { age: { '>': 5 } }, groupBy: ['type'], sum: ['age'], average: ['percent'] }, function(err, grouped) {
-        assert(!err);
+        assert.ifError(err);
         var asserted = grouped.filter(function(result){
           if(result.type === 'groupBy test') {
             assert.strictEqual(result.age, 30);

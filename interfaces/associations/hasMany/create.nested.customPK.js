@@ -77,13 +77,13 @@ describe('Association Interface', function() {
             Associations.Customerbelongscustom.create(data)
             .exec(function(err, values) {
 
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customerbelongscustom.findOne(values.username)
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
 
                 assert.equal(model.payments.length, 2);
 

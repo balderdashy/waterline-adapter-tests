@@ -30,7 +30,7 @@ describe('Semantic Interface', function() {
         first_name: 'NOT IN THE SET',
         type: testName
       }], function(err, results) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(results.length, 1);
         done();
       });
@@ -41,7 +41,7 @@ describe('Semantic Interface', function() {
         first_name: 'NOT IN THE SET',
         type: testName
       }], function(err, results) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(results.length, 1);
         done();
       });
@@ -63,7 +63,7 @@ describe('Semantic Interface', function() {
 
     it('should return model instances', function(done) {
       Semantic.User.findOrCreateEach(['type', 'first_name'], [{ type: testName, first_name: 'NOT IN THE SET' }], function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(users[0].id);
         assert.equal(typeof users[0].fullName, 'function');
         assert.equal(toString.call(users[0].createdAt), '[object Date]');

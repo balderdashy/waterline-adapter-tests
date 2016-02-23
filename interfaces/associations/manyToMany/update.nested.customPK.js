@@ -42,13 +42,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Drivercustom.update({ number: Driver.number }, taxiData).exec(function(err, values) {
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Drivercustom.findOne(values[0].number)
               .populate('taxis')
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(model.name, 'm:m update nested - updated');
                 assert.equal(model.taxis.length, 1);
 
@@ -107,7 +107,7 @@ describe('Association Interface', function() {
             };
 
             Associations.Drivercustom.update({ number: Driver.number }, taxiData).exec(function(err, values) {
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Drivercustom.findOne(values[0].number)
@@ -183,13 +183,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Drivercustom.update({ number: Driver.number }, taxiData).exec(function(err, values) {
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the driver again to be sure the taxis were added
               Associations.Drivercustom.findOne(values[0].number)
               .populate('taxis',{sort : {medallion : 1}})
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(model.name, 'm:m update nested - updated');
                 assert.equal(model.taxis.length, 2);
 
@@ -246,12 +246,12 @@ describe('Association Interface', function() {
               var taxi = model.taxis[0];
               taxi.medallion = 1001;
               taxi.save(function(err){
-                assert(!err);
+                assert.ifError(err);
 
                 Associations.Drivercustom.findOne({ number: Driver.number })
                 .populate('taxis')
                 .exec(function(err, model) {
-                  assert(!err);
+                  assert.ifError(err);
                   assert.equal(model.taxis.length, 1);
                   assert.equal(model.taxis[0].vin, 'b012');
                   assert.equal(model.taxis[0].medallion, 1001);

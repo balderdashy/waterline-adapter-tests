@@ -30,7 +30,7 @@ describe('Semantic Interface', function() {
 
     it('should return 10 records', function(done) {
       Semantic.User.find({ type: 'find test' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.strictEqual(users.length, 10);
         done();
@@ -39,7 +39,7 @@ describe('Semantic Interface', function() {
 
     it('should return 1 record when searching for a specific record (integer test) with find', function(done) {
       Semantic.User.find({ age: 10 }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.strictEqual(users.length, 1);
         done();
@@ -52,7 +52,7 @@ describe('Semantic Interface', function() {
           lessThanOrEqual: 49 // should return half the records - from 0 to 40
         }
       }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.equal(users.length, 5);
         done();
@@ -72,7 +72,7 @@ describe('Semantic Interface', function() {
 
     it('should work with no criteria passed in', function(done) {
       Semantic.User.find(function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         done();
       });

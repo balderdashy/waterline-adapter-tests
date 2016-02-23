@@ -30,7 +30,7 @@ describe('SQL Interface', function() {
 
     it('should return non undefined result', function(done) {
       Sql.User.query('SELECT * FROM usertablesql', undefined, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(users);
         done();
       });

@@ -36,7 +36,7 @@ describe('Migratable Interface', function() {
 
     it('should have tables', function(done) {
       Migratable[collectionName].describe(function(err, schema) {
-        assert(!err);
+        assert.ifError(err);
         assert(schema);
         done();
       });
@@ -52,11 +52,11 @@ describe('Migratable Interface', function() {
       it('should retain the data when bootstrapped the second time', function(done) {
         Migratable.waterline.teardown(function(err) {
           bootstrapFn(function(err, obj) {
-            assert(!err);
+            assert.ifError(err);
             var ontology = obj.ontology;
             ontology.collections[collectionName.toLowerCase()].findOne({name: 'blackbeard'})
               .exec(function(err, pirate) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(pirate.name, 'blackbeard');
                 done();
               });
@@ -75,7 +75,7 @@ describe('Migratable Interface', function() {
           if(err) { return done(err); }
           Migratable.waterline.teardown(function(err) {
             bootstrapFn(newFixture, function(err, obj) {
-              assert(!err);
+              assert.ifError(err);
               var ontology = obj.ontology;
               ontology.collections[collectionName.toLowerCase()].findOne({name: 'bluebeard'});
               collection = ontology.collections[collectionName.toLowerCase()];
@@ -88,7 +88,7 @@ describe('Migratable Interface', function() {
       it('should retain the data when bootstrapped the second time', function(done) {
         collection.findOne({name: 'bluebeard'})
         .exec(function(err, pirate) {
-          assert(!err);
+          assert.ifError(err);
           assert.equal(pirate.name, 'bluebeard');
           done();
         });
@@ -96,7 +96,7 @@ describe('Migratable Interface', function() {
 
       it('should have new attribute', function(done) {
         collection.describe(function(err, schema) {
-          assert(!err);
+          assert.ifError(err);
           assert(schema);
           assert(schema.name);
           assert(schema.gender);
@@ -108,7 +108,7 @@ describe('Migratable Interface', function() {
       it('should be able to record data using new attribute', function(done) {
         collection.create({ name: 'whitebeard', gender: 'male' })
         .exec(function(err, newPirate) {
-          assert(!err);
+          assert.ifError(err);
           assert.equal(newPirate.name, 'whitebeard');
           assert.equal(newPirate.gender, 'male');  // requires addAttribute
           done();

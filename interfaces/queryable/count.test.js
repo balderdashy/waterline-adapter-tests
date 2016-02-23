@@ -33,7 +33,7 @@ describe('Queryable Interface', function() {
 
     it('should accurately count records', function(done) {
       Queryable.User.count({ type: 'count' }, function(err, count) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(count, 10);
         done();
       });
@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
 
     it('should work with dynamic finders', function(done) {
       Queryable.User.countByType('count', function(err, count) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(count, 10);
         done();
       });

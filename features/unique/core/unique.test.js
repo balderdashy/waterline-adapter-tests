@@ -65,7 +65,7 @@ describe('unique attribute feature', function() {
       assert(err);
       assert(!records);
       UniqueModel.find({type: 'unique'}).exec(function(err, records) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(records.length, 3);
         done();
       });
@@ -77,7 +77,7 @@ describe('unique attribute feature', function() {
       assert(err);
       assert(!records);
       UniqueModel.findOne(id1).exec(function(err, record) {
-        assert(!err);
+        assert.ifError(err);
         assert.notEqual(record.email, email0);
         done();
       });

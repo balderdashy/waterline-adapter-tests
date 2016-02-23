@@ -30,7 +30,7 @@ describe('Association Interface', function() {
 
       it('should update model attributes without modifying nested association', function(done) {
         Associations.Driver.update({ name: 'm:m update' }, { name: 'm:m updated' }, function(err, drivers) {
-          assert(!err);
+          assert.ifError(err);
           assert(Array.isArray(drivers));
           assert.equal(drivers.length, 1);
           assert.equal(drivers[0].name, 'm:m updated');
@@ -79,7 +79,7 @@ describe('Association Interface', function() {
           
           driver.name = 'm:m updated add';
           driver.save(function(err){
-            assert(!err);
+            assert.ifError(err);
             
             Associations.Driver.findOne({ name: 'm:m updated add' })
             .populate('taxis')

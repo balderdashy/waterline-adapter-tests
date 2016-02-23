@@ -52,7 +52,7 @@ describe('Association Interface', function() {
       it('should not return a teams object when the populate is not added', function(done) {
         Associations.Stadium.find()
         .exec(function(err, stadiums) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = stadiums[0].toJSON();
           assert(!obj.teams);

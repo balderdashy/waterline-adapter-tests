@@ -12,10 +12,10 @@ describe('Semantic Interface', function() {
 
       it('should store proper boolean value', function(done) {
         Semantic.User.create({ status: true }, function (err, createdRecord) {
-          assert(!err);
+          assert.ifError(err);
           assert.strictEqual(createdRecord.status, true);
           Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
-            assert(!err);
+            assert.ifError(err);
             assert.strictEqual(record.status, true);
             done();
           });

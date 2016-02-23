@@ -143,7 +143,7 @@ describe('Association Interface', function() {
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
         Associations.Customer.find({ name: 'hasMany find pop' })
         .exec(function(err, customers) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = customers[0].toJSON();
           assert(!obj.payments);
@@ -156,7 +156,7 @@ describe('Association Interface', function() {
         Associations.Customer.find({ name: 'hasMany find pop' })
         .populate('payments')
         .exec(function(err, customers) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = customers[0].toJSON();
 

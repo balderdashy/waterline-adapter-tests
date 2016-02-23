@@ -40,7 +40,7 @@ describe('Queryable Interface', function() {
 
     it('should return a record with a single field first_name', function(done) {
       Queryable.User.find({ where: { type: 'select test' }, select: ['first_name'], sort: 'age' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
         assertNotProperty(user, 'last_name');
@@ -55,7 +55,7 @@ describe('Queryable Interface', function() {
     
     it('should return multiples records with a single field first_name', function(done) {
       Queryable.User.find({ where: {}, select: ['first_name'], sort: 'age' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(users.length > 1);
         for(var i=0; i<users.length; i++){
           var user = users[i];
@@ -73,7 +73,7 @@ describe('Queryable Interface', function() {
     
     it('should return a record with a single field first_name (findOne)', function(done) {
       Queryable.User.findOne({ where: { type: 'select test' }, select: ['first_name'] }, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(user.first_name, 'select_user');
         assertNotProperty(user, 'last_name');
         assertNotProperty(user, 'email');
@@ -87,7 +87,7 @@ describe('Queryable Interface', function() {
 
     it('should return a record with multiple fields', function(done) {
       Queryable.User.find({ where: { type: 'select test' }, select: ['first_name', 'age'], sort: 'age' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
         assertNotProperty(user, 'last_name');
@@ -102,7 +102,7 @@ describe('Queryable Interface', function() {
 
     it('in absence of SELECT modifier should return a record with all fields', function(done) {
       Queryable.User.find({ where: { type: 'select test' }, sort: 'age' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
         assert.equal(user.last_name, 'select_name_0');

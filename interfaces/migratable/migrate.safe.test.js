@@ -15,7 +15,7 @@ describe('Migratable Interface', function() {
 
     it('should have NOT have tables', function(done) {
       Migratable.Safe.describe(function(err, schema) {
-        assert(!err);
+        assert.ifError(err);
         assert(!schema);
         done();
       });

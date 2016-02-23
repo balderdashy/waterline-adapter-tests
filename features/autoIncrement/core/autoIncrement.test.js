@@ -74,7 +74,7 @@ describe('autoIncrement attribute feature', function() {
 
       AutoIncModel.find({where : { type: testName }, sort : {name : 1}}, function(err, records) {
         if (err) return done(err);
-        assert(!err);
+        assert.ifError(err);
         assert.equal(records.length, 10, 'Expecting 10 records, but got '+records.length);
 
         assert(records[0].id);
@@ -106,7 +106,7 @@ describe('autoIncrement attribute feature', function() {
 
       AutoIncModel.find({where : { type: testName }, sort : {name : 1}}, function(err, records) {
         if (err) return done(err);
-        assert(!err);
+        assert.ifError(err);
         assert.equal(records.length, 5, 'Expecting 5 records, but got '+records.length);
 
         assert.equal(records[0].name, 'ai_0');
@@ -128,7 +128,7 @@ describe('autoIncrement attribute feature', function() {
 
           AutoIncModel.find({where : { type: testName }, sort : {name : 1}}, function(err, records) {
             if (err) return done(err);
-            assert(!err);
+            assert.ifError(err);
             assert.equal(records.length, 10, 'Expecting 10 records, but got '+records.length);
 
             assert.equal(records[0].name, 'ai_0');

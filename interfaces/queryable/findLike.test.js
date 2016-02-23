@@ -20,7 +20,7 @@ describe('Queryable Interface', function() {
         if (err) return done(err);
 
         Queryable.User.findLike({ first_name: part }, function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           assert(Array.isArray(users));
           assert.strictEqual(users.length, 2, util.format('expected 2 users, but got %s, see?\n%s', users.length, util.inspect(users, false, null) ));
           assert((users[0].first_name === testName && users[1].first_name === testName2) ||

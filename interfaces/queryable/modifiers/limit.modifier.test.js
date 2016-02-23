@@ -30,7 +30,7 @@ describe('Queryable Interface', function() {
 
     it('should return the correct amount of records', function(done) {
       Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.strictEqual(users.length, 3);
         done();
@@ -39,7 +39,7 @@ describe('Queryable Interface', function() {
 
     it('dynamic finder usage should return the correct amount of records', function(done) {
       Queryable.User.findByType('limit test', { limit: 3 }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.strictEqual(users.length, 3);
         done();
@@ -48,7 +48,7 @@ describe('Queryable Interface', function() {
 
     it('as an option should return correct amount of records', function(done) {
       Queryable.User.find({ where: { type: 'limit test' } }, { limit: 3 }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(users));
         assert.strictEqual(users.length, 3);
         done();

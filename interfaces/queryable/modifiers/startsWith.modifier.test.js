@@ -20,7 +20,7 @@ describe('Queryable Interface', function() {
             if (err) return done(err);
 
             Queryable.User.startsWith({ first_name: part }, function(err, users) {
-              assert(!err);
+              assert.ifError(err);
               assert(Array.isArray(users));
               assert.equal(users.length, 1);
               assert.equal(users[0].first_name, testName);
@@ -44,7 +44,7 @@ describe('Queryable Interface', function() {
             if (err) return done(err);
 
             Queryable.User.where({ first_name: { startsWith: part }}, function(err, users) {
-              assert(!err);
+              assert.ifError(err);
               assert(Array.isArray(users));
               assert.equal(users.length, 1);
               assert.equal(users[0].first_name, testName);
@@ -68,7 +68,7 @@ describe('Queryable Interface', function() {
             if(err) return done(err);
 
             Queryable.User.typeStartsWith(part, function(err, users) {
-              assert(!err);
+              assert.ifError(err);
               assert(Array.isArray(users));
               assert.equal(users.length, 1);
               assert.equal(users[0].type, testType);

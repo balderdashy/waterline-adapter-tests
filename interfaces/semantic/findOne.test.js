@@ -24,7 +24,7 @@ describe('Semantic Interface', function() {
 
     it('should return a single record', function(done) {
       Semantic.User.findOne({ first_name: 'findOne test' }, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(user.first_name, 'findOne test');
         done();
       });
@@ -42,7 +42,7 @@ describe('Semantic Interface', function() {
 
     it('should return null if a record is not found', function(done) {
       Semantic.User.findOne({ first_name: 'findOne blah' }, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert(!user);
         done();
       });
@@ -50,7 +50,7 @@ describe('Semantic Interface', function() {
 
     it('should work with just an id passed in', function(done) {
       Semantic.User.findOne(id, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(user.first_name, 'findOne test');
         done();
       });

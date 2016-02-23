@@ -38,7 +38,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using binary notation for asc', function(done) {
       Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 1 } }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user0');
         done();
@@ -47,7 +47,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using binary notation desc', function(done) {
       Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 0 } }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user9');
         done();
@@ -56,7 +56,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using string notation for asc', function(done) {
       Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob asc' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user0');
         done();
@@ -65,7 +65,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using string notation for desc', function(done) {
       Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob desc' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user9');
         done();
@@ -74,7 +74,7 @@ describe('Queryable Interface', function() {
 
     it('should sort when sort is an option', function(done) {
       Queryable.User.find({ where: { type: 'sort test' } }, { sort: { dob: 0 } }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user9');
         done();
@@ -113,7 +113,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using multiple sort criteria, with first name desc', function(done) {
       Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 0 } }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
 
         // check the smith's are together and ordered by first_name
         assert.equal(users[0].first_name, 'bob');
@@ -128,7 +128,7 @@ describe('Queryable Interface', function() {
 
     it('should sort records using multiple sort criteria, with first name asc', function(done) {
       Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 1 } }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
 
         // check the smith's are together and ordered by first_name
         assert.equal(users[0].first_name, 'bob');
