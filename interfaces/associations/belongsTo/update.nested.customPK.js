@@ -49,7 +49,7 @@ describe('Association Interface', function() {
             Associations.Paymentbelongscustom.update({ invoice: Payment.invoice })
             .set(data)
             .exec(function(err, payment) {
-              assert(!err);
+              assert.ifError(err);
 
               // Check that the foreign key was set
               assert.equal(payment[0].customer, 'belongsTo nested');
@@ -57,7 +57,7 @@ describe('Association Interface', function() {
               Associations.Paymentbelongscustom.findOne(payment[0].invoice)
               .populate('customer')
               .exec(function(err, _payment) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(_payment.customer.username, 'belongsTo nested');
                 assert.equal(_payment.customer.name, 'belongsTo nested update');
                 done();
@@ -112,7 +112,7 @@ describe('Association Interface', function() {
             Associations.Paymentbelongscustom.update({ invoice: Payment.invoice })
             .set(data)
             .exec(function(err, payments) {
-              assert(!err);
+              assert.ifError(err);
 
               // Check that the foreign key was set
               assert.equal(payments[0].customer, 'belongsTo nested update - updated');
@@ -121,7 +121,7 @@ describe('Association Interface', function() {
               Associations.Paymentbelongscustom.findOne(Payment.invoice)
               .populate('customer')
               .exec(function(err, _payment) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(_payment.amount, 100);
                 assert.equal(_payment.customer.username, 'belongsTo nested update - updated');
                 assert.equal(_payment.customer.name, 'belongsTo nested update - updated');

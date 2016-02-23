@@ -26,7 +26,7 @@ describe('Association Interface', function() {
 
       it('should create a foreign key value when passed an association key', function(done) {
         Associations.Payment.create({ amount: 1, a_customer: customerId }).exec(function(err, payment) {
-          assert(!err);
+          assert.ifError(err);
           assert.equal(payment.a_customer.toString(), customerId.toString());
           done();
         });

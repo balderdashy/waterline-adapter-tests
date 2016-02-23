@@ -101,7 +101,7 @@ describe('Migratable Interface', function() {
 
       it('should return an error if unique constraint fails', function(done) {
         Migratable.Document.create({ title: 'uniqueConstraint 1', serialNumber: 'test' }, function(err, record) {
-          assert(!err);
+          assert.ifError(err);
           assert.equal(record.serialNumber, 'test');
 
           Migratable.Document.create({ title: 'uniqueConstraint 2', serialNumber: 'test' }, function(err, record) {

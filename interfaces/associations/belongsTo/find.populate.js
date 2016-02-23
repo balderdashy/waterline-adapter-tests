@@ -78,7 +78,7 @@ describe('Association Interface', function() {
       it('should not return a customer object when the populate is not added', function(done) {
         Associations.Payment.find()
         .exec(function(err, payments) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(!_.isPlainObject(payments[0].a_customer));
           assert(!_.isPlainObject(payments[1].a_customer));
@@ -91,7 +91,7 @@ describe('Association Interface', function() {
         Associations.Payment.find()
         .populate('a_customer')
         .exec(function(err, payments) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = payments[0].toJSON();
 

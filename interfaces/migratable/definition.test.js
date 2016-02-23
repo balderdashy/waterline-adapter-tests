@@ -16,7 +16,7 @@ describe('Migratable Interface', function() {
 
       it('should cause new schema to have a createdAt attribute', function(done) {
         Migratable.User.describe(function (err, user) {
-          assert(!err);
+          assert.ifError(err);
           assert(user.createdAt);
           done();
         });
@@ -35,7 +35,7 @@ describe('Migratable Interface', function() {
 
       it('should cause new schema to have an updatedAt attribute', function(done) {
         Migratable.User.describe(function (err, user) {
-          assert(!err);
+          assert.ifError(err);
           assert(user.updatedAt);
           done();
         });
@@ -54,7 +54,7 @@ describe('Migratable Interface', function() {
 
       it('should cause new schema to have an id attribute', function(done) {
         Migratable.User.describe(function (err, user) {
-          assert(!err);
+          assert.ifError(err);
           assert(user.id);
           done();
         });

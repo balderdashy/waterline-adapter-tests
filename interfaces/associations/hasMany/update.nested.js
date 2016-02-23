@@ -44,13 +44,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Customer.update({ id: Customer.id }, data).exec(function(err, values) {
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values[0].id)
               .populate('payments')
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(model.name, '1:m update nested - updated');
                 assert.strictEqual(model.payments.length, 1);
                 assert.strictEqual(model.payments[0].amount, 1);
@@ -105,13 +105,13 @@ describe('Association Interface', function() {
             };
 
             Associations.Customer.update({ id: Customer.id }, data).exec(function(err, values) {
-              assert(!err);
+              assert.ifError(err);
 
               // Look up the customer again to be sure the payments were added
               Associations.Customer.findOne(values[0].id)
               .populate('payments', { sort: 'amount ASC' })
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(model.name, '1:m update nested - updated');
                 assert.strictEqual(model.payments.length, 3);
                 assert.strictEqual(model.payments[0].amount, 3);
@@ -178,7 +178,7 @@ describe('Association Interface', function() {
               Associations.Customer.findOne(values[0].id)
               .populate('payments',{sort:{amount : 1}})
               .exec(function(err, model) {
-                assert(!err);
+                assert.ifError(err);
                 assert.equal(model.name, '1:m update nested - updated');
                 assert.strictEqual(model.payments.length, 2);
 

@@ -23,7 +23,7 @@ describe('Migratable Interface', function() {
 
       it('should have tables', function(done) {
         Migratable[collectionName].describe(function(err, schema) {
-          assert(!err);
+          assert.ifError(err);
           assert(schema);
           done();
         });
@@ -39,10 +39,10 @@ describe('Migratable Interface', function() {
         it('should retain the data when bootstrapped the second time', function(done) {
           Migratable.waterline.teardown(function(err) {
             bootstrapFn(function(err, obj) {
-              assert(!err);
+              assert.ifError(err);
               var ontology = obj.ontology;
               ontology.collections[collectionName.toLowerCase()].count().exec(function(err, numOfPirates) {
-                assert(!err);
+                assert.ifError(err);
                 assert.strictEqual(numOfPirates, 1);
                 done();
               });

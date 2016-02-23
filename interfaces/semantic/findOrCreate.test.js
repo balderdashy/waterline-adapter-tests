@@ -11,7 +11,7 @@ describe('Semantic Interface', function() {
 
     it('should create a new record', function(done) {
       Semantic.User.findOrCreate({ first_name: "findOrCreate()" }, { first_name: "findOrCreate()" }, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(user.first_name, 'findOrCreate()');
         done();
       });
@@ -19,7 +19,7 @@ describe('Semantic Interface', function() {
 
     it('should return a single record', function(done) {
       Semantic.User.findOrCreate({ first_name: "findOrCreate()" }, { first_name: "findOrCreate()" }, function(err, user) {
-        assert(!err);
+        assert.ifError(err);
         assert.equal(user.first_name, 'findOrCreate()');
         done();
       });
@@ -27,7 +27,7 @@ describe('Semantic Interface', function() {
 
     it('should only have a single record in the database', function(done) {
       Semantic.User.find({ first_name: 'findOrCreate()' }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, 1);
         done();
       });

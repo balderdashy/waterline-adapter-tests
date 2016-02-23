@@ -84,7 +84,7 @@ describe('Association Interface', function() {
         .populate('payments', { skip: 1, limit: 2, sort: { amount: 1 } })
         .sort('capital asc')
         .exec(function(err, customers) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(Array.isArray(customers));
           assert.strictEqual(customers.length, 2);
@@ -122,7 +122,7 @@ describe('Association Interface', function() {
           .populate('payments', {where : { id: payment.id }, sort : {amount : 1}})
           .sort('capital asc')
           .exec(function(err, customers) {
-            assert(!err);
+            assert.ifError(err);
 
             assert(Array.isArray(customers));
             assert.strictEqual(customers.length, 2);

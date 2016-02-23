@@ -54,7 +54,7 @@ describe('Association Interface', function() {
       .populate('payments', { sort: { amount: 1 }})
       .sort('id asc')
       .exec(function(err, customers) {
-        assert(!err);
+        assert.ifError(err);
         assert(Array.isArray(customers));
         assert.strictEqual(customers.length, 2);
 

@@ -34,7 +34,7 @@ describe('Queryable Interface', function() {
         Queryable.User.find({ first_name: testName, age: { not: 40 }})
         .sort('age asc')
         .exec(function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           assert(Array.isArray(users));
           assert.strictEqual(users.length, 3);
           assert.strictEqual(users[0].age, 41);
@@ -52,7 +52,7 @@ describe('Queryable Interface', function() {
         Queryable.User.find({ first_name: testName, age: { '!': 40 }})
         .sort('age asc')
         .exec(function(err, users) {
-          assert(!err);
+          assert.ifError(err);
           assert(Array.isArray(users));
           assert.strictEqual(users.length, 3);
           assert.strictEqual(users[0].age, 41);
@@ -65,7 +65,7 @@ describe('Queryable Interface', function() {
         Queryable.User.find({ first_name: testName, email: { '!': '41@test.com' }})
         .sort('age asc')
         .exec(function(err, users) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(Array.isArray(users));
           assert.strictEqual(users.length, 3);

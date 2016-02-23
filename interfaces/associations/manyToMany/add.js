@@ -36,7 +36,7 @@ describe('Association Interface', function() {
           Associations.Driver.findOne(driverRecord.id)
           .populate('taxis')
           .exec(function(err, driver) {
-            assert(!err);
+            assert.ifError(err);
 
             assert.strictEqual(driver.taxis.length, 1, 'Expected driver to have one taxi, but actually there are '+driver.taxis.length+', see? `driver.taxi` =>'+require('util').inspect(driver.taxis,false,null));
             assert.strictEqual(driver.taxis[0].medallion, 1);
@@ -79,13 +79,13 @@ describe('Association Interface', function() {
       it('should link a payment to a customer through a join table', function(done) {
         driverRecord.taxis.add(taxiRecord.id);
         driverRecord.save(function(err) {
-          assert(!err);
+          assert.ifError(err);
 
           // Look up the driver again to be sure the taxi was added
           Associations.Driver.findOne(driverRecord.id)
           .populate('taxis', { medallion: 20 })
           .exec(function(err, data) {
-            assert(!err);
+            assert.ifError(err);
 
             assert.strictEqual(data.taxis.length, 1);
             assert.strictEqual(data.taxis[0].medallion, 20);
@@ -100,13 +100,13 @@ describe('Association Interface', function() {
         .exec(function(err, driver) {
           driver.taxis.add(taxiRecord2.id);
           driver.save(function(err) {
-            assert(!err);
+            assert.ifError(err);
 
             // Look up the driver again to be sure the taxi was added
             Associations.Driver.findOne(driverRecord.id)
             .populate('taxis', { medallion: 30 })
             .exec(function(err, data) {
-              assert(!err);
+              assert.ifError(err);
 
               assert.strictEqual(data.taxis.length, 1);
               assert.strictEqual(data.taxis[0].medallion, 30);

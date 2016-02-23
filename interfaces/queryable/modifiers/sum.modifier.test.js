@@ -36,7 +36,7 @@ describe('Queryable Interface', function() {
 
     it('should sum by key and only return that key with the sum value', function(done) {
       Queryable.User.find({ where:{type: 'sum test'}, sum: ['age'] }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, 45);
         done();
       });
@@ -44,7 +44,7 @@ describe('Queryable Interface', function() {
 
     it('should sum by multiple keys and return sums of all keys', function(done) {
       Queryable.User.find({ where:{type: 'sum test'}, sum: ['age', 'percent'] }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, 45);
         assert.strictEqual(summed[0].percent, 22.5);
         done();
@@ -57,7 +57,7 @@ describe('Queryable Interface', function() {
         sum: ['age'],
         average: ['percent']
       }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, 45);
         assert.strictEqual(summed[0].percent, 2.25);
         done();

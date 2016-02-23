@@ -12,11 +12,11 @@ describe('Semantic Interface', function() {
 
       it('should store proper object value', function(done) {
         Semantic.User.create({ obj: {foo: 'bar'} }, function(err, createdRecord) {
-          assert(!err);
+          assert.ifError(err);
           assert.strictEqual(createdRecord.obj, Object(createdRecord.obj));
           assert.equal(createdRecord.obj.foo, 'bar');
           Semantic.User.findOne({id: createdRecord.id}, function (err, record) {
-            assert(!err);
+            assert.ifError(err);
             assert.strictEqual(record.obj, Object(record.obj));
             assert.equal(record.obj.foo, 'bar');
             done();

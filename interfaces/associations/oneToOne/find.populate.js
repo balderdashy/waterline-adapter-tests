@@ -55,7 +55,7 @@ describe('Association Interface', function() {
         .sort('level asc')
         .populate('user')
         .exec(function(err, profiles) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(profiles[0].user);
           assert(profiles[1].user);
@@ -72,7 +72,7 @@ describe('Association Interface', function() {
         .populate('profile')
         .sort('quantity asc')
         .exec(function(err, users) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(users[0].profile);
           assert(users[1].profile);
@@ -91,7 +91,7 @@ describe('Association Interface', function() {
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(users[0].name);
             assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
             done();
@@ -105,7 +105,7 @@ describe('Association Interface', function() {
           Associations.User_resource.find({ name: 'foobar2' })
           .populate('profile')
           .exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(users[0].name);
             assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
             done();

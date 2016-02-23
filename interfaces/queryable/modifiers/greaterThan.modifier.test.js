@@ -32,7 +32,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThan key', function(done) {
           Queryable.User.find({ first_name: testName, age: { greaterThan: 40 }}).sort('age').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
@@ -42,7 +42,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage > usage', function(done) {
           Queryable.User.find({ first_name: testName, age: { '>': 40 }}).sort('age').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
@@ -87,7 +87,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThan key when searching dates', function(done) {
           Queryable.User.find({ type: testName, dob: { greaterThan: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 1);
             assert.equal(users[0].first_name, 'greaterThan_dates_user9');
@@ -97,7 +97,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage > usage when searching dates', function(done) {
           Queryable.User.find({ type: testName, dob: { '>': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 1);
             assert.equal(users[0].first_name, 'greaterThan_dates_user9');
@@ -140,7 +140,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThan key when searching strings', function(done) {
           Queryable.User.find({ type: testName, first_name: { greaterThan: '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 7);
             assert.equal(users[0].first_name, '3 greaterThan_strings_user');
@@ -150,7 +150,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage > usage when searching strings', function(done) {
           Queryable.User.find({ type: testName, first_name: { '>': '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 7);
             assert.equal(users[0].first_name, '3 greaterThan_strings_user');
@@ -190,7 +190,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThanOrEqual key', function(done) {
           Queryable.User.find({ first_name: testName, age: { greaterThanOrEqual: 41 }}).sort('age').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
@@ -200,7 +200,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage >= usage', function(done) {
           Queryable.User.find({ first_name: testName, age: { '>=': 41 }}).sort('age').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
@@ -245,7 +245,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThanOrEqual key when searching dates', function(done) {
           Queryable.User.find({ type: testName, dob: { greaterThanOrEqual: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 2);
             assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
@@ -255,7 +255,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage >= usage when searching dates', function(done) {
           Queryable.User.find({ type: testName, dob: { '>=': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 2);
             assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
@@ -265,7 +265,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
           Queryable.User.find({ type: testName, dob: { '>=': 'Sat Nov 09 2013 00:00:00 GMT-0000 (CST)' }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 2);
             assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
@@ -308,7 +308,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with greaterThanOrEqual key when searching strings', function(done) {
           Queryable.User.find({ type: testName, first_name: { greaterThanOrEqual: '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 8);
             assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
@@ -318,7 +318,7 @@ describe('Queryable Interface', function() {
 
         it('should return records with symbolic usage >= usage when searching strings', function(done) {
           Queryable.User.find({ type: testName, first_name: { '>=': '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert(!err);
+            assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 8);
             assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');

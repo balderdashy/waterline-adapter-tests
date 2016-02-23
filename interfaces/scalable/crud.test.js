@@ -60,7 +60,7 @@ describe('Load Testing', function() {
 
         User.create(data, next);
       }, function(err, users) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(users.length, CONNECTIONS);
         done();
       });

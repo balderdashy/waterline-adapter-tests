@@ -36,7 +36,7 @@ describe('Queryable Interface', function() {
 
     it('should get the minimum of the key', function(done) {
       Queryable.User.find({ where:{type: 'min test'}, min: ['age'] }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, -9);
         done();
       });
@@ -44,7 +44,7 @@ describe('Queryable Interface', function() {
 
     it('should min multiple keys', function(done) {
       Queryable.User.find({ where:{type: 'min test'}, min: ['age', 'percent'] }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, -9);
         assert.strictEqual(summed[0].percent, -4.5);
         done();
@@ -57,7 +57,7 @@ describe('Queryable Interface', function() {
         min: ['age'],
         average: ['percent']
       }, function(err, summed) {
-        assert(!err);
+        assert.ifError(err);
         assert.strictEqual(summed[0].age, -9);
         assert.strictEqual(summed[0].percent, -2.25);
         done();

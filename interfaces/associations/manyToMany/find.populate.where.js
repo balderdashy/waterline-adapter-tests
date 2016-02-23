@@ -52,7 +52,7 @@ describe('Association Interface', function() {
       Associations.Driver.find({ name: 'manymany find where' })
       .populate('taxis', { skip: 1, limit: 2, sort: 'medallion ASC' })
       .exec(function(err, drivers) {
-        assert(!err);
+        assert.ifError(err);
 
         assert(Array.isArray(drivers));
         assert.strictEqual(drivers.length, 1);

@@ -15,7 +15,7 @@ describe('Migratable Interface', function() {
 
     it('should have tables', function(done) {
       Migratable.Drop.describe(function(err, schema) {
-        assert(!err);
+        assert.ifError(err);
         assert(schema);
         done();
       });
@@ -34,7 +34,7 @@ describe('Migratable Interface', function() {
             var ontology = obj.ontology;
 
             ontology.collections.drop.count().exec(function(err, numOfPirates) {
-              assert(!err);
+              assert.ifError(err);
               assert.strictEqual(numOfPirates, 0);
               done();
             });

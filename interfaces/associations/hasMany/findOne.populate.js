@@ -40,7 +40,7 @@ describe('Association Interface', function() {
        Associations. Customer.findOne({ id: customerRecord.id })
         .populate('payments')
         .exec(function(err, customer) {
-          assert(!err);
+          assert.ifError(err);
 
           assert(Array.isArray(customer.payments));
           assert.strictEqual(customer.payments.length, 4);
@@ -51,7 +51,7 @@ describe('Association Interface', function() {
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
         Associations.Customer.findOne({ id: customerRecord.id })
         .exec(function(err, customer) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = customer.toJSON();
           assert(!obj.payments);
@@ -64,7 +64,7 @@ describe('Association Interface', function() {
         Associations.Customer.findOne({ id: customerRecord.id })
         .populate('payments')
         .exec(function(err, customer) {
-          assert(!err);
+          assert.ifError(err);
 
           var obj = customer.toJSON();
 

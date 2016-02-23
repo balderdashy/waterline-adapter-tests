@@ -39,11 +39,11 @@ describe('Association Interface', function() {
 
       Associations.Driver.destroy({ name: 'manymany destroy' })
       .exec(function(err, status) {
-        assert(!err);
+        assert.ifError(err);
 
         Associations.Driver_taxis__taxi_drivers.find({ driver_taxis: parentId })
         .exec(function(err, records) {
-          assert(!err);
+          assert.ifError(err);
           assert.strictEqual(records.length, 0);
           done();
         });
@@ -84,7 +84,7 @@ describe('Association Interface', function() {
 
     it('should not destroy any join table records', function (done) {
       Associations.Driver.destroy({ name: 'manymany destroy_foo' }, function (err, status) {
-        assert(!err);
+        assert.ifError(err);
 
         // Find records in the join table
         Associations.Driver_taxis__taxi_drivers.find({ driver_taxis: driverRecord.id }).exec(function(err, records) {
@@ -105,7 +105,7 @@ describe('Association Interface', function() {
 
     it('should not result in an error', function (done) {
       Associations.Driver.destroy(function (err, status) {
-        assert(!err);
+        assert.ifError(err);
         done();
       });
     });
@@ -115,7 +115,7 @@ describe('Association Interface', function() {
 
     it('should not result in an error', function (done) {
       Associations.Driver.destroy(function (err, status) {
-        assert(!err);
+        assert.ifError(err);
         done();
       });
     });
