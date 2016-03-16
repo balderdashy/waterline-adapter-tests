@@ -21,6 +21,5 @@ env:
 sudo: false
 
 before_script:
-  - npm install balderdashy/waterline
   - psql -c 'create database sailspg;' -U postgres
   - mysql -e 'create database sails_mysql;'
