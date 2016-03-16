@@ -264,7 +264,9 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
-          Queryable.User.find({ type: testName, dob: { '>=': 'Sat Nov 09 2013 00:00:00 GMT-0000 (CST)' }}).sort('first_name').exec(function(err, users) {
+          var dateString = new Date(2013,10,9);
+          dateString = dateString.toString();
+          Queryable.User.find({ type: testName, dob: { '>=': dateString }}).sort('first_name').exec(function(err, users) {
             assert.ifError(err);
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 2);
