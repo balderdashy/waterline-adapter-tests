@@ -6,7 +6,6 @@ adapter:
    - postgres
    - mysql
    - mongo
-   - redis
   environment:
    - NODE_ENV=test
 
@@ -27,6 +26,3 @@ postgres:
 
 mongo:
   image: mongo
-
-redis:
-  image: redis

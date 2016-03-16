@@ -9,7 +9,7 @@ var jpath = require('jpath');
 // Config
 
 // The adapters being tested
-var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql', 'sails-redis'];
+var adapters = ['sails-postgresql', 'sails-memory', 'sails-disk', 'sails-mongo', 'sails-mysql'];
 
 // Core modules npm Dependencies path
 var coreModulesPaths = {
