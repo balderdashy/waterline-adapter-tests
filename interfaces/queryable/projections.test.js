@@ -22,7 +22,11 @@ describe('Queryable Interface', function() {
           title: 'tester',
           phone: '123-456-7890',
           type: 'bot',
-          age: 100
+          age: 100,
+          dob: new Date(),
+          percent: 0.0,
+          list: [],
+          obj: {}
         }
 
         Queryable.User.create(user, function(err, users) {
