@@ -10,9 +10,10 @@ module.exports = Waterline.Collection.extend({
   identity: 'taxi',
   connection: 'associations2',
 
-  // migrate: 'drop', 
+  // migrate: 'drop',
   attributes: {
     medallion: 'integer',
+    model: 'string',
     drivers: {
       collection: 'driver',
       via: 'taxis'
