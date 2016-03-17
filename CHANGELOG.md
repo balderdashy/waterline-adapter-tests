@@ -1,5 +1,9 @@
 # Waterline Adapter Tests Changelog
 
+### 0.11.1
+
+* [BUG] Upgraded the Waterline dependency to the `0.11` version.
+
 ### 0.11.0
 
 * [UPGRADE] Add test that checks the new function signature of `.save()` in Waterline 0.11.0
