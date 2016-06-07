@@ -7,14 +7,14 @@
     "async": "1.5.2",
     "bluebird": "3.2.1",
     "lodash": "3.10.1",
-    "mocha": "2.4.5",
+    "mocha": "2.5.3",
     "sails-memory": "balderdashy/sails-memory",
-    "should": "8.2.1",
+    "should": "9.0.0",
     "waterline": "~0.12.0"
   },
   "devDependencies": {
     "jpath": "0.0.20",
-    "npm": "2.7.4",
+    "npm": "2.15.6",
     "sails-disk": "balderdashy/sails-disk",
     "sails-mongo": "balderdashy/sails-mongo",
     "sails-mysql": "balderdashy/sails-mysql",
@@ -41,12 +41,7 @@
   "engines": {
     "node": "*"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/balderdashy/waterline-adapter-tests/blob/master/LICENSE.md"
-    }
-  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/balderdashy/waterline-adapter-tests/issues/new"
   }
