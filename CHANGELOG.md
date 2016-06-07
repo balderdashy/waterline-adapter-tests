@@ -1,5 +1,9 @@
 # Waterline Adapter Tests Changelog
 
+### 0.12.1
+
+* [ENHANCEMENT] Updated Mocha, Should, and NPM dependencies to remove warning messages when installing.
+
 ### 0.12.0
 
 * [ENHANCEMENT] Added tests for working with projections in Waterline. See [#106](https://github.com/balderdashy/waterline-adapter-tests/pull/106) for more details.
