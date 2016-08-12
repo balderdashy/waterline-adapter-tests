@@ -1,4 +1,4 @@
-/https://github.com/lan-nguyen91/waterline-adapter-tests.git**
+/*
  * Dependencies
  */
 
