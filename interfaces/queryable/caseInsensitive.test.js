@@ -31,7 +31,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should work in a case insensitve fashion by default', function(done) {
-        Queryable.User.findOne({where:{ first_name: 'theothertest', type: 'case sensitivity'}, sort:{age : 1}}, function(err, user) {
+        Queryable.User.findOne({where:{ first_name: 'theothertest', type: 'case sensitivity'}, sort:{age : 1}, ignoreCase : true}, function(err, user) {
           assert(user.id);
           assert.equal(user.first_name, 'tHeOtherTest');
           assert.equal(toString.call(user.createdAt), '[object Date]');
@@ -41,7 +41,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work with findOneBy*()', function(done) {
-        Queryable.User.findOneByFirst_name('theothertest', function(err, user) {
+        Queryable.User.findOneByFirst_name('theothertest', { ignoreCase : true } , function(err, user) {
           assert(user.id);
           assert.equal(user.first_name, 'tHeOtherTest');
           assert.equal(toString.call(user.createdAt), '[object Date]');
@@ -59,7 +59,7 @@ describe('Queryable Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should work in a case insensitve fashion by default', function(done) {
-        Queryable.User.find({where : { first_name: 'thetest', type: 'case sensitivity'}, sort:{age : 1}}, function(err, users) {
+        Queryable.User.find({where : { first_name: 'thetest', type: 'case sensitivity'}, sort:{age : 1}, ignoreCase : true }, function(err, users) {
           assert.strictEqual(users.length, 3);
           assert(users[0].id);
           assert.equal(users[0].first_name, 'tHeTest');

@@ -30,6 +30,7 @@ module.exports = Waterline.Collection.extend({
     percent: 'float',
     list: 'array',
     obj: 'json',
+    id : 'string',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;
     }
