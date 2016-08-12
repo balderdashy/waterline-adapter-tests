@@ -37,7 +37,7 @@ module.exports = Waterline.Collection.extend({
       columnName: 'arrList'
     },
     obj: 'json',
-    id : 'string'
+    id : 'string',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;
     }
