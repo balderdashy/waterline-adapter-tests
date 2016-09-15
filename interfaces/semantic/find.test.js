@@ -15,7 +15,7 @@ describe('Semantic Interface', function() {
       var users = [];
 
       for(var i=0; i<10; i++) {
-        users.push({first_name: 'find_user' + i, type: 'find test', age: i*10 });  // include an integer field
+        users.push({first_name: 'find_user' + i, type: 'find test', age: i*10, email: 'foo@examples.com', percent: i/10 });  // include an integer field
       }
 
       Semantic.User.createEach(users, function(err, users) {
@@ -78,5 +78,26 @@ describe('Semantic Interface', function() {
       });
     });
 
+    it('should support columnName in criteria', function(done) {
+      Semantic.User.find({ email: 'foo@examples.com' }, function(err, users) {
+        assert.ifError(err);
+        assert(Array.isArray(users));
+        assert.strictEqual(users.length, 10);
+        done();
+      });
+    });
+
+    it('should support columnName in sort', function(done) {
+      Semantic.User.find({ type: 'find test', sort: 'percent DESC' }, function(err, users) {
+        assert.ifError(err);
+        assert(Array.isArray(users));
+        assert.strictEqual(users.length, 10);
+	assert.deepEqual(
+          users.map(function(user) { return user.percent; }),
+	  [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0]
+	);
+        done();
+      });
+    });
   });
 });
