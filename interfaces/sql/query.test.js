@@ -21,7 +21,7 @@ describe('SQL Interface', function() {
     /////////////////////////////////////////////////////
     // TEST METHODS
     ////////////////////////////////////////////////////
-    
+
     it('should have method .query()', function(done) {
       assert(Sql.User.query);
       assert(_.isFunction(Sql.User.query));

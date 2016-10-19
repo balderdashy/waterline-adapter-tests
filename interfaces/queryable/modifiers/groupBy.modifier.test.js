@@ -3,7 +3,7 @@ var assert = require('assert'),
 
 describe('Queryable Interface', function() {
 
-  describe('GroupBy Query Modifier', function() {
+  describe.skip('GroupBy Query Modifier', function() {
 
     /////////////////////////////////////////////////////
     // TEST SETUP

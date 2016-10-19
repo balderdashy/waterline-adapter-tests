@@ -18,12 +18,12 @@ describe('Queryable Interface', function() {
 
         for(var i=0; i<4; i++) {
           users.push({
-            first_name: 'OR_user' + i, 
+            first_name: 'OR_user' + i,
             last_name: 'contains_user' + i,
             title: 'contains_title' + i,
-            type: 'or test', 
-            age: i 
-          });          
+            type: 'or test',
+            age: i
+          });
         }
 
         Queryable.User.createEach(users, function(err, users) {
@@ -50,7 +50,7 @@ describe('Queryable Interface', function() {
         });
       });
 
-      it('should return a model instances', function(done) {
+      it.skip('should return a model instances', function(done) {
         Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
         .exec(function(err, users) {
           assert(users[0].id);
@@ -99,7 +99,7 @@ describe('Queryable Interface', function() {
           done();
         });
       });
-    
+
       it('should work correctly when OR is used with multiple contains modifiers', function(done) {
         Queryable.User.find({
           type: 'or test',

@@ -23,12 +23,14 @@ describe('Semantic Interface', function() {
       ////////////////////////////////////////////////////
 
       it('should destroy a record', function(done) {
-        Semantic.User.destroy({ first_name: 'Destroy' }, function(err, records) {
+        Semantic.User.destroy({ first_name: 'Destroy' }, function(err, report) {
           assert.ifError(err);
-          assert(Array.isArray(records));
-          assert.strictEqual(records.length, 1);
-          assert.equal(records[0].first_name, 'Destroy');
-          assert.equal(records[0].last_name, 'Test');
+          assert(report.numRecordsDeleted);
+          assert.equal(report.numRecordsDeleted, 1);
+          // assert(Array.isArray(records));
+          // assert.strictEqual(records.length, 1);
+          // assert.equal(records[0].first_name, 'Destroy');
+          // assert.equal(records[0].last_name, 'Test');
           done();
         });
       });

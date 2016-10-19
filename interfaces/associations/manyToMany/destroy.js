@@ -33,7 +33,7 @@ describe('Association Interface', function() {
     // TEST METHODS
     ////////////////////////////////////////////////////
 
-    it('should remove join table records when a parent is destroyed', function(done) {
+    it.skip('should remove join table records when a parent is destroyed', function(done) {
 
       var parentId = driverRecord.id;
 

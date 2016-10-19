@@ -263,7 +263,7 @@ describe('Queryable Interface', function() {
           });
         });
 
-        it('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
+        it.skip('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
           var dateString = new Date(2013,10,9);
           dateString = dateString.toString();
           Queryable.User.find({ type: testName, dob: { '>=': dateString }}).sort('first_name').exec(function(err, users) {
