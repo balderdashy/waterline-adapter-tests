@@ -39,7 +39,7 @@ describe('Queryable Interface', function() {
     ////////////////////////////////////////////////////
 
     it('should return a record with a single field first_name', function(done) {
-      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name'], sort: 'age' }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name'], sort: 'age ASC' }, function(err, users) {
         assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
@@ -52,9 +52,9 @@ describe('Queryable Interface', function() {
         done();
       });
     });
-    
+
     it('should return multiples records with a single field first_name', function(done) {
-      Queryable.User.find({ where: {}, select: ['first_name'], sort: 'age' }, function(err, users) {
+      Queryable.User.find({ where: {}, select: ['first_name'], sort: 'age ASC' }, function(err, users) {
         assert.ifError(err);
         assert(users.length > 1);
         for(var i=0; i<users.length; i++){
@@ -70,7 +70,7 @@ describe('Queryable Interface', function() {
         done();
       });
     });
-    
+
     it('should return a record with a single field first_name (findOne)', function(done) {
       Queryable.User.findOne({ where: { type: 'select test' }, select: ['first_name'] }, function(err, user) {
         assert.ifError(err);
@@ -86,7 +86,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return a record with multiple fields', function(done) {
-      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name', 'age'], sort: 'age' }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, select: ['first_name', 'age'], sort: 'age ASC' }, function(err, users) {
         assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
@@ -101,7 +101,7 @@ describe('Queryable Interface', function() {
     });
 
     it('in absence of SELECT modifier should return a record with all fields', function(done) {
-      Queryable.User.find({ where: { type: 'select test' }, sort: 'age' }, function(err, users) {
+      Queryable.User.find({ where: { type: 'select test' }, sort: 'age ASC' }, function(err, users) {
         assert.ifError(err);
         var user = users[0];
         assert.equal(user.first_name, 'select_user');
