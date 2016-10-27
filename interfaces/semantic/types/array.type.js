@@ -10,7 +10,7 @@ describe('Semantic Interface', function() {
       // TEST METHODS
       ////////////////////////////////////////////////////
 
-      it('should store proper array value', function(done) {
+      it.skip('should store proper array value', function(done) {
         Semantic.User.create({ list: [0,1,2,3] }, function(err, createdRecord) {
           assert.ifError(err);
           assert(Array.isArray(createdRecord.list));
