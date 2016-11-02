@@ -1,5 +1,6 @@
 var assert = require('assert');
 var _ = require('lodash');
+var MigrateHelper = require('../support/migrate-helper');
 
 describe('unique attribute feature', function() {
 
@@ -25,20 +26,28 @@ describe('unique attribute feature', function() {
 
     waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
       if(err) return done(err);
-      UniqueModel = ontology.collections['unique'];
 
-      // Insert 3 Records
-      var records = [];
-      for(var i=0; i<3; i++) {
-        records.push({name: 'testUnique' + i, email: 'email' + i, type: 'unique'});
-      }
+      // Migrations Helper
+      MigrateHelper(ontology, function(err) {
+        if (err) {
+          return done(err);
+        }
 
-      UniqueModel.createEach(records, function(err, records) {
-        if(err) return done(err);
-        id0 = records[0].id;
-        id1 = records[1].id;
-        email0 = records[0].email.toString();
-        done();
+        UniqueModel = ontology.collections['unique'];
+
+        // Insert 3 Records
+        var records = [];
+        for(var i=0; i<3; i++) {
+          records.push({name: 'testUnique' + i, email: 'email' + i, type: 'unique'});
+        }
+
+        UniqueModel.createEach(records, function(err, records) {
+          if(err) return done(err);
+          id0 = records[0].id;
+          id1 = records[1].id;
+          email0 = records[0].email.toString();
+          done();
+        });
       });
     });
   });

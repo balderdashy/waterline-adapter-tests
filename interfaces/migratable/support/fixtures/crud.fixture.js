@@ -27,7 +27,7 @@ module.exports = Waterline.Collection.extend({
       defaultsTo: false
     },
     percent: 'float',
-    list: 'array',
+    list: 'json',
     obj: 'json',
     fullName: function() {
       return this.first_name + ' ' + this.last_name;

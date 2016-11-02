@@ -6,6 +6,7 @@ var Waterline = require('waterline');
 var _ = require('lodash');
 var async = require('async');
 var assert = require('assert');
+var MigrateHelper = require('./migrate-helper');
 
 // Require Fixtures
 var fixtures = {
@@ -29,7 +30,7 @@ before(function(done) {
   });
 
   var connections = { semantic: _.clone(Connections.test) };
-  
+
   var defaults = { migrate: 'alter' };
 
   waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, _ontology) {
@@ -37,12 +38,20 @@ before(function(done) {
 
     ontology = _ontology;
 
-    Object.keys(_ontology.collections).forEach(function(key) {
-      var globalName = key.charAt(0).toUpperCase() + key.slice(1);
-      global.Semantic[globalName] = _ontology.collections[key];
-    });
+    // Migrations Helper
+    MigrateHelper(_ontology, function(err) {
+      if (err) {
+        return done(err);
+      }
 
-    done();
+      // Globalize collections for normalization
+      Object.keys(_ontology.collections).forEach(function(key) {
+        var globalName = key.charAt(0).toUpperCase() + key.slice(1);
+        global.Semantic[globalName] = _ontology.collections[key];
+      });
+
+      done();
+    });
   });
 });
 

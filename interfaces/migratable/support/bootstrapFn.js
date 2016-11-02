@@ -2,8 +2,9 @@
  * Module Dependencies
  */
 
-var Waterline = require('waterline'),
-    _ = require('lodash');
+var _ = require('lodash');
+var Waterline = require('waterline');
+var MigrateHelper = require('./migrate-helper');
 
 // Require Fixtures
 var fixtures = {
@@ -34,8 +35,18 @@ module.exports = function(newFixtures, cb) {
   var connections = { migratable: _.clone(Connections.test) };
 
   waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections }, function(err, _ontology) {
-    if(err) return cb(err);
-    cb(null, { waterline: waterline, ontology: _ontology });
+    if(err) {
+      return cb(err);
+    }
+
+    // Migrations Helper
+    MigrateHelper(_ontology, function(err) {
+      if (err) {
+        return cb(err);
+      }
+
+      cb(null, { waterline: waterline, ontology: _ontology });
+    });
   });
 
 };

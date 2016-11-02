@@ -2,8 +2,9 @@
  * Module Dependencies
  */
 
-var bootstrapFn = require('./bootstrapFn'),
-    async = require('async');
+var async = require('async');
+var bootstrapFn = require('./bootstrapFn');
+
 
 /////////////////////////////////////////////////////
 // TEST SETUP
@@ -18,6 +19,7 @@ before(function(done) {
     ontology = obj.ontology;
     waterline = obj.waterline;
 
+    // Globalize collections for normalization
     Object.keys(ontology.collections).forEach(function(key) {
       var globalName = key.charAt(0).toUpperCase() + key.slice(1);
       global.Migratable[globalName] = ontology.collections[key];

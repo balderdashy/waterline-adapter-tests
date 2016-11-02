@@ -1,5 +1,6 @@
 var assert = require('assert');
 var _ = require('lodash');
+var MigrateHelper = require('../support/migrate-helper');
 
 /**
  * When `autoIncrement` is set to `true` on an attribute and no value is provided for it a
@@ -36,8 +37,16 @@ describe('autoIncrement attribute feature', function() {
     Adapter.teardown('autoIncConn', function adapterTeardown(){
       waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
         if(err) return done(err);
-        AutoIncModel = ontology.collections['autoinc'];
-        done();
+
+        // Migrations Helper
+        MigrateHelper(ontology, function(err) {
+          if (err) {
+            return done(err);
+          }
+
+          AutoIncModel = ontology.collections['autoinc'];
+          done();
+        });
       });
     });
   });

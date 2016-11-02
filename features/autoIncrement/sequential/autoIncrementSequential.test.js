@@ -1,5 +1,6 @@
 var assert = require('assert');
 var _ = require('lodash');
+var MigrateHelper = require('../support/migrate-helper');
 
 /**
  * If the adapter will provide sequential unique values, for example increasing integers,
@@ -33,8 +34,16 @@ describe('autoIncrement attribute Sequential feature', function() {
     Adapter.teardown('autoIncConn', function adapterTeardown(){
       waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
         if(err) return done(err);
-        AutoIncModel = ontology.collections['autoinc'];
-        done();
+
+        // Migrations Helper
+        MigrateHelper(ontology, function(err) {
+          if (err) {
+            return done(err);
+          }
+
+          AutoIncModel = ontology.collections['autoinc'];
+          done();
+        });
       });
     });
   });
