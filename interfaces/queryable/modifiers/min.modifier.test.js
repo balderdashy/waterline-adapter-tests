@@ -34,7 +34,7 @@ describe('Queryable Interface', function() {
     // TEST METHODS
     ////////////////////////////////////////////////////
 
-    it('should get the minimum of the key', function(done) {
+    it.skip('should get the minimum of the key', function(done) {
       Queryable.User.find({ where:{type: 'min test'}, min: ['age'] }, function(err, summed) {
         assert.ifError(err);
         assert.strictEqual(summed[0].min, -9);

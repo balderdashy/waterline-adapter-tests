@@ -34,7 +34,7 @@ describe('Queryable Interface', function() {
     // TEST METHODS
     ////////////////////////////////////////////////////
 
-    it('should average by key and only return that key with the average value', function(done) {
+    it.skip('should average by key and only return that key with the average value', function(done) {
       Queryable.User.find({ where:{type: 'average test'}, average: ['age'] }, function(err, averages) {
         assert(!err,err);
         assert.strictEqual(averages[0].avg, 4.5, 'expected averages[0].avg to === 4.5, instead averages ==='+require('util').inspect(averages, false, null));

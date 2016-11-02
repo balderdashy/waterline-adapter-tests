@@ -34,7 +34,7 @@ describe('Queryable Interface', function() {
     // TEST METHODS
     ////////////////////////////////////////////////////
 
-    it('should sum by key and only return that key with the sum value', function(done) {
+    it.skip('should sum by key and only return that key with the sum value', function(done) {
       Queryable.User.find({ where:{type: 'sum test'}, sum: ['age'] }, function(err, summed) {
         assert.ifError(err);
         assert.strictEqual(summed[0].sum, 45);

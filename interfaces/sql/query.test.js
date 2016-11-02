@@ -3,7 +3,7 @@ var assert = require('assert'),
 
 describe('SQL Interface', function() {
 
-  describe('.query()', function() {
+  describe.skip('.query()', function() {
 
     /////////////////////////////////////////////////////
     // TEST SETUP
