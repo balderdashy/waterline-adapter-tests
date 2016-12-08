@@ -4,21 +4,12 @@
   "version": "1.0.0",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
   "dependencies": {
-    "async": "1.5.2",
-    "bluebird": "3.2.1",
-    "lodash": "3.10.1",
-    "mocha": "2.5.3",
-    "sails-memory": "balderdashy/sails-memory",
-    "should": "9.0.0",
-    "waterline": "~0.12.0"
-  },
-  "devDependencies": {
-    "jpath": "0.0.20",
-    "npm": "2.15.6",
-    "sails-disk": "balderdashy/sails-disk",
-    "sails-mongo": "balderdashy/sails-mongo",
-    "sails-mysql": "balderdashy/sails-mysql",
-    "sails-postgresql": "balderdashy/sails-postgresql"
+    "@sailshq/lodash": "3.10.2",
+    "async": "2.0.1",
+    "bluebird": "3.4.6",
+    "mocha": "3.2.0",
+    "waterline": "balderdashy/waterline",
+    "waterline-utils": "treelinehq/waterline-utils"
   },
   "keywords": [
     "orm",
