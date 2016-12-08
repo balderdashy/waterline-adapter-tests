@@ -12,7 +12,10 @@ module.exports = Waterline.Collection.extend({
 
   attributes: {
     amount: 'integer',
-    type: 'string',
+    type: {
+      type: 'string',
+      columnName: 'payment_type'
+    },
     apartment: {
       model: 'apartment',
       columnName: 'apartment_id'

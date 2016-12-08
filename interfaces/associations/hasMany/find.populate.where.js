@@ -36,8 +36,11 @@ describe('Association Interface', function() {
           var payments = [];
 
           for(var i=0; i<8; i++) {
-            if(i < 4) payments.push({ amount: i, a_customer: customers[0].id });
-            if(i >= 4) payments.push({ amount: i, a_customer: customers[1].id });
+            payments.push({
+              amount: i,
+              a_customer: i < 4 ? customers[0].id : customers[1].id,
+              type: i % 2 === 0 ? 'cash' : 'prepayment'
+            });
           }
 
           Associations.Payment.createEach(payments, function(err, payments) {
@@ -139,6 +142,59 @@ describe('Association Interface', function() {
 
       });
 
+      it('should support sort', function(done) {
+        Associations.Customer.find({ name: 'hasMany find where' })
+        .populate('payments', { sort: { amount: 0 }})
+        .exec(function(err, customers) {
+          assert(!err,err);
+
+          assert(Array.isArray(customers));
+          assert.strictEqual(customers.length, 2);
+
+          assert(Array.isArray(customers[0].payments));
+          assert(Array.isArray(customers[1].payments));
+
+          assert.strictEqual(customers[0].payments.length, 4);
+          assert.strictEqual(customers[1].payments.length, 4);
+          assert.deepEqual(
+            customers[0].payments.map(function(payment) { return payment.amount; }),
+            [ 3, 2, 1, 0 ]
+          );
+          assert.deepEqual(
+            customers[1].payments.map(function(payment) { return payment.amount; }),
+            [ 7, 6, 5, 4 ]
+          );
+
+          done();
+        });
+      });
+
+      it('should support sort by a column with custom columnName', function(done) {
+        Associations.Customer.find({ name: 'hasMany find where' })
+        .populate('payments', { sort: { type: 1 }})
+        .exec(function(err, customers) {
+          assert(!err,err);
+
+          assert(Array.isArray(customers));
+          assert.strictEqual(customers.length, 2);
+
+          assert(Array.isArray(customers[0].payments));
+          assert(Array.isArray(customers[1].payments));
+
+          assert.strictEqual(customers[0].payments.length, 4);
+          assert.strictEqual(customers[1].payments.length, 4);
+          assert.deepEqual(
+            customers[0].payments.map(function(payment) { return payment.type; }),
+            [ 'cash', 'cash', 'prepayment', 'prepayment' ]
+          );
+          assert.deepEqual(
+            customers[1].payments.map(function(payment) { return payment.type; }),
+            [ 'cash', 'cash', 'prepayment', 'prepayment' ]
+          );
+
+          done();
+        });
+      });
     });
   });
 });

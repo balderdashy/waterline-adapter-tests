@@ -31,7 +31,10 @@ module.exports = Waterline.Collection.extend({
       type: 'boolean',
       defaultsTo: false
     },
-    percent: 'float',
+    percent: {
+      type: 'float',
+      columnName: 'percent_value'
+    },
     list: {
       type: 'array',
       columnName: 'arrList'
