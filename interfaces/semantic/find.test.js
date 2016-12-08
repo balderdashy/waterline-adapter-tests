@@ -1,16 +1,9 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Semantic Interface', function() {
-
   describe('.find()', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
-
       // Insert 10 Users
       var users = [];
 
@@ -19,66 +12,81 @@ describe('Semantic Interface', function() {
       }
 
       Semantic.User.createEach(users, function(err, users) {
-        if(err) return done(err);
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        return done();
       });
     });
 
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
-
     it('should return 10 records', function(done) {
       Semantic.User.find({ type: 'find test' }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(users));
         assert.strictEqual(users.length, 10);
-        done();
+
+        return done();
       });
     });
 
     it('should return 1 record when searching for a specific record (integer test) with find', function(done) {
       Semantic.User.find({ age: 10 }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(users));
         assert.strictEqual(users.length, 1);
-        done();
+
+        return done();
       });
     });
 
     it('should parse multi-level criteria', function(done) {
       Semantic.User.find({
         age: {
-          lessThanOrEqual: 49 // should return half the records - from 0 to 40
+          '<=': 49 // should return half the records - from 0 to 40
         }
       }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(users));
         assert.equal(users.length, 5);
-        done();
+        
+        return done();
       });
     });
 
-    it('should return a model instance', function(done) {
+    it('should return generated timestamps', function(done) {
       Semantic.User.find({ type: 'find test' }, function(err, users) {
-        assert(!err, err);
+        if (err) {
+          return done(err);
+        }
+
         assert(users[0].id);
-        assert.equal(typeof users[0].fullName, 'function');
         assert(users[0].createdAt);
         assert(users[0].updatedAt);
-        // assert.equal(toString.call(users[0].createdAt), '[object Date]');
-        // assert.equal(toString.call(users[0].updatedAt), '[object Date]', 'Expected the first user in results to have a Date for its `updatedAt` value, instead, the first user looks like:' + require('util').inspect(users[0], false, null));
-        done();
+        
+        return done();
       });
     });
 
     it('should work with no criteria passed in', function(done) {
       Semantic.User.find(function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(users));
+        
+        return done();
       });
     });
-
   });
 });

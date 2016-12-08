@@ -1,34 +1,21 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Semantic Interface', function() {
-
   describe('.update()', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
-
       // Wipe database to ensure a clean result set
       Semantic.User.destroy(function(err) {
         if(err) return done(err);
         done();
       });
-
     });
 
     describe('attributes', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST SETUP
-      ////////////////////////////////////////////////////
-
-      var id, thingId;
+      var id; 
+      var thingId;
 
       before(function(done) {
-
         // Insert 10 Users
         var users = [];
 
@@ -37,90 +24,110 @@ describe('Semantic Interface', function() {
         }
 
         Semantic.User.createEach(users, function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
+
           id = users[0].id.toString();
+          
           Semantic.Thing.create({ name: 'The Thing', description: 'A thing', age: 10 }, function(err, thing) {
-            if(err) return done(err);
+            if (err) {
+              return done(err);
+            }
+
             thingId = thing.id;
-            done();
+            
+            return done();
           });
         });
       });
 
 
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should update model attributes', function(done) {
         Semantic.User.update({ type: 'update' }, { last_name: 'updated' }, function(err, users) {
-          assert.ifError(err);
-          assert(Array.isArray(users));
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(users));
           assert.strictEqual(users.length, 10);
           assert.equal(users[0].last_name, 'updated');
-          done();
+          
+          return done();
         });
       });
 
-      it('should return model instances', function(done) {
-       Semantic. User.update({ type: 'update' }, { last_name: 'updated again' }).exec(function(err, users) {
-          assert.ifError(err);
+      it('should return generated timestamps', function(done) {
+       Semantic.User.update({ type: 'update' }, { last_name: 'updated again' }).exec(function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
           assert(users[0].id);
           assert.strictEqual(users[0].first_name.indexOf('update_user'), 0);
           assert.equal(users[0].last_name, 'updated again');
           assert(users[0].createdAt);
           assert(users[0].updatedAt);
-          // assert.equal(toString.call(users[0].createdAt), '[object Date]');
-          // assert.equal(toString.call(users[0].updatedAt), '[object Date]');
-          done();
+
+          return done();
         });
       });
 
       it('should work with just an ID passed in', function(done) {
         Semantic.User.update(id, { first_name: 'foo' }).sort('first_name').exec(function(err, users) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
+
           assert.equal(users[0].first_name, 'foo');
-          done();
+          
+          return done();
         });
       });
 
       it('should work with an empty object', function(done) {
         Semantic.User.update({}, { type: 'update all' }, function(err, users) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users.length, 10);
           assert.equal(users[0].type, 'update all');
-          done();
+          
+          return done();
         });
       });
 
       it('should work with null values', function(done) {
         Semantic.User.update(id, { age: null }, function(err, users) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users[0].age, null);
-          done();
+          
+          return done();
         });
       });
 
       it('should update model attributes without supplying required fields', function(done) {
         Semantic.Thing.update(thingId, { description: 'An updated thing' }, function(err, things) {
-          assert.ifError(err);
-          assert(Array.isArray(things));
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(things));
           assert.strictEqual(things.length, 1);
           assert.equal(things[0].id, thingId);
           assert.equal(things[0].description, 'An updated thing');
-          done();
+          
+          return done();
         });
       });
     });
 
     describe('find updated records', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST SETUP
-      ////////////////////////////////////////////////////
-
       before(function(done) {
-
         // Insert 2 Users
         var users = [];
 
@@ -129,31 +136,35 @@ describe('Semantic Interface', function() {
         }
 
         Semantic.User.createEach(users, function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
           // Update the 2 users
           Semantic.User.update({ type: 'updateFind' }, { last_name: 'Updated Find' }, function(err) {
-            if(err) return done(err);
+            if (err) {
+              return done(err);
+            }
+
             done();
           });
         });
       });
 
 
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should allow the record to be found', function(done) {
         Semantic.User.find({ type: 'updateFind' }, function(err, users) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].last_name, 'Updated Find');
           assert.equal(users[1].last_name, 'Updated Find');
-          done();
+          
+          return done();
         });
       });
     });
-
   });
 });

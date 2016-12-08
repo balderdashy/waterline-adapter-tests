@@ -1,59 +1,55 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Semantic Interface', function() {
-
   describe('.create()', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
-
     it('should create a new record', function(done) {
       Semantic.User.create({ first_name: 'Foo' }, function(err, record) {
-        if (err) { console.error(err); }
-        assert.ifError(err);
+        if (err) { 
+          return done(err);
+        }
+
         assert.equal(record.first_name, 'Foo');
-        done();
+        
+        return done();
       });
     });
 
     it('should return a generated PK', function(done) {
       Semantic.User.create({ first_name: 'FooBar' }, function(err, user) {
-        if (err) { console.error(err); }
-        assert.ifError(err);
+        if (err) { 
+          return done(err);
+        }
+
         assert.equal(user.first_name, 'FooBar');
         assert(user.id);
-        done();
+
+        return done();
       });
     });
 
     it('should return generated timestamps', function(done) {
       Semantic.User.create({ first_name: 'Foo', last_name: 'Bar' }, function(err, user) {
-        if (err) { console.error(err); }
-        assert.ifError(err);
+        if (err) { 
+          return done(err);
+        }
+
         assert(user.createdAt);
         assert(user.updatedAt);
-        // assert.equal(toString.call(user.createdAt), '[object Date]');
-        // assert.equal(toString.call(user.updatedAt), '[object Date]');
-        done();
-      });
-    });
-
-    it('should return a model instance', function(done) {
-      Semantic.User.create({ first_name: 'Foo', last_name: 'Bar' }, function(err, user) {
-        if (err) { console.error(err); }
-        assert.ifError(err);
-        assert.equal(user.fullName(), 'Foo Bar');
-        done();
+        
+        return done();
       });
     });
 
     it('should normalize undefined values to null', function(done) {
       Semantic.User.create({ first_name: 'Yezy', last_name: undefined }, function(err, user) {
-        assert.ifError(err);
+        if (err) { 
+          return done(err);
+        }
+
         assert.equal(user.last_name, null);
-        done();
+        
+        return done();
       });
     });
 
@@ -64,22 +60,23 @@ describe('Semantic Interface', function() {
       for(var i=0; i<30; i++) {
         users.push({ first_name: 'test_' + i, type: testName });
       }
+
       Semantic.User.create(users, function(err, users) {
-        assert.ifError(err);
+        if (err) { 
+          return done(err);
+        }
+
         users.forEach(function(val, idx){
           assert.equal(users[idx].first_name, 'test_' + idx);
         });
+        
         assert.equal(users.length, 30, 'Expecting 30 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
-        done();
+        
+        return done();
       });
     });
 
     describe('overloaded usage of create', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST SETUP
-      ////////////////////////////////////////////////////
-
       var testName = '.create() test create a list';
 
       before(function(done) {
@@ -93,20 +90,19 @@ describe('Semantic Interface', function() {
       });
 
 
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should have saved the proper values (with auto-increment values)', function(done) {
         Semantic.User.find({where : { type: testName }, sort : {first_name : 1}}, function(err, users) {
-          if (err) return done(err);
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
+
+          
           assert.equal(users.length, 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
           assert.equal(users[0].first_name, 'test_0' );
-          done();
+          
+          return done();
         });
       });
     });
-
   });
 });
