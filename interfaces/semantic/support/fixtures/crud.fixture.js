@@ -70,35 +70,6 @@ module.exports = Waterline.Collection.extend({
       }
     },
 
-    // email: {
-    //   type: 'string',
-    //   columnName: 'emailAddress'
-    // },
-
-    // avatar: {
-    //   type: 'binary'
-    // },
-
-    // title: 'string',
-    // phone: 'string',
-    // type: 'string',
-    // favoriteFruit: {
-    //   defaultsTo: 'blueberry',
-    //   type: 'string'
-    // },
-    // age: 'integer', // integer field that's not auto-incrementable
-    // dob: 'datetime',
-    // status: {
-    //   type: 'boolean',
-    //   defaultsTo: false
-    // },
-    // percent: 'float',
-    // list: {
-    //   type: 'array',
-    //   columnName: 'arrList'
-    // },
-    // obj: 'json',
-
     // Timestamps
 
     updatedAt: {
