@@ -1,16 +1,10 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('Modifiers', function() {
-    describe('greaterThan (>)', function() {
-      describe('integers', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
+    describe.only('greaterThan (>)', function() {
+      describe('numbers', function() {
         var testName = 'greaterThan test';
 
         before(function(done) {
@@ -21,104 +15,43 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        it('should return records with > key', function(done) {
+          Queryable.User.find({ 
+            first_name: testName, 
+            age: { 
+              '>': 40 
+            }
+          })
+          .sort({'age': 'desc'})
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
 
-        it('should return records with greaterThan key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { greaterThan: 40 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+            assert(_.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
-            done();
+            
+            return done();
           });
         });
-
-        it('should return records with symbolic usage > usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '>': 40 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 3);
-            assert.strictEqual(users[0].age, 41);
-            done();
-          });
-        });
-      });
-
-      describe('dates', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
-        var testName = 'greaterThan dates test';
-
-        before(function(done) {
-          // Insert 10 Users
-          var users = [],
-              date;
-
-          for(var i=0; i<10; i++) {
-            date = new Date(2013,10,1);
-            date.setDate(date.getDate() + i);
-
-            users.push({
-              first_name: 'greaterThan_dates_user' + i,
-              type: testName,
-              dob: date
-            });
-          }
-
-          Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
-          });
-        });
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should return records with greaterThan key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { greaterThan: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 1);
-            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
-            done();
-          });
-        });
-
-        it('should return records with symbolic usage > usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '>': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 1);
-            assert.equal(users[0].first_name, 'greaterThan_dates_user9');
-            done();
-          });
-        });
-
       });
 
       describe('strings', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
         var testName = 'greaterThan strings test';
 
         before(function(done) {
           // Insert 10 Users
-          var users = [],
-              date;
+          var users = [];
+          var date;
 
           for(var i=0; i<10; i++) {
             users.push({
@@ -129,46 +62,39 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        it('should return records with > key when searching strings', function(done) {
+          Queryable.User.find({ 
+            type: testName, 
+            first_name: { 
+              '>': '2 greaterThan_strings_user' 
+            }
+          })
+          .sort({'first_name': 'desc'})
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
 
-        it('should return records with greaterThan key when searching strings', function(done) {
-          Queryable.User.find({ type: testName, first_name: { greaterThan: '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+            assert(_.isArray(users));
             assert.strictEqual(users.length, 7);
             assert.equal(users[0].first_name, '3 greaterThan_strings_user');
-            done();
+            
+            return done();
           });
         });
-
-        it('should return records with symbolic usage > usage when searching strings', function(done) {
-          Queryable.User.find({ type: testName, first_name: { '>': '2 greaterThan_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 7);
-            assert.equal(users[0].first_name, '3 greaterThan_strings_user');
-            done();
-          });
-        });
-
       });
     });
 
     describe('greaterThanOrEqual (>=)', function() {
-
-      describe('integers', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
+      describe('numbers', function() {
         var testName = 'greaterThanOrEqual test';
 
         before(function(done) {
@@ -179,116 +105,44 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        it('should return records with >= key', function(done) {
+          Queryable.User.find({ 
+            first_name: testName, 
+            age: { 
+              '>=': 41 
+            }
+          })
+          .sort({ 'age': 'desc' })
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
 
-        it('should return records with greaterThanOrEqual key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { greaterThanOrEqual: 41 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+            assert(_.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 41);
-            done();
-          });
-        });
-
-        it('should return records with symbolic usage >= usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '>=': 41 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 3);
-            assert.strictEqual(users[0].age, 41);
-            done();
+            
+            return done();
           });
         });
       });
 
-      describe('dates', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
-        var testName = 'greaterThanOrEqual dates test';
-
-        before(function(done) {
-          // Insert 10 Users
-          var users = [],
-              date;
-
-          for(var i=0; i<10; i++) {
-            date = new Date(2013,10,1);
-            date.setDate(date.getDate() + i);
-
-            users.push({
-              first_name: 'greaterThanOrEqual_dates_user' + i,
-              type: testName,
-              dob: date
-            });
-          }
-
-          Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
-          });
-        });
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should return records with greaterThanOrEqual key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { greaterThanOrEqual: new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
-            done();
-          });
-        });
-
-        it('should return records with symbolic usage >= usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '>=': new Date(2013, 10, 9) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
-            done();
-          });
-        });
-
-        it.skip('should return records with symbolic usage >= usage when searching dates as strings', function(done) {
-          var dateString = new Date(2013,10,9);
-          dateString = dateString.toString();
-          Queryable.User.find({ type: testName, dob: { '>=': dateString }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.equal(users[0].first_name, 'greaterThanOrEqual_dates_user8');
-            done();
-          });
-        });
-
-      });
 
       describe('strings', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
         var testName = 'greaterThanOrEqual strings test';
 
         before(function(done) {
           // Insert 10 Users
-          var users = [],
-              date;
+          var users = [];
+          var date;
 
           for(var i=0; i<10; i++) {
             users.push({
@@ -299,37 +153,35 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        it('should return records with >= key when searching strings', function(done) {
+          Queryable.User.find({ 
+            type: testName, 
+            first_name: { 
+              '>=': '2 greaterThanOrEqual_strings_user' 
+            }
+          })
+          .sort({ 'first_name': 'desc' })
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
 
-        it('should return records with greaterThanOrEqual key when searching strings', function(done) {
-          Queryable.User.find({ type: testName, first_name: { greaterThanOrEqual: '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+            assert(_.isArray(users));
             assert.strictEqual(users.length, 8);
             assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
-            done();
+            
+            return done();
           });
         });
-
-        it('should return records with symbolic usage >= usage when searching strings', function(done) {
-          Queryable.User.find({ type: testName, first_name: { '>=': '2 greaterThanOrEqual_strings_user' }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 8);
-            assert.equal(users[0].first_name, '2 greaterThanOrEqual_strings_user');
-            done();
-          });
-        });
-
       });
     });
-
   });
 });
