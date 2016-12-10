@@ -1,82 +1,62 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('Modifiers', function() {
-    describe('contains', function() {
+    describe.skip('contains', function() {
       describe('shorthand', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
         it('should return the user with the correct name', function(done) {
-          var part = 'short_xx3ah4aj8xrxh!!!r',
-              testName = 'short_xx3ah4aj8xrxh!!!r contains query test';
+          var part = 'short_xx3ah4aj8xrxh!!!r';
+          var testName = 'short_xx3ah4aj8xrxh!!!r contains query test';
 
           Queryable.User.create({ first_name: testName }, function(err) {
-            if(err) return done(err);
+            if (err) {
+              return done(err);
+            }
 
-            Queryable.User.contains({ first_name: part }, function(err, users) {
-              assert.ifError(err);
-              assert(Array.isArray(users));
+            Queryable.User.find({ 
+              first_name: {
+                contains: part 
+              }
+            }, function(err, users) {
+              if (err) {
+                return done(err);
+              }
+
+              assert(_.isArray(users));
               assert.equal(users.length, 1);
               assert.equal(users[0].first_name, testName);
-              done();
+
+              return done();
             });
           });
         });
       });
 
       describe('full where criteria', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
         it('should return the user with the correct name', function(done) {
-          var part = 'long_xx3ah4aj8xrxh!!!r',
-              testName = 'long_xx3ah4aj8xrxh!!!r contains query test';
+          var part = 'long_xx3ah4aj8xrxh!!!r';
+          var testName = 'long_xx3ah4aj8xrxh!!!r contains query test';
 
           Queryable.User.create({ first_name: testName }, function(err) {
-            if(err) return done(err);
+            if (err) {
+              return done(err);
+            }
 
             Queryable.User.where({ first_name: { contains: part }}, function(err, users) {
-              assert.ifError(err);
-              assert(Array.isArray(users));
+              if (err) {
+                return done(err);
+              }
+
+              assert(_.isArray(users));
               assert.equal(users.length, 1);
               assert.equal(users[0].first_name, testName);
-              done();
+              
+              return done();
             });
           });
         });
       });
-
-      describe('dynamic attribute', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should have [attribute]contains() method', function(done) {
-          var part = 'xxx',
-              testType = 'Dynamic Contains test' + part + 'test';
-
-          Queryable.User.create({ type: testType }, function(err) {
-            if(err) return done(err);
-
-            Queryable.User.typeContains(part, function(err, users) {
-              assert.ifError(err);
-              assert(Array.isArray(users));
-              assert.equal(users.length, 1);
-              assert.equal(users[0].type, testType);
-              done();
-            });
-          });
-        });
-      });
-
     });
   });
 });

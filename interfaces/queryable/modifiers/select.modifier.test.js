@@ -1,5 +1,5 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 function assertNotProperty(obj, prop){
   assert(prop in obj === false, 'property [' + prop + '] should not exist, but it exists and has value: ' + obj[prop]);
