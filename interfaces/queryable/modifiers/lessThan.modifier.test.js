@@ -30,7 +30,7 @@ describe('Queryable Interface', function() {
               '<': 42 
             }
           })
-          .sort('age asc')
+          .sort([{age: 'asc'}])
           .exec(function(err, users) {
             if (err) {
               return done(err);
@@ -73,7 +73,7 @@ describe('Queryable Interface', function() {
               '<=': 42 
             }
           })
-          .sort('age')
+          .sort([{age: 'asc'}])
           .exec(function(err, users) {
             if (err) {
               return done(err);

@@ -24,7 +24,7 @@ describe('Queryable Interface', function() {
 
       it('should return records with symbolic usage ! usage', function(done) {
         Queryable.User.find({ first_name: testName, age: { '!=': 40 }})
-        .sort({age: 'asc'})
+        .sort([{age: 'asc'}])
         .exec(function(err, users) {
           if (err) {
             return done(err);
@@ -40,7 +40,7 @@ describe('Queryable Interface', function() {
 
       it('should return records using not comparisons on strings', function(done) {
         Queryable.User.find({ first_name: testName, email: { '!=': '41@test.com' }})
-        .sort({age: 'asc'})
+        .sort([{age: 'asc'}])
         .exec(function(err, users) {
           if (err) {
             return done(err);

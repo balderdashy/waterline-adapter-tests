@@ -30,7 +30,7 @@ describe('Queryable Interface', function() {
               '>': 40 
             }
           })
-          .sort({'age': 'desc'})
+          .sort([{'age': 'asc'}])
           .exec(function(err, users) {
             if (err) {
               return done(err);
@@ -77,7 +77,7 @@ describe('Queryable Interface', function() {
               '>': '2 greaterThan_strings_user' 
             }
           })
-          .sort({'first_name': 'desc'})
+          .sort([{'first_name': 'asc'}])
           .exec(function(err, users) {
             if (err) {
               return done(err);
@@ -120,7 +120,7 @@ describe('Queryable Interface', function() {
               '>=': 41 
             }
           })
-          .sort({ 'age': 'desc' })
+          .sort([{ 'age': 'asc' }])
           .exec(function(err, users) {
             if (err) {
               return done(err);
@@ -168,7 +168,7 @@ describe('Queryable Interface', function() {
               '>=': '2 greaterThanOrEqual_strings_user' 
             }
           })
-          .sort({ 'first_name': 'desc' })
+          .sort([{ 'first_name': 'asc' }])
           .exec(function(err, users) {
             if (err) {
               return done(err);
