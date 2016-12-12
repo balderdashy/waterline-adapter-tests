@@ -1,6 +1,6 @@
-var util = require('util');
 var assert = require('assert');
-var _ = require('lodash');
+var util = require('util');
+var _ = require('@sailshq/lodash');
 
 
 describe('Association Interface', function() {

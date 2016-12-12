@@ -1,5 +1,5 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 if (adapterFeatures.indexOf('schemas') > -1) {
   describe('Association Interface (with schemas)', function() {

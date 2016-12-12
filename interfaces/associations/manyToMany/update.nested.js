@@ -1,6 +1,6 @@
-var assert = require('assert'),
-    Promise = require('bluebird'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
+var Promise = require('bluebird');
 
 describe('Association Interface', function() {
 

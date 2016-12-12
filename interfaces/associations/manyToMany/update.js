@@ -1,5 +1,5 @@
-var assert = require('assert'),
-    _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 
 describe('Association Interface', function() {
   
