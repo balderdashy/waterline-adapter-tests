@@ -3,7 +3,7 @@ var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
   describe('Modifiers', function() {
-    describe.only('greaterThan (>)', function() {
+    describe('greaterThan (>)', function() {
       describe('numbers', function() {
         var testName = 'greaterThan test';
 

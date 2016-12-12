@@ -2,17 +2,9 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('Modifiers', function() {
-
-    describe('integers', function() {
-
-      describe('lessThan (<)', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
+    describe('less than (<)', function() {
+      describe('numbers', function() {
         var testName = 'lessThan test';
 
         before(function(done) {
@@ -23,105 +15,39 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should return records with lessThan key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { lessThan: 42 }})
+        it('should return records with < key', function(done) {
+          Queryable.User.find({ 
+            first_name: testName, 
+            age: { 
+              '<': 42 
+            }
+          })
           .sort('age asc')
           .exec(function(err, users) {
-            assert.ifError(err);
+            if (err) {
+              return done(err);
+            }
+            
             assert(Array.isArray(users));
             assert.strictEqual(users.length, 2);
             assert.strictEqual(users[0].age, 40);
-            done();
+            
+            return done();
           });
         });
-
-        it('should return records with symbolic usage < usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '<': 42 }})
-          .sort('age asc')
-          .exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.strictEqual(users[0].age, 40);
-            done();
-          });
-        });
-      });
-
-      describe('dates', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
-        var testName = 'lessThan dates test';
-
-        before(function(done) {
-          // Insert 10 Users
-          var users = [],
-              date;
-
-          for(var i=0; i<10; i++) {
-            date = new Date(2013,10,1);
-            date.setDate(date.getDate() + i);
-
-            users.push({
-              first_name: 'lessThan_dates_user' + i,
-              type: testName,
-              dob: date
-            });
-          }
-
-          Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
-          });
-        });
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should return records with lessThan key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { lessThan: new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 1);
-            assert.equal(users[0].first_name, 'lessThan_dates_user0');
-            done();
-          });
-        });
-
-        it('should return records with symbolic usage < usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '<': new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 1);
-            assert.equal(users[0].first_name, 'lessThan_dates_user0');
-            done();
-          });
-        });
-
       });
     });
 
-    describe('lessThanOrEqual (<=)', function() {
-
-      describe('integers', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
+    describe('less than or equal (<=)', function() {
+      describe('numbers', function() {
         var testName = 'lessThanOrEqual test';
 
         before(function(done) {
@@ -132,92 +58,35 @@ describe('Queryable Interface', function() {
           }
 
           Queryable.User.createEach(users, function(err) {
-            if(err) return done(err);
-            done();
+            if (err) {
+              return done(err);
+            }
+
+            return done();
           });
         });
 
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
+        it('should return records with < key', function(done) {
+          Queryable.User.find({ 
+            first_name: testName, 
+            age: { 
+              '<=': 42 
+            }
+          })
+          .sort('age')
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
 
-        it('should return records with lessThanOrEqual key', function(done) {
-          Queryable.User.find({ first_name: testName, age: { lessThanOrEqual: 42 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+            assert(_.isArray(users));
             assert.strictEqual(users.length, 3);
             assert.strictEqual(users[0].age, 40);
-            done();
+            
+            return done();
           });
         });
-
-        it('should return records with symbolic usage <= usage', function(done) {
-          Queryable.User.find({ first_name: testName, age: { '<=': 42 }}).sort('age').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 3);
-            assert.strictEqual(users[0].age, 40);
-            done();
-          });
-        });
-      });
-
-      describe('dates', function() {
-
-        /////////////////////////////////////////////////////
-        // TEST SETUP
-        ////////////////////////////////////////////////////
-
-        var testName = 'lessThanOrEqual dates test';
-
-        before(function(done) {
-          // Insert 10 Users
-          var users = [],
-              date;
-
-          for(var i=0; i<10; i++) {
-            date = new Date(2013,10,1);
-            date.setDate(date.getDate() + i);
-
-            users.push({
-              first_name: 'lessThanOrEqual_dates_user' + i,
-              type: testName,
-              dob: date
-            });
-          }
-
-          Queryable.User.createEach(users, function(err, users) {
-            if(err) return done(err);
-            done();
-          });
-        });
-
-        /////////////////////////////////////////////////////
-        // TEST METHODS
-        ////////////////////////////////////////////////////
-
-        it('should return records with lessThanOrEqual key when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { lessThanOrEqual: new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.equal(users[1].first_name, 'lessThanOrEqual_dates_user1');
-            done();
-          });
-        });
-
-        it('should return records with symbolic usage <= usage when searching dates', function(done) {
-          Queryable.User.find({ type: testName, dob: { '<=': new Date(2013, 10, 2) }}).sort('first_name').exec(function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
-            assert.strictEqual(users.length, 2);
-            assert.equal(users[1].first_name, 'lessThanOrEqual_dates_user1');
-            done();
-          });
-        });
-
       });
     });
-
   });
 });

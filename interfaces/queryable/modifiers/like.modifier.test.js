@@ -2,49 +2,63 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('Modifiers', function() {
-
-    describe('LIKE', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
+    describe('like', function() {
       it('should return the user with the given name', function(done) {
-        var part = '%LIKE query test%',
-            testName = '24g LIKE query test asdcxbzbasg';
+        var part = '%LIKE query test%';
+        var testName = '24g LIKE query test asdcxbzbasg';
 
         Queryable.User.create({ first_name: testName }, function(err) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          Queryable.User.find({ like: { first_name: part } }, function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+          Queryable.User.find({ 
+            first_name: { 
+              like: part 
+            } 
+          })
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
+
+            assert(_.isArray(users));
             assert.equal(users.length, 1);
             assert.equal(users[0].first_name, testName);
-            done();
+            
+            return done();
           });
         });
       });
 
       it('should support wrapping both sides with a % sign', function(done) {
-        var part = 'LIKE query test with sign',
-            testName = '24gdddaga4 LIKE query test with sign asdcxbzbasg';
+        var part = 'LIKE query test with sign';
+        var testName = '24gdddaga4 LIKE query test with sign asdcxbzbasg';
 
         Queryable.User.create({ first_name: testName }, function(err) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          Queryable.User.find({ like: { first_name: '%'+part+'%' } }, function(err, users) {
-            assert.ifError(err);
-            assert(Array.isArray(users));
+          Queryable.User.find({ 
+            first_name: { 
+              like: '%' + part + '%' 
+            } 
+          })
+          .exec(function(err, users) {
+            if (err) {
+              return done(err);
+            }
+
+            assert(_.isArray(users));
             assert.equal(users.length, 1);
             assert.equal(users[0].first_name, testName);
-            done();
+            
+            return done();
           });
         });
       });
     });
-
   });
 });

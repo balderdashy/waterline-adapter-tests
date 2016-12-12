@@ -2,9 +2,7 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('NOT IN Query Modifier', function() {
-
     var testName = 'NOT_IN_query_test';
 
     // Delete all the users in the collection
@@ -13,57 +11,61 @@ describe('Queryable Interface', function() {
     });
 
     describe('with a record', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST SETUP
-      ////////////////////////////////////////////////////
-
       before(function(done) {
-        var users = [{ first_name: testName }, { first_name: 'something else' }];
+        var users = [
+          { 
+            first_name: testName 
+          }, 
+          { 
+            first_name: 'something else' 
+          }
+        ];
 
         Queryable.User.createEach(users, function(err) {
-          if(err) return done(err);
-          done();
+          if (err) {
+            return done(err);
+          }
+
+          return done();
         });
       });
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
 
       it('should return correct user', function(done) {
-        Queryable.User.find({ first_name: { '!': ["foo", testName, "bar", "baz"] }}, function(err, users) {
-          assert.ifError(err);
+        Queryable.User.find({ 
+          first_name: { 
+            'nin': ['foo', testName, 'bar', 'baz'] 
+          }
+        })
+        .exec(function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users.length, 1);
           assert.equal(users[0].first_name, 'something else');
-          done();
-        });
-      });
-
-      it.skip('should return a model instance', function(done) {
-        Queryable.User.find({ first_name: { '!': ["foo", testName, "bar", "baz"] }}, function(err, users) {
-          assert(users[0].id);
-          assert.equal(typeof users[0].fullName, 'function');
-          assert.equal(toString.call(users[0].createdAt), '[object Date]');
-          assert.equal(toString.call(users[0].updatedAt), '[object Date]');
-          done();
+          
+          return done();
         });
       });
     });
 
     describe('without a record', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should return an empty array', function(done) {
-        Queryable.User.find({ first_name: { '!': ["foo", testName, "bar", "something else"] }}, function(err, users) {
+        Queryable.User.find({ 
+          first_name: { 
+            'nin': ['foo', testName, 'bar', 'something else'] 
+          }
+        })
+        .exec(function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users.length, 0);
-          done();
+          
+          return done();
         });
       });
     });
-
   });
 });

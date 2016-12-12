@@ -2,15 +2,8 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('OR Query Modifier', function() {
-
     describe('with a record', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST SETUP
-      ////////////////////////////////////////////////////
-
       before(function(done) {
 
         // Insert 3 Users
@@ -20,63 +13,80 @@ describe('Queryable Interface', function() {
           users.push({
             first_name: 'OR_user' + i,
             last_name: 'contains_user' + i,
-            title: 'contains_title' + i,
             type: 'or test',
             age: i
           });
         }
 
         Queryable.User.createEach(users, function(err, users) {
-          if(err) return done(err);
-          done();
+          if (err) {
+            return done(err);
+          }
+
+          return done();
         });
       });
 
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should return the correct users', function(done) {
-        Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
-        .sort('first_name')
+        Queryable.User.find({ 
+          where: { 
+            or: [
+              { 
+                first_name: 'OR_user0' 
+              }, 
+              { 
+                first_name: 'OR_user1' 
+              }
+            ]
+          }
+        })
+        .sort([{first_name: 'asc'}])
         .exec(function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          assert(Array.isArray(users));
+          assert(_.isArray(users));
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user0');
           assert.equal(users[1].first_name, 'OR_user1');
-          done();
-        });
-      });
-
-      it.skip('should return a model instances', function(done) {
-        Queryable.User.find({ where: { or: [{ first_name: 'OR_user0' }, { first_name: 'OR_user1' }]}})
-        .exec(function(err, users) {
-          assert(users[0].id);
-          assert.equal(typeof users[0].fullName, 'function');
-          assert.equal(toString.call(users[0].createdAt), '[object Date]');
-          assert.equal(toString.call(users[0].updatedAt), '[object Date]');
-          done();
+          
+          return done();
         });
       });
 
       it('should work with multi-level criteria options inside the OR criteria', function(done) {
         Queryable.User.find({
           or: [
-            { first_name: { contains: 'user0' }, type: 'or test' },
-            { first_name: { endsWith: 'user1' }, age: { '>': 0 }, type: 'or test' }
+            { 
+              first_name: { 
+                like: '%user0%' 
+              }, 
+              type: 'or test' 
+            },
+            { 
+              first_name: { 
+                like: '%user1' 
+              }, 
+              age: { 
+                '>': 0 
+              }, 
+              type: 'or test' 
+            }
           ]
         })
-        .sort('first_name')
+        .sort([{first_name: 'asc'}])
         .exec(function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          assert(Array.isArray(users));
+          assert(_.isArray(users));
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user0');
           assert.equal(users[1].first_name, 'OR_user1');
-          done();
+          
+          return done();
         });
       });
 
@@ -84,19 +94,30 @@ describe('Queryable Interface', function() {
         Queryable.User.find({
           type: 'or test',
           or: [
-            { first_name: { contains: 'user1' } },
-            { first_name: { endsWith: 'user2' } }
+            { 
+              first_name: { 
+                like: '%user1%' 
+              } 
+            },
+            { 
+              first_name: { 
+                like: '%user2' 
+              } 
+            }
           ]
         })
-        .sort('first_name')
+        .sort([{first_name: 'asc'}])
         .exec(function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          assert(Array.isArray(users));
+          assert(_.isArray(users));
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user1');
           assert.equal(users[1].first_name, 'OR_user2');
-          done();
+          
+          return done();
         });
       });
 
@@ -104,39 +125,58 @@ describe('Queryable Interface', function() {
         Queryable.User.find({
           type: 'or test',
           or: [
-            { first_name: { contains: 'user0' } },
-            { last_name:  { contains: 'user1' } },
-            { title:      { contains: 'title2' } }
+            { 
+              first_name: { 
+                like: '%user0%' 
+              } 
+            },
+            { 
+              last_name:  { 
+                like: '%user1%' 
+              } 
+            }
           ]
         })
-        .sort('first_name')
+        .sort([{first_name: 'asc'}])
         .exec(function(err, users) {
-          if(err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
-          assert(Array.isArray(users));
-          assert.strictEqual(users.length, 3);
+          assert(_.isArray(users));
+          assert.strictEqual(users.length, 2);
           assert.equal(users[0].first_name, 'OR_user0');
           assert.equal(users[1].last_name, 'contains_user1');
-          assert.equal(users[2].title, 'contains_title2');
-          done();
+          
+          return done();
         });
       });
     });
 
     describe('without a record', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
       it('should return an empty array', function(done) {
-        Queryable.User.find({ where: { or: [{ first_name: 'OR_user10' }, { first_name: 'OR_user11' }]}})
+        Queryable.User.find({ 
+          where: { 
+            or: [
+              { 
+                first_name: 'OR_user10' 
+              }, 
+              { 
+                first_name: 'OR_user11' 
+              }
+            ]
+          }
+        })
         .exec(function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
           assert.strictEqual(users.length, 0);
-          done();
+          
+          return done();
         });
       });
     });
-
   });
 });

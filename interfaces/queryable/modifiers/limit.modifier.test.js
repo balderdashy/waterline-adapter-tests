@@ -2,13 +2,7 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('LIMIT Query Modifier', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
 
       // Insert 10 Users
@@ -19,41 +13,38 @@ describe('Queryable Interface', function() {
       }
 
       Queryable.User.createEach(users, function(err, users) {
-        if(err) return done(err);
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        return done();
       });
     });
-
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
 
     it('should return the correct amount of records', function(done) {
       Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
-        assert.strictEqual(users.length, 3);
-        done();
-      });
-    });
+        if (err) {
+          return done(err);
+        }
 
-    it('dynamic finder usage should return the correct amount of records', function(done) {
-      Queryable.User.findByType('limit test', { limit: 3 }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
+        assert(_.isArray(users));
         assert.strictEqual(users.length, 3);
-        done();
+        
+        return done();
       });
     });
 
     it('as an option should return correct amount of records', function(done) {
       Queryable.User.find({ where: { type: 'limit test' } }, { limit: 3 }, function(err, users) {
-        assert.ifError(err);
-        assert(Array.isArray(users));
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(users));
         assert.strictEqual(users.length, 3);
-        done();
+        
+        return done();
       });
     });
-
   });
 });
