@@ -2,10 +2,11 @@
  * Module Dependencies
  */
 
-var Waterline = require('waterline');
-var _ = require('lodash');
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
 var async = require('async');
-var MigrateHelper = require('./migrate-helper');
+var Waterline = require('waterline');
+var waterlineUtils = require('waterline-utils');
 
 // Require Fixtures
 var fixtures = {
@@ -32,58 +33,75 @@ var fixtures = {
 };
 
 
-/////////////////////////////////////////////////////
-// TEST SETUP
-////////////////////////////////////////////////////
+var waterline;
+var ORM;
 
-var waterline, ontology;
 
+//  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌┐ ┌─┐┌─┐┌─┐┬─┐┌─┐
+//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤ 
+//  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  └─┘└─┘└  └─┘┴└─└─┘
 before(function(done) {
-
   waterline = new Waterline();
 
-  Object.keys(fixtures).forEach(function(key) {
+  _.each(fixtures, function(val, key) {
     waterline.loadCollection(fixtures[key]);
   });
 
-  var connections = { associations: _.clone(Connections.test) };
+  var connections = { 
+    associations: _.clone(Connections.test) 
+  };
 
-  waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections }, function(err, _ontology) {
-    if(err) return done(err);
+  var defaults = { 
+    migrate: 'alter' 
+  };
 
-    ontology = _ontology;
+  waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, orm) {
+    if (err) {
+      return done(err);
+    }
 
-    // Migrations Helper
-    MigrateHelper(_ontology, function(err) {
+    // Save a reference to the ORM
+    ORM = orm;
+
+    // Run migrations
+    waterlineUtils.autoMigrations('alter', orm, function(err) {
       if (err) {
         return done(err);
       }
 
       // Globalize collections for normalization
-      Object.keys(_ontology.collections).forEach(function(key) {
-        var globalName = key.charAt(0).toUpperCase() + key.slice(1);
-        global.Associations[globalName] = _ontology.collections[key];
+      _.each(ORM.collections, function(collection, identity) {
+        var globalName = identity.charAt(0).toUpperCase() + identity.slice(1);
+        global.Associations[globalName] = collection;
       });
 
-      done();
+      return done();
     });
   });
 });
 
+
+//  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌─┐┌─┐┌┬┐┌─┐┬─┐
+//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├─┤├┤  │ ├┤ ├┬┘
+//  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  ┴ ┴└   ┴ └─┘┴└─
 after(function(done) {
-
   function dropCollection(item, next) {
-    if(!Adapter.hasOwnProperty('drop')) return next();
+    if (!_.has(Adapter, 'drop')) {
+      return next();
+    }
 
-    ontology.collections[item].drop(function(err) {
-      if(err) return next(err);
-      next();
-    });
+    // Grab the adapter to perform the query on
+    var collection = ORM.collections[item];
+    var datastoreName = collection.adapterDictionary.drop;
+    var tableName = collection.tableName || collection.identity;
+    Adapter.drop(datastoreName, tableName, [], next);
   }
 
-  async.each(Object.keys(ontology.collections), dropCollection, function(err) {
-    if(err) return done(err);
+  async.each(_.keys(ORM.collections), dropCollection, function(err) {
+    if (err) {
+      return done(err);
+    }
+
     waterline.teardown(done);
   });
-
 });

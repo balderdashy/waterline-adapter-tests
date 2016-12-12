@@ -5,25 +5,64 @@
 var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
-
   tableName: 'customerTable',
   identity: 'customer',
   connection: 'associations',
+  primaryKey: 'id',
 
   attributes: {
-    name: 'string',
-    title: 'string',
-    capital : 'integer',
+    // Primary Key
+    id: {
+      type: 'number',
+      autoMigrations: {
+        columnType: 'integer',
+        autoIncrement: true,
+        unique: true
+      }
+    },
+
+    name: {
+      type: 'string',
+      autoMigrations: {
+        columnType: 'varchar'
+      }
+    },
+
+    title: {
+      type: 'string',
+      autoMigrations: {
+        columnType: 'varchar'
+      }
+    },
+
+    capital: {
+      type: 'number',
+      autoMigrations: {
+        columnType: 'integer'
+      }
+    },
+
     payments: {
       collection: 'Payment',
       via: 'a_customer'
     },
 
-    toJSON: function() {
-      var obj = this.toObject();
-      delete obj.name;
-      return obj;
+    // Timestamps
+
+    updatedAt: {
+      type: 'number',
+      autoUpdatedAt: true,
+      autoMigrations: {
+        columnType: 'bigint'
+      }
+    },
+
+    createdAt: {
+      type: 'number',
+      autoCreatedAt: true,
+      autoMigrations: {
+        columnType: 'bigint'
+      }
     }
   }
-
 });
