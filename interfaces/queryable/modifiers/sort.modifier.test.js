@@ -2,118 +2,134 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('SORT Query Modifier', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
 
       // Insert 10 Users
-      var users = [],
-          date;
+      var users = [];
+      var date;
 
       for(var i=0; i<10; i++) {
-        date = new Date();
-        date.setDate(date.getDate() + i);
-
         users.push({
           first_name: 'sort_user' + i,
           type: 'sort test',
-          dob: date
+          age: i+1
         });
       }
 
       Queryable.User.createEach(users, function(err, users) {
-        if(err) return done(err);
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        return done();
       });
     });
 
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
+    it('should sort records using asc', function(done) {
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test' 
+        }, 
+        sort: [{ 
+          age: 'asc' 
+        }]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
 
-    it('should sort records using binary notation for asc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 1 } }, function(err, users) {
-        assert.ifError(err);
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user0');
-        done();
+        
+        return done();
       });
     });
 
-    it('should sort records using binary notation desc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test' }, sort: { dob: 0 } }, function(err, users) {
-        assert.ifError(err);
+    it('should sort records using desc', function(done) {
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test' 
+        }, 
+        sort: [{ 
+          age: 'desc' 
+        }]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
+
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user9');
-        done();
+        
+        return done();
       });
     });
 
-    it('should sort records using string notation for asc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob asc' }, function(err, users) {
-        assert.ifError(err);
-        assert.strictEqual(users.length, 10);
-        assert.equal(users[0].first_name, 'sort_user0');
-        done();
-      });
-    });
-
-    it('should sort records using string notation for desc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test' }, sort: 'dob desc' }, function(err, users) {
-        assert.ifError(err);
-        assert.strictEqual(users.length, 10);
-        assert.equal(users[0].first_name, 'sort_user9');
-        done();
-      });
-    });
 
     it('should sort when sort is an option', function(done) {
-      Queryable.User.find({ where: { type: 'sort test' } }, { sort: { dob: 0 } }, function(err, users) {
-        assert.ifError(err);
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test' 
+        } 
+      }, 
+      { 
+        sort: [{ 
+          age: 'desc' 
+        }]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
+
         assert.strictEqual(users.length, 10);
         assert.equal(users[0].first_name, 'sort_user9');
-        done();
+        
+        return done();
       });
     });
-
   });
 
 
   describe('Multiple SORT criteria searches', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
-
       // Insert 3 Users
       var users = [
-
         { first_name: 'foo', last_name: 'smith', type: 'sort test multi' },
         { first_name: 'joe', last_name: 'smith', type: 'sort test multi' },
         { first_name: 'bob', last_name: 'foo', type: 'sort test multi' }
-
       ];
 
       Queryable.User.createEach(users, function(err, users) {
-        if(err) return done(err);
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        return done();
       });
     });
 
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
-
     it('should sort records using multiple sort criteria, with first name desc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 0 } }, function(err, users) {
-        assert.ifError(err);
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test multi' 
+        }, 
+        sort: [
+          { 
+            last_name: 'asc'
+          },
+          { 
+            first_name: 'desc'
+          } 
+        ]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
 
         // check the smith's are together and ordered by first_name
         assert.equal(users[0].first_name, 'bob');
@@ -122,13 +138,29 @@ describe('Queryable Interface', function() {
 
         assert.equal(users[1].first_name, 'joe');
         assert.equal(users[2].first_name, 'foo');
-        done();
+        
+        return done();
       });
     });
 
     it('should sort records using multiple sort criteria, with first name asc', function(done) {
-      Queryable.User.find({ where: { type: 'sort test multi' }, sort: { last_name: 1, first_name: 1 } }, function(err, users) {
-        assert.ifError(err);
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test multi' 
+        }, 
+        sort: [
+          { 
+            last_name: 'asc'
+          }, 
+          {
+            first_name: 'asc'
+          }
+        ]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
 
         // check the smith's are together and ordered by first_name
         assert.equal(users[0].first_name, 'bob');
@@ -137,9 +169,9 @@ describe('Queryable Interface', function() {
 
         assert.equal(users[1].first_name, 'foo');
         assert.equal(users[2].first_name, 'joe');
-        done();
+        
+        return done();
       });
     });
-
   });
 });

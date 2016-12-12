@@ -2,67 +2,43 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
-
   describe('SUM Query Modifier', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     before(function(done) {
-
       // Insert 10 Users
-      var users = [],
-          date;
+      var users = [];
+      var date;
 
       for(var i=0; i<10; i++) {
         users.push({
           first_name: 'sum_user' + i,
           type: 'sum test',
-          age: i,
-          percent: i/2
+          age: i
         });
       }
 
       Queryable.User.createEach(users, function(err, users) {
-        if(err) return done(err);
-        done();
+        if (err) {
+          return done(err);
+        }
+
+        return done();
       });
     });
 
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
+    it('should sum by key', function(done) {
+      Queryable.User.sum('age')
+      .where({ 
+        type: 'sum test'
+      })
+      .exec(function(err, sum) {
+        if (err) {
+          return done(err);
+        }
 
-    it.skip('should sum by key and only return that key with the sum value', function(done) {
-      Queryable.User.find({ where:{type: 'sum test'}, sum: ['age'] }, function(err, summed) {
-        assert.ifError(err);
-        assert.strictEqual(summed[0].sum, 45);
-        done();
+        assert.strictEqual(sum, 45);
+        
+        return done();
       });
     });
-
-    it.skip('should sum by multiple keys and return sums of all keys', function(done) {
-      Queryable.User.find({ where:{type: 'sum test'}, sum: ['age', 'percent'] }, function(err, summed) {
-        assert.ifError(err);
-        assert.strictEqual(summed[0].age, 45);
-        assert.strictEqual(summed[0].percent, 22.5);
-        done();
-      });
-    });
-
-    it.skip('should sum and average in the same query', function(done) {
-      Queryable.User.find({
-        where:{type: 'sum test'},
-        sum: ['age'],
-        average: ['percent']
-      }, function(err, summed) {
-        assert.ifError(err);
-        assert.strictEqual(summed[0].age, 45);
-        assert.strictEqual(summed[0].percent, 2.25);
-        done();
-      });
-    });
-
   });
 });
