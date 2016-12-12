@@ -49,26 +49,12 @@ module.exports = Waterline.Collection.extend({
       }
     },
 
-    // obj: {
-    //   type: 'json',
-    //   autoMigrations: {
-    //     columnType: 'json'
-    //   }
-    // },
-
-    // status: {
-    //   type: 'boolean',
-    //   autoMigrations: {
-    //     columnType: 'boolean'
-    //   }
-    // },
-
-    // avatar: {
-    //   type: 'ref',
-    //   autoMigrations: {
-    //     columnType: 'binary'
-    //   }
-    // },
+    email: {
+      type: 'string',
+      autoMigrations: {
+        columnType: 'varchar'
+      }
+    },
 
     // Timestamps
 
@@ -87,26 +73,6 @@ module.exports = Waterline.Collection.extend({
         columnType: 'bigint'
       }
     }
-
-    // first_name: 'string',
-    // last_name: 'string',
-    // email: 'string',
-    // title: 'string',
-    // phone: 'string',
-    // type: 'string',
-    // favoriteFruit: {
-    //   defaultsTo: 'blueberry',
-    //   type: 'string'
-    // },
-    // age: 'integer', // integer field that's not auto-incrementable
-    // dob: 'date',
-    // status: {
-    //   type: 'boolean',
-    //   defaultsTo: false
-    // },
-    // percent: 'float',
-    // list: 'array',
-    // obj: 'json',
   }
 
 });
