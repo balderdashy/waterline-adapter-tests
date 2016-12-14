@@ -2,24 +2,16 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var util = require('util');
 
-
-
-
 describe('Association Interface', function() {
-
   describe('find with associations', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     var Customers = [];
     var payments = [];
 
     before(function(done) {
-
       Associations.Customer.createEach([{}, {}], function(err, customers) {
-        if(err) return done(err);
+        if (err) {
+          return done(err);
+        }
 
         // cache customers
         Customers = customers;
@@ -27,39 +19,40 @@ describe('Association Interface', function() {
         payments = [];
         var i = 0;
 
-        for(i=0; i<2; i++) payments.push({ amount: i, a_customer: customers[0].id });
-        for(i=0; i<2; i++) payments.push({ amount: i, a_customer: customers[1].id });
+        for(i=0; i<2; i++) {
+          payments.push({ amount: i, a_customer: customers[0].id });
+        }
 
-        Associations.Payment.createEach(payments, function(err) {
-          if(err) return done(err);
-          done();
+        for(i=0; i<2; i++) {
+          payments.push({ amount: i, a_customer: customers[1].id });
+        }
+
+        Associations.Payment.createEach(payments, function(err, payments) {
+          if (err) {
+            return done(err);
+          }
+
+          return done();
         });
-
       });
     });
 
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
-
     it('should group associations under the parent key', function(done) {
-
-      // Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
-      // .exec()
-      // Associations.Payment.find();
-
-
-
-      Associations.Customer.find({ id: [Customers[0].id, Customers[1].id]})
-      .populate('payments', { sort: { amount: 1 }})
-      .sort('id asc')
+      Associations.Customer.find({ 
+        id: [Customers[0].id, Customers[1].id]
+      })
+      .populate('payments')
+      .sort([{id: 'asc'}])
       .exec(function(err, customers) {
-        assert.ifError(err);
-        assert(Array.isArray(customers));
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(customers));
         assert.strictEqual(customers.length, 2);
 
-        assert(Array.isArray(customers[0].payments));
-        assert(Array.isArray(customers[1].payments));
+        assert(_.isArray(customers[0].payments));
+        assert(_.isArray(customers[1].payments));
 
         assert.strictEqual(customers[0].payments.length, 2, 'Expected 2 payments, but got customers[0] ==> ' +require('util').inspect(customers[0], false, null));
         assert.strictEqual(customers[1].payments.length, 2);
@@ -69,24 +62,8 @@ describe('Association Interface', function() {
         assert.equal(customers[1].payments[0].amount, 0);
         assert.equal(customers[1].payments[1].amount, 1);
 
-        done();
+        return done();
       });
     });
   });
-
 });
-
-
-
-// Experiment
-
-// assertv('customers[0].payments[0].amount === 0', 'customers[0]', customers[0]);
-// assertv('customers[0].payments[1].amount === 1', 'customers[0]', customers[0]);
-// assertv('customers[1].payments[0].amount === 0', 'customers[1]', customers[1]);
-// assertv('customers[1].payments[1].amount === 1', 'customers[1]', customers[1]);
-
-// function assertv(expr, exprToLog, exprToLogValue) {
-//   var msg = 'Expected `'+expr+'`, but actually `'+exprToLog+'` ==>\n'+require('util').inspect(exprToLogValue, false, null);
-//   console.log('running:','assert('+expr+', '+msg+')');
-//   eval('assert('+expr+', '+msg+')');
-// }

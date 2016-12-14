@@ -13,7 +13,10 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     vin: {
       type: 'string',
-      primaryKey: true
+      autoMigrations: {
+        columnType: 'varchar',
+        unique: true
+      }
     },
 
     medallion: {
