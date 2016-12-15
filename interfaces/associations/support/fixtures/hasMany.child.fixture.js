@@ -39,7 +39,7 @@ module.exports = Waterline.Collection.extend({
       model: 'apartment',
       columnName: 'apartment_id',
       autoMigrations: {
-        columnType: 'integer'
+        columnType: 'varchar'
       }
     },
 
