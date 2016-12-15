@@ -2,71 +2,60 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Association Interface', function() {
-
   describe('Belongs To Association', function() {
+    describe('projections', function() {
+      var customer;
+      var payment;
 
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
+      before(function(done) {
+        var customerData = {
+          name: 'foo',
+          title: 'tester'
+        };
 
-    var customer;
-    var payment;
+        var paymentData = {
+          amount: 1,
+          type: 'credit'
+        };
 
-    before(function(done) {
-      var customerData = {
-        name: 'foo',
-        title: 'tester'
-      };
-
-      var paymentData = {
-        amount: 1,
-        type: 'credit'
-      };
-
-      Associations.Customerbelongs.create(customerData, function(err, _customer) {
-        if(err) {
-          return done(err);
-        }
-
-        customer = _customer;
-        paymentData.customer = customer.id;
-
-        Associations.Paymentbelongs.create(paymentData, function(err, _payment) {
-          if(err) {
+        Associations.Customerbelongs.create(customerData, function(err, _customer) {
+          if (err) {
             return done(err);
           }
 
-          payment = _payment;
+          customer = _customer;
+          paymentData.customer = customer.id;
+
+          Associations.Paymentbelongs.create(paymentData, function(err, _payment) {
+            if (err) {
+              return done(err);
+            }
+
+            payment = _payment;
+            
+            return done();
+          });
+        });
+      });
+      
+      it.skip('should filter populated attributes when projections are used', function(done) {
+        Associations.Paymentbelongs.findOne({ id: payment.id })
+        .populate('customer', { select: ['title'] })
+        .exec(function(err, payment) {
+          if (err) {
+            return done(err);
+          }
+          
+          assert(payment);
+          assert(payment.customer);
+
+          assert.equal(_.keys(payment.customer).length, 2);
+          assert(payment.customer.id);
+          assert.equal(payment.customer.title, 'tester');
+          
           return done();
         });
       });
     });
-
-    describe('projections', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
-
-      it('should filter populated attributes when projections are used', function(done) {
-        Associations.Paymentbelongs.findOne({ id: payment.id })
-        .populate('customer', { select: ['title'] })
-        .exec(function(err, payment) {
-          assert.ifError(err);
-          assert(payment);
-          assert(payment.customer);
-
-          // JSON stringify the record to remove any virtual functions such
-          // as associations with .add/.remove
-          var record = payment.toJSON();
-
-          assert.equal(_.keys(record.customer).length, 2);
-          assert(record.customer.id);
-          assert.equal(record.customer.title, 'tester');
-          done();
-        });
-      });
-    });
-
   });
 });
