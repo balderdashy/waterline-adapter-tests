@@ -3,80 +3,68 @@ var _ = require('@sailshq/lodash');
 
 describe('Association Interface', function() {
   describe('n:m association :: .findOne().populate()', function() {
-
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
-
     var driverRecord;
 
     before(function(done) {
       Associations.Driver.create({ name: 'manymany findOne'}, function(err, driver) {
-        if(err) return done(err);
+        if (err) {
+          return done(err);
+        }
 
         driverRecord = driver;
 
         var taxis = [];
         for(var i=0; i<2; i++) {
-          driverRecord.taxis.add({ medallion: i });
+          taxis.push({ medallion: i });
         }
 
-        driverRecord.save(function(err) {
-          if(err) return done(err);
-          done();
+        Associations.Taxi.createEach(taxis, function(err, taxis) {
+          if (err) {
+            return done(err);
+          }
+
+          var childrenIds = _.map(taxis, function(taxi) {
+            return taxi.id;
+          });
+
+          Associations.Driver.addToCollection(driver.id, 'taxis', childrenIds)
+          .exec(function(err) {
+            if (err) {
+              return done(err);
+            }
+
+            return done();
+          });
         });
       });
     });
-
-    /////////////////////////////////////////////////////
-    // TEST METHODS
-    ////////////////////////////////////////////////////
 
     it('should return taxis when the populate criteria is added', function(done) {
       Associations.Driver.findOne(driverRecord.id)
       .populate('taxis')
       .exec(function(err, driver) {
-        assert.ifError(err);
+        if (err) {
+          return done(err);
+        }
 
-        assert(Array.isArray(driver.taxis));
-        assert.strictEqual(driver.taxis.length, 2);
+        assert(_.isArray(driver.taxis));
+        assert.equal(driver.taxis.length, 2);
 
-        done();
+        return done();
       });
     });
 
     it('should not return a taxis object when the populate is not added', function(done) {
       Associations.Driver.findOne(driverRecord.id)
       .exec(function(err, driver) {
-        assert.ifError(err);
+        if (err) {
+          return done(err);
+        }
 
-        var obj = driver.toJSON();
-        assert(!obj.taxis);
+        assert(!driver.taxis);
 
-        done();
+        return done();
       });
     });
-
-    it('should call toJSON on all associated records if available', function(done) {
-      Associations.Driver.findOne(driverRecord.id)
-      .populate('taxis')
-      .exec(function(err, driver) {
-        assert.ifError(err);
-
-        var obj = driver.toJSON();
-        assert(!obj.name);
-
-        assert(Array.isArray(obj.taxis));
-        assert.strictEqual(obj.taxis.length, 2);
-
-        assert(obj.taxis[0].hasOwnProperty('createdAt'));
-        assert(!obj.taxis[0].hasOwnProperty('medallion'));
-        assert(obj.taxis[1].hasOwnProperty('createdAt'));
-        assert(!obj.taxis[1].hasOwnProperty('medallion'));
-
-        done();
-      });
-    });
-
   });
 });
