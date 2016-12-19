@@ -2,60 +2,77 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Association Interface', function() {
-
   describe('1:1 Association', function() {
+    describe('.find()', function() {
+      var users;
+      var profiles;
 
-    /////////////////////////////////////////////////////
-    // TEST SETUP
-    ////////////////////////////////////////////////////
+      before(function(done) {
+        var records = [
+          { 
+            name: 'foo1',
+            quantity : 1
+          }, 
+          { 
+            name: 'bar1', 
+            quantity : 2 
+          }
+        ];
 
-    var users, profiles;
+        Associations.User_resource.createEach(records, function(err, models) {
+          if (err) {
+            return done(err);
+          }
 
-    before(function(done) {
-      Associations.User_resource.createEach([{ name: 'foo1' ,quantity : 1}, { name: 'bar1', quantity : 2 }], function(err, models) {
-        if(err) return done(err);
+          Associations.User_resource.find()
+          .sort('quantity asc')
+          .exec(function(err, models) {
+            if (err) {
+              return done(err);
+            }
 
-        Associations.User_resource.find()
-        .sort('quantity asc')
-        .exec(function(err, models) {
-          if(err) return done(err);
+            users = models;
 
-          users = models;
+            var profileRecords = [
+              { name: 'profile one', user: users[0].id, level : 1 },
+              { name: 'profile two', user: users[1].id, level : 2 }
+            ];
 
-          var profileRecords = [
-            { name: 'profile one', user: users[0].id, level : 1},
-            { name: 'profile two', user: users[1].id, level : 2}
-          ];
+            Associations.Profile.createEach(profileRecords, function(err, models) {
+              if (err) {
+                return done(err);
+              }
 
-          Associations.Profile.createEach(profileRecords, function(err, models) {
-            if(err) return done(err);
+              Associations.User_resource.update({ name: 'foo1' }, { profile: models[0].id })
+              .exec(function(err, user) {
+                if (err) {
+                  return done(err);
+                }
 
-            Associations.User_resource.update({ name: 'foo1' }, { profile: models[0].id }).exec(function(err, user) {
-              if(err) return done(err);
+                Associations.User_resource.update({ name: 'bar1' }, { profile: models[1].id })
+                .exec(function(err, user) {
+                  if (err) {
+                    return done(err);
+                  }
 
-              Associations.User_resource.update({ name: 'bar1' }, { profile: models[1].id }).exec(function(err, user) {
-                if(err) return done(err);
-                profiles = models;
-                done();
+                  profiles = models;
+                  
+                  return done();
+                });
               });
             });
           });
         });
       });
-    });
-
-    describe('.find()', function() {
-
-      /////////////////////////////////////////////////////
-      // TEST METHODS
-      ////////////////////////////////////////////////////
 
       it('should return user when the populate criteria is added on profile', function(done) {
         Associations.Profile.find()
         .sort('level asc')
         .populate('user')
         .exec(function(err, profiles) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
 
           assert(profiles[0].user);
           assert(profiles[1].user);
@@ -63,7 +80,7 @@ describe('Association Interface', function() {
           assert.equal(profiles[0].user.name, 'foo1');
           assert.equal(profiles[1].user.name, 'bar1');
 
-          done();
+          return done();
         });
       });
 
@@ -72,7 +89,9 @@ describe('Association Interface', function() {
         .populate('profile')
         .sort('quantity asc')
         .exec(function(err, users) {
-          assert.ifError(err);
+          if (err) {
+            return done(err);
+          }
 
           assert(users[0].profile);
           assert(users[1].profile);
@@ -80,40 +99,53 @@ describe('Association Interface', function() {
           assert.equal(users[0].profile.name, 'profile one');
           assert.equal(users[1].profile.name, 'profile two');
 
-          done();
+          return done();
         });
       });
 
-      it('should return a user object when the profile is undefined', function(done) {
-        Associations.User_resource.create({ name: 'foobar', profile: undefined }).exec(function(err, usr) {
-          assert(!err, err);
+      it.skip('should return a user object when the profile is undefined', function(done) {
+        Associations.User_resource.create({ name: 'foobar', profile: undefined })
+        .exec(function(err, usr) {
+          if (err) {
+            return done(err);
+          }
 
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            assert.ifError(err);
+            if (err) {
+              return done(err);
+            }
+
             assert(users[0].name);
-            assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
-            done();
+            assert(!users[0].profile);
+            
+            return done();
           });
         });
       });
 
       it('should return undefined for profile when the profile is a non-existent foreign key', function(done) {
-        Associations.User_resource.create({ name: 'foobar2', profile: '123' }).exec(function(err, usr) {
-          assert(!err, err);
+        Associations.User_resource.create({ name: 'foobar2', profile: '123' })
+        .exec(function(err, usr) {
+          if (err) {
+            return done(err);
+          }
+
           Associations.User_resource.find({ name: 'foobar2' })
           .populate('profile')
           .exec(function(err, users) {
-            assert.ifError(err);
+            if (err) {
+              return done(err);
+            }
+
             assert(users[0].name);
-            assert(!users[0].profile, 'Expected `users[0].profile` to be falsy, but instead users[0] looks like ==> '+require('util').inspect(users[0], false, null));
-            done();
+            assert(!users[0].profile);
+            
+            return done();
           });
         });
       });
-
     });
-
   });
 });
