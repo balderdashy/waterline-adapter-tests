@@ -33,7 +33,7 @@ describe('Association Interface', function() {
         });
       });
 
-      it.skip('should return teams when the populate criteria is added', function(done) {
+      it('should return teams when the populate criteria is added', function(done) {
         Associations.Stadium.find({ name: 'hasManyThrough stadium' })
         .populate('teams')
         .exec(function(err, stadiums) {
@@ -50,7 +50,7 @@ describe('Association Interface', function() {
         });
       });
 
-      it.skip('should not return a teams object when the populate is not added', function(done) {
+      it('should not return a teams object when the populate is not added', function(done) {
         Associations.Stadium.find()
         .exec(function(err, stadiums) {
           if (err) {

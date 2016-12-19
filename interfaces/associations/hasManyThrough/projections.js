@@ -33,14 +33,14 @@ describe('Association Interface', function() {
         });
       });
 
-      it.skip('should filter populated attributes when projections are used', function(done) {
+      it('should filter populated attributes when projections are used', function(done) {
         Associations.Stadium.findOne({ id: stadium.id })
         .populate('teams', { select: ['name'] })
         .exec(function(err, data) {
           if (err) {
             return done(err);
           }
-
+    
           assert(data);
           assert(_.isArray(data.teams));
           assert.equal(data.teams.length, 1);
