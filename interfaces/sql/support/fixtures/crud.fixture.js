@@ -5,41 +5,59 @@
 var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
-
   identity: 'user',
   tableName: 'usertablesql',
-  connection: 'sql',
+  datastore: 'sql',
+  primaryKey: 'id',
 
   attributes: {
-    first_name: 'string',
-    last_name: 'string',
-    email: {
+    // Primary Key
+    id: {
+      type: 'number',
+      autoMigrations: {
+        columnType: 'integer',
+        autoIncrement: true,
+        unique: true
+      }
+    },
+
+    first_name: {
       type: 'string',
-      columnName: 'emailAddress'
+      autoMigrations: {
+        columnType: 'varchar'
+      }
     },
-    avatar: 'binary',
-    title: 'string',
-    phone: 'string',
-    type: 'string',
-    favoriteFruit: {
-      defaultsTo: 'blueberry',
-      type: 'string'
+    
+     type: {
+      type: 'string',
+      autoMigrations: {
+        columnType: 'varchar'
+      }
     },
-    age: 'integer', // integer field that's not auto-incrementable
-    dob: 'datetime',
-    status: {
-      type: 'boolean',
-      defaultsTo: false
+
+    age: {
+      type: 'number',
+      autoMigrations: {
+        columnType: 'integer'
+      }
     },
-    percent: 'float',
-    list: {
-      type: 'array',
-      columnName: 'arrList'
+
+     // Timestamps
+
+    updatedAt: {
+      type: 'number',
+      autoUpdatedAt: true,
+      autoMigrations: {
+        columnType: 'bigint'
+      }
     },
-    obj: 'json',
-    fullName: function() {
-      return this.first_name + ' ' + this.last_name;
+
+    createdAt: {
+      type: 'number',
+      autoCreatedAt: true,
+      autoMigrations: {
+        columnType: 'bigint'
+      }
     }
   }
-
 });
