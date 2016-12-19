@@ -35,7 +35,7 @@ describe('Queryable Interface', function() {
     });
 
     it('as an option should return correct amount of records', function(done) {
-      Queryable.User.find({ where: { type: 'limit test' } }, { limit: 3 }, function(err, users) {
+      Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
         if (err) {
           return done(err);
         }

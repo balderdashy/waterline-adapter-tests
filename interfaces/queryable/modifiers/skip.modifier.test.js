@@ -46,9 +46,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ 
         where: { 
           type: 'skip test' 
-        } 
-      }, 
-      { 
+        }, 
         skip: 3 
       })
       .exec(function(err, users) {

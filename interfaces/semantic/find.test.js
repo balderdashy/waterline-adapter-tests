@@ -50,8 +50,10 @@ describe('Semantic Interface', function() {
       Semantic.User.find({
         age: {
           '<=': 49 // should return half the records - from 0 to 40
-        }
-      }, function(err, users) {
+        },
+        type: 'find test'
+      })
+      .exec(function(err, users) {
         if (err) {
           return done(err);
         }
@@ -78,7 +80,8 @@ describe('Semantic Interface', function() {
     });
 
     it('should work with no criteria passed in', function(done) {
-      Semantic.User.find(function(err, users) {
+      Semantic.User.find()
+      .exec(function(err, users) {
         if (err) {
           return done(err);
         }

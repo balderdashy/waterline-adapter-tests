@@ -41,13 +41,13 @@ describe('Semantic Interface', function() {
       });
     });
 
-    it('should normalize undefined values to null', function(done) {
+    it('should normalize undefined values to base values', function(done) {
       Semantic.User.create({ first_name: 'Yezy', last_name: undefined }, function(err, user) {
         if (err) { 
           return done(err);
         }
 
-        assert.equal(user.last_name, null);
+        assert.equal(user.last_name, '');
         
         return done();
       });

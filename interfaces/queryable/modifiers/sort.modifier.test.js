@@ -73,9 +73,7 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ 
         where: { 
           type: 'sort test' 
-        } 
-      }, 
-      { 
+        },
         sort: [{ 
           age: 'desc' 
         }]

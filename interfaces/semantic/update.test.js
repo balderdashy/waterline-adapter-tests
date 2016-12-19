@@ -73,8 +73,10 @@ describe('Semantic Interface', function() {
         });
       });
 
-      it('should work with just an ID passed in', function(done) {
-        Semantic.User.update(id, { first_name: 'foo' }).sort('first_name').exec(function(err, users) {
+      it.skip('should work with just an ID passed in', function(done) {
+        Semantic.User.update(id, { first_name: 'foo' })
+        .sort([{first_name: 'asc'}])
+        .exec(function(err, users) {
           if (err) {
             return done(err);
           }
@@ -98,7 +100,7 @@ describe('Semantic Interface', function() {
         });
       });
 
-      it('should work with null values', function(done) {
+      it.skip('should work with null values', function(done) {
         Semantic.User.update(id, { age: null }, function(err, users) {
           if (err) {
             return done(err);
