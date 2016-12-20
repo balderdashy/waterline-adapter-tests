@@ -68,5 +68,41 @@ describe('Association Interface', function() {
         return done();
       });
     });
+
+    it('should destroy join table records when the cascade flag is set', function(done) {
+      // Get the records in the join table and ensure records exist
+      Associations.Driver_taxis__taxi_drivers.find()
+      .exec(function(err, preDestroyRecords) {
+        if (err) {
+          return done(err);
+        }
+
+        // Ensure there are two join records
+        assert.equal(preDestroyRecords.length, 2);
+
+        // Destroy all the drivers and cascade the method
+        Associations.Driver.destroy()
+        .meta({
+          cascade: true
+        })
+        .exec(function(err) {
+          if (err) {
+            return done(err);
+          }
+
+          // Get the records in the join table and ensure nothing is left
+          Associations.Driver_taxis__taxi_drivers.find()
+          .exec(function(err, postDestroyRecords) {
+            if (err) {
+              return done(err);
+            }
+
+            assert.equal(postDestroyRecords.length, 0);
+
+            return done();
+          });
+        });
+      });
+    });
   });
 });
