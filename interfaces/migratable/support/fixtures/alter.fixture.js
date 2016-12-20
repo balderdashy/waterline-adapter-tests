@@ -8,6 +8,8 @@ module.exports = {
   migrate: 'alter',
   primaryKey: 'id',
   schema: true,
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

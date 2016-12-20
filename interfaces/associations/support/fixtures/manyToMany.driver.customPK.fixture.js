@@ -9,6 +9,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'drivercustom',
   connection: 'associations',
   primaryKey: 'number',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     number: {

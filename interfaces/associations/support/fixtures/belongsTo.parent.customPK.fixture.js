@@ -9,6 +9,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'customerbelongscustom',
   connection: 'associations',
   primaryKey: 'username',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     username: {

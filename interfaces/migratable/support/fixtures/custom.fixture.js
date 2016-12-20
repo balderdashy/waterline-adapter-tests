@@ -7,6 +7,8 @@ module.exports = {
   connection: 'migratable',
   migrate: 'alter',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

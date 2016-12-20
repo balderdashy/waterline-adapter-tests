@@ -9,6 +9,8 @@ module.exports = Waterline.Collection.extend({
   tableName: 'thingTable',
   datastore: 'semantic',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: true,
 
   attributes: {
     // Primary Key

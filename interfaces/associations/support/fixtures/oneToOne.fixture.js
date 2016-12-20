@@ -9,6 +9,8 @@ module.exports.user_resource = Waterline.Collection.extend({
   identity: 'user_resource',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

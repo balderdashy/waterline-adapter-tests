@@ -9,6 +9,8 @@ module.exports.payment = Waterline.Collection.extend({
   identity: 'payment_many',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

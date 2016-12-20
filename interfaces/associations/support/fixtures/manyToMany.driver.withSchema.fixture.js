@@ -13,6 +13,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'driverwithschema',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

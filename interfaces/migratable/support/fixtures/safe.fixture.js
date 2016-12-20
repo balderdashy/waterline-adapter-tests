@@ -9,6 +9,8 @@ module.exports = {
   connection: 'migratable',
   migrate: 'safe',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key

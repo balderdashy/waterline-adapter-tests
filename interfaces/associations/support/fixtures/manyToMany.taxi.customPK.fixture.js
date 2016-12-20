@@ -9,6 +9,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'taxicustom',
   connection: 'associations',
   primaryKey: 'vin',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     vin: {

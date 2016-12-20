@@ -9,6 +9,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'paymentbelongscustom',
   connection: 'associations',
   primaryKey: 'invoice',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     invoice: {

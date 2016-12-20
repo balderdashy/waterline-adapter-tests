@@ -14,6 +14,8 @@ module.exports = Waterline.Collection.extend({
   identity: 'taxiwithschema',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
 
   attributes: {
     // Primary Key
