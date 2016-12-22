@@ -34,8 +34,10 @@ module.exports = Waterline.Collection.extend({
     age: {
       type: 'number',
       required: true,
-      min: 5,
-      max: 20,
+      validations: {
+        min: 5,
+        max: 20,
+      },
       autoMigrations: {
         columnType: 'integer'
       }
