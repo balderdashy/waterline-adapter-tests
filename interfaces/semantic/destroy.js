@@ -19,7 +19,7 @@ describe('Semantic Interface', function() {
           if (err) {
             return done(err);
           }
-          console.log(err, report);
+    
           Semantic.User.find({ first_name: 'Destroy' }, function(err, users) {
             if (err) {
               return done(err);
