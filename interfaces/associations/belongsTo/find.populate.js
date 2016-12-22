@@ -35,6 +35,10 @@ describe('Association Interface', function() {
               amount: 2,
               type: 'belongsTo find',
               a_customer: customers[1].id
+            },
+            {
+              amount: 3,
+              type: 'empty payment'
             }
           ];
 
@@ -88,6 +92,23 @@ describe('Association Interface', function() {
 
           assert(!_.isPlainObject(payments[0].a_customer));
           assert(!_.isPlainObject(payments[1].a_customer));
+
+          return done();
+        });
+      });
+
+      it('should return null when no association exist', function(done) {
+        Associations.Payment.find({ type: 'empty payment' })
+        .populate('a_customer')
+        .exec(function(err, payments) {
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(payments));
+          assert.equal(payments.length, 1);
+
+          assert(_.isNull(payments[0].a_customer));
 
           return done();
         });
