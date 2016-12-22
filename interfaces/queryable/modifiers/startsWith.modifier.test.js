@@ -3,7 +3,7 @@ var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
   describe('Modifiers', function() {
-    describe.skip('startsWith', function() {
+    describe('startsWith', function() {
       it('should return the user with the correct name', function(done) {
         var part = 'long_xxj8xrxh!!!r';
         var testName = 'long_xxj8xrxh!!!r startsWith query test';
@@ -13,7 +13,7 @@ describe('Queryable Interface', function() {
             return done(err);
           }
 
-          Queryable.User.where({ 
+          Queryable.User.find({ 
             first_name: { 
               startsWith: part 
             }
