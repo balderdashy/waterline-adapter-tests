@@ -51,7 +51,7 @@ describe('Association Interface', function() {
           .populate('payments')
           .exec(function(err, customer) {
             if (err) {
-              return cb(err);
+              return done(err);
             }
 
             assert(customer);
