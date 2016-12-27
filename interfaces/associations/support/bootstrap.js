@@ -44,10 +44,10 @@ before(function(done) {
   waterline = new Waterline();
 
   _.each(fixtures, function(val, key) {
-    waterline.loadCollection(fixtures[key]);
+    waterline.registerModel(fixtures[key]);
   });
 
-  var connections = { 
+  var datastores = { 
     associations: _.clone(Connections.test) 
   };
 
@@ -55,7 +55,7 @@ before(function(done) {
     migrate: 'alter' 
   };
 
-  waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, orm) {
+  waterline.initialize({ adapters: { wl_tests: Adapter }, datastores: datastores, defaults: defaults }, function(err, orm) {
     if (err) {
       return done(err);
     }

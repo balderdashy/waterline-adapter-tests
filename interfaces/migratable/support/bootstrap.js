@@ -32,10 +32,10 @@ before(function(done) {
   global.Migratable.fixtures = _.cloneDeep(fixtures);
 
   _.each(fixtures, function(val, key) {
-    waterline.loadCollection(Waterline.Collection.extend(fixtures[key]));
+    waterline.registerModel(Waterline.Collection.extend(fixtures[key]));
   });
 
-  var connections = { 
+  var datastores = { 
     migratable: _.clone(Connections.test) 
   };
 
@@ -51,7 +51,7 @@ before(function(done) {
     adapters: { 
       wl_tests: Adapter 
     }, 
-    connections: connections, 
+    datastores: datastores, 
     defaults: defaults 
   };
 
