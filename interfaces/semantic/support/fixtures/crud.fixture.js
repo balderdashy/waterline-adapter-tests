@@ -68,7 +68,7 @@ module.exports = Waterline.Collection.extend({
     avatar: {
       type: 'ref',
       autoMigrations: {
-        columnType: 'bytea'
+        columnType: 'text'
       }
     },
 
