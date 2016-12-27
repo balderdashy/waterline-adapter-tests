@@ -26,15 +26,11 @@ describe('Queryable Interface', function() {
       });
 
       describe('when given an empty array', function () {
-        it('should return an empty array', function(done) {
+        it('should return an error', function(done) {
           Queryable.User.find({ first_name: [] }, function(err, users) {
-            if (err) {
-              return done(err);
-            }
-
-            assert(users);
-            assert.strictEqual(users.length, 0);
-            
+            assert(err);
+            assert(!users);
+  
             return done();
           });
         });
