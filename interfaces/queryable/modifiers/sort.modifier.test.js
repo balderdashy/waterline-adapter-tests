@@ -89,6 +89,27 @@ describe('Queryable Interface', function() {
         return done();
       });
     });
+
+    it('should sort records when a column name is used', function(done) {
+      Queryable.User.find({ 
+        where: { 
+          type: 'sort test' 
+        }, 
+        sort: [{ 
+          first_name: 'asc' 
+        }]
+      })
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.strictEqual(users.length, 10);
+        assert.equal(users[0].first_name, 'sort_user0');
+        
+        return done();
+      });
+    });
   });
 
 
