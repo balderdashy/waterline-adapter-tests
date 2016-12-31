@@ -17,7 +17,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      Queryable.User.create(users, function(err, model) {
+      Queryable.User.createEach(users, function(err, model) {
         if (err) {
           return done(err);
         }
@@ -78,7 +78,7 @@ describe('Queryable Interface', function() {
     it('should return a record with a single field first_name (findOne)', function(done) {
       Queryable.User.findOne({ 
         where: { 
-          type: 'select test' 
+          age: 31
         }, 
         select: ['first_name'] 
       })
