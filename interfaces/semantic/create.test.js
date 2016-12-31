@@ -52,34 +52,5 @@ describe('Semantic Interface', function() {
         return done();
       });
     });
-
-    describe('overloaded usage of create', function() {
-      var testName = '.create() test create a list';
-
-      before(function(done) {
-        var users = [];
-
-        for(var i=0; i<4; i++) {
-          users.push({ first_name: 'test_' + i, type: testName });
-        }
-
-        Semantic.User.create(users, done);
-      });
-
-
-      it('should have saved the proper values (with auto-increment values)', function(done) {
-        Semantic.User.find({where : { type: testName }, sort : {first_name : 1}}, function(err, users) {
-          if (err) {
-            return done(err);
-          }
-
-          
-          assert.equal(users.length, 4, 'Expecting 4 "users", but actually got '+users.length+': '+require('util').inspect(users, false, null));
-          assert.equal(users[0].first_name, 'test_0' );
-          
-          return done();
-        });
-      });
-    });
   });
 });
