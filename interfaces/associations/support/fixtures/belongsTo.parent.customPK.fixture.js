@@ -11,6 +11,8 @@ module.exports = Waterline.Collection.extend({
   primaryKey: 'username',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     username: {

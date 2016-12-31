@@ -11,6 +11,8 @@ module.exports.user_resource = Waterline.Collection.extend({
   primaryKey: 'id',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     // Primary Key
@@ -71,6 +73,10 @@ module.exports.profile = Waterline.Collection.extend({
   identity: 'profile',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     // Primary Key

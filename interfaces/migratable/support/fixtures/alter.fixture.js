@@ -10,6 +10,8 @@ module.exports = {
   schema: true,
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     // Primary Key

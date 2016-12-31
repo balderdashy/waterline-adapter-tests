@@ -11,7 +11,9 @@ module.exports = Waterline.Collection.extend({
   primaryKey: 'vin',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
-
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
+  
   attributes: {
     vin: {
       type: 'string',

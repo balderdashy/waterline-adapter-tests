@@ -5,7 +5,7 @@ describe('Association Interface', function() {
   describe('Multiple Belongs To Association', function() {
     describe('create', function() {
       var customer_1_id;
-      var  customer_2_id;
+      var customer_2_id;
 
       before(function(done) {
         Associations.Customer_many.create({ name: 'manyAssociations uno add' })

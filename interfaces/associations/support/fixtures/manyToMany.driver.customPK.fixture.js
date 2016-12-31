@@ -11,6 +11,8 @@ module.exports = Waterline.Collection.extend({
   primaryKey: 'number',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     number: {

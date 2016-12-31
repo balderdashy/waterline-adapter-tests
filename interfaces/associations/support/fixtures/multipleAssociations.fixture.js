@@ -11,6 +11,8 @@ module.exports.payment = Waterline.Collection.extend({
   primaryKey: 'id',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     // Primary Key
@@ -78,6 +80,10 @@ module.exports.customer = Waterline.Collection.extend({
   identity: 'customer_many',
   connection: 'associations',
   primaryKey: 'id',
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
 
   attributes: {
     // Primary Key
