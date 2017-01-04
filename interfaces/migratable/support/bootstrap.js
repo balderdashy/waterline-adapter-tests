@@ -94,7 +94,7 @@ after(function(done) {
 
     // Grab the adapter to perform the query on
     var collection = ORM.collections[item];
-    var datastoreName = collection.adapterDictionary.drop;
+    var datastoreName = collection.datastore;
     var tableName = collection.tableName || collection.identity;
     Adapter.drop(datastoreName, tableName, [], next);
   }
