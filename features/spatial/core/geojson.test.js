@@ -41,7 +41,7 @@ describe('spatial feature', function () {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(Models);
+    waterline.registerModel(Models);
 
     var connections = { geoConnection: _.clone(Connections.test) };
     Adapter.teardown('geoConnection', function adapterTeardown(){

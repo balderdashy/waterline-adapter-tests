@@ -44,7 +44,7 @@ before(function(done) {
   waterline = new Waterline();
 
   Object.keys(fixtures).forEach(function(key) {
-    waterline.loadCollection(fixtures[key]);
+    waterline.registerModel(fixtures[key]);
   });
 
   var connections = { associations: _.clone(Connections.test), associations2: _.clone(Connections.test2) };

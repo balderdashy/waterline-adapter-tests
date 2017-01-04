@@ -27,7 +27,7 @@ describe('autoIncrement attribute feature', function() {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(AutoIncFixture);
+    waterline.registerModel(AutoIncFixture);
     done();
   });
 

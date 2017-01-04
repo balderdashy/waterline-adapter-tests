@@ -27,7 +27,7 @@ describe('autoIncrement attribute Sequential feature', function() {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(AutoIncFixture);
+    waterline.registerModel(AutoIncFixture);
 
     var connections = { autoIncConn: _.clone(Connections.test) };
 

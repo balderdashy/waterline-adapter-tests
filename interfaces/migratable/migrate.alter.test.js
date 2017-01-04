@@ -26,7 +26,7 @@ describe('Migratable Interface', function() {
           // Load the fixtures again
           var fixtures = _.cloneDeep(Migratable.fixtures);
           _.each(fixtures, function(val, key) {
-            wl.loadCollection(Waterline.Collection.extend(fixtures[key]));
+            wl.registerModel(Waterline.Collection.extend(fixtures[key]));
           });
 
           // Initialize the ORM again
@@ -76,7 +76,7 @@ describe('Migratable Interface', function() {
           // Load the fixtures again
           var fixtures = _.cloneDeep(Migratable.fixtures);
           _.each(fixtures, function(val, key) {
-            wl.loadCollection(Waterline.Collection.extend(fixtures[key]));
+            wl.registerModel(Waterline.Collection.extend(fixtures[key]));
           });
 
           // Initialize the ORM again

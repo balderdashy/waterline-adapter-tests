@@ -28,7 +28,7 @@ describe('Load Testing', function() {
 
   before(function(done) {
     var waterline = new Waterline();
-    waterline.loadCollection(Model);
+    waterline.registerModel(Model);
 
     Events.emit('fixture', Model);
 

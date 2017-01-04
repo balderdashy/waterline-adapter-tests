@@ -12,7 +12,7 @@ describe('compositeUnique feature', function () {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(Fixture);
+    waterline.registerModel(Fixture);
 
     var connections = { compositeUniqueConnection: _.clone(Connections.test) };
 

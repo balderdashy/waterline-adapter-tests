@@ -20,7 +20,7 @@ describe('unique attribute feature', function() {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(UniqueFixture);
+    waterline.registerModel(UniqueFixture);
 
     var connections = { uniqueConn: _.clone(Connections.test) };
 

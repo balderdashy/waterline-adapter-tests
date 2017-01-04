@@ -11,7 +11,7 @@ describe('compositePrimaryKey feature', function () {
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.loadCollection(Fixture);
+    waterline.registerModel(Fixture);
 
     var connections = { compositePrimaryKeyConnection: _.clone(Connections.test) };
 

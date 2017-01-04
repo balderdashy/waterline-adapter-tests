@@ -54,7 +54,7 @@ module.exports = function bootstrap( options, cb ) {
   // Waterline collections.
   var waterline = new Waterline();
   extendedCollections.forEach(function (collection) {
-    waterline.loadCollection(collection);
+    waterline.registerModel(collection);
   });
 
 
