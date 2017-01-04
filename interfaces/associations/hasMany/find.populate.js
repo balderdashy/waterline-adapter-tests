@@ -135,6 +135,26 @@ describe('Association Interface', function() {
         });
       });
 
+      it('should return an empty array when no child records are found', function(done) {
+        Associations.Customer.find({ name: 'hasMany find pop' })
+        .populate('payments', { where: { amount: -1 }})
+        .skip(1)
+        .sort([{id: 'asc'}])
+        .exec(function(err, customers) {
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(customers));
+          assert.equal(customers.length, 1);
+
+          assert(_.isArray(customers[0].payments));
+          assert.equal(customers[0].payments.length, 0);
+
+          done();
+        });
+      });      
+
       it('should add a flag to not serialize association object when the populate is not added', function(done) {
         Associations.Customer.find({ name: 'hasMany find pop' })
         .exec(function(err, customers) {

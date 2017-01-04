@@ -82,5 +82,24 @@ describe('Association Interface', function() {
         return done();
       });
     });
+
+    it('should add an empty array when no child records are returned from a populate', function(done) {
+      Associations.Driver.find({ name: 'manymany find where1' })
+      .populate('taxis', { medallion: { '<': 0 }})
+      .exec(function(err, drivers) {
+        if (err) {
+          return done(err);
+        }
+
+        assert(_.isArray(drivers));
+        assert.equal(drivers.length, 1);
+        assert(_.isArray(drivers[0].taxis));
+        assert.equal(drivers[0].taxis.length, 0);
+
+        return done();
+      });
+    });
+
+
   });
 });
