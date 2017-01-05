@@ -20,6 +20,7 @@ module.exports = Waterline.Collection.extend({
     },
     email: {
       type: 'string',
+      required: true,
       autoMigrations: {
         unique: true,
         columnType: 'varchar'
