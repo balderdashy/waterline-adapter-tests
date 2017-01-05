@@ -25,7 +25,7 @@
   "homepage": "http://github.com/balderdashy/waterline-adapter-tests",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "node test/integration/runnerDispatcher.js",
+    "test": "mocha test",
     "test-load": "node test/load",
     "docker": "docker-compose run adapter bash"
   },
