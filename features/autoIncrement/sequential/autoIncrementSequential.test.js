@@ -11,7 +11,7 @@ var WaterlineUtils = require('waterline-utils');
  * be no guaranteed that this value is unique. This extended feature is indicated with
  * the `autoIncrementSequential` feature flag.
  */
-describe.only('autoIncrement attribute Sequential feature', function() {
+describe('autoIncrement attribute Sequential feature', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
@@ -21,13 +21,13 @@ describe.only('autoIncrement attribute Sequential feature', function() {
   var defaults = { migrate: 'alter' };
   var waterline;
 
-  var AutoIncFixture = require('../support/autoInc.fixture.js');
+  var getAutoIncFixture = require('../support/autoInc.fixture.js');
   var AutoIncModel;
 
 
   before(function(done) {
     waterline = new Waterline();
-    waterline.registerModel(AutoIncFixture);
+    waterline.registerModel(getAutoIncFixture());
 
     var connections = { autoIncConn: _.clone(Connections.test) };
 
