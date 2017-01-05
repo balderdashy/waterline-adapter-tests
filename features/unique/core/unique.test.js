@@ -1,6 +1,6 @@
 var assert = require('assert');
-var _ = require('lodash');
-var MigrateHelper = require('../support/migrate-helper');
+var _ = require('@sailshq/lodash');
+var WaterlineUtils = require('waterline-utils');
 
 describe('unique attribute feature', function() {
 
@@ -9,10 +9,10 @@ describe('unique attribute feature', function() {
   ////////////////////////////////////////////////////
 
   var Waterline = require('waterline');
-  var defaults = { migrate: 'alter' };
+  var defaults = { migrate: 'drop' };
   var waterline;
 
-  var UniqueFixture = require('../support/unique.fixture.js')
+  var UniqueFixture = require('../support/unique.fixture.js');
   var UniqueModel;
 
   var id0, id1, email0;
@@ -24,16 +24,16 @@ describe('unique attribute feature', function() {
 
     var connections = { uniqueConn: _.clone(Connections.test) };
 
-    waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
+    waterline.initialize({ adapters: { wl_tests: Adapter }, datastores: connections, defaults: defaults }, function(err, ontology) {
       if(err) return done(err);
 
       // Migrations Helper
-      MigrateHelper(ontology, function(err) {
+      WaterlineUtils.autoMigrations(defaults.migrate, ontology, function(err) {
         if (err) {
           return done(err);
         }
 
-        UniqueModel = ontology.collections['unique'];
+        UniqueModel = ontology.collections.unique;
 
         // Insert 3 Records
         var records = [];
@@ -47,7 +47,7 @@ describe('unique attribute feature', function() {
           id1 = records[1].id;
           email0 = records[0].email.toString();
           done();
-        });
+        }, {fetch: true});
       });
     });
   });
@@ -56,7 +56,7 @@ describe('unique attribute feature', function() {
     if(!Adapter.hasOwnProperty('drop')) {
       waterline.teardown(done);
     } else {
-      UniqueModel.drop(function(err1) {
+      WaterlineUtils.autoMigrations('drop', waterline, function(err1) {
         waterline.teardown(function(err2) {
           return done(err1 || err2);
         });
@@ -82,7 +82,7 @@ describe('unique attribute feature', function() {
   });
 
   it('should error when updating with a duplicate value', function(done) {
-    UniqueModel.update(id1, { email: email0 }).exec(function(err, records) {
+    UniqueModel.update(id1, { email: email0 }).meta({fetch: true}).exec(function(err, records) {
       assert(err);
       assert(!records);
       UniqueModel.findOne(id1).exec(function(err, record) {
@@ -94,7 +94,7 @@ describe('unique attribute feature', function() {
   });
 
   it('should work (do nothing) when updating the field of an existing record to the same value', function(done) {
-    UniqueModel.update(id0, { id: id0, name: 'testUnique0', email: email0, type: 'unique' }).exec(function(err, records) {
+    UniqueModel.update(id0, { id: id0, name: 'testUnique0', email: email0, type: 'unique' }).meta({fetch: true}).exec(function(err, records) {
       assert(!err, 'Expected no error when updating to the same value');
       assert.equal(records.length, 1);
       assert.equal(records[0].id, id0);
@@ -104,7 +104,7 @@ describe('unique attribute feature', function() {
   });
 
   it('should work when updating a unique field to the same value based on search parameters', function(done) {
-    UniqueModel.update({email: email0}, { email: email0 }).exec(function(err, records) {
+    UniqueModel.update({email: email0}, { email: email0 }).meta({fetch: true}).exec(function(err, records) {
       assert(!err, 'Expected no error when updating to the same value on searched records');
       assert.equal(records.length, 1);
       assert.equal(records[0].id, id0);
