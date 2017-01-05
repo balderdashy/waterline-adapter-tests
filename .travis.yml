@@ -1,25 +1,19 @@
 language: node_js
+
 node_js:
-  - "5.0"
-  - "4.0"
-  - "0.12"
   - "0.10"
+  - "0.12"
+  - "4"
+  - "5"
+  - "6"
+  - "7"
+  - "node"
 
-services:
-  - postgresql
-  - mongodb
-  - mysql
-  - redis-server
-
-addons:
-  postgresql: "9.4"
-
-env:
-  - DB_USER=postgres DB_PASS=''
-
-# run in docker
 sudo: false
+branches:
+  only:
+    - master
 
-before_script:
-  - psql -c 'create database sailspg;' -U postgres
-  - mysql -e 'create database sails_mysql;'
+notifications:
+  email:
+    - ci@sailsjs.com
