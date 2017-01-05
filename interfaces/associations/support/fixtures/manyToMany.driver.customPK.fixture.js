@@ -17,6 +17,7 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     number: {
       type: 'number',
+      required: true,
       autoMigrations: {
         columnType: 'integer',
         unique: true

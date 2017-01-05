@@ -17,10 +17,11 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     invoice: {
       type: 'number',
+      required: true,
       autoMigrations: {
         columnType: 'integer',
         unique: true
-      }
+      },
     },
 
     amount: {

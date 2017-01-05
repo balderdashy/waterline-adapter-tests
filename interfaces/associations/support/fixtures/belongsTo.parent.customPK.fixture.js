@@ -17,6 +17,7 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     username: {
       type: 'string',
+      required: true,
       autoMigrations: {
         columnType: 'varchar',
         unique: true
