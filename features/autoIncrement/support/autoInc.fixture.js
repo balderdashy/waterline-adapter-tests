@@ -4,16 +4,41 @@
 
 var Waterline = require('waterline');
 
-module.exports = Waterline.Collection.extend({
+module.exports = function() {
+  return Waterline.Collection.extend({
 
-  identity: 'autoInc',
-  tableName: 'autoIncTable',
-  connection: 'autoIncConn',
+    identity: 'autoInc',
+    tableName: 'autoIncTable',
+    datastore: 'autoIncConn',
+    primaryKey: 'id',
 
-  attributes: {
-    name: 'string',
-    normalField: 'integer',
-    type: 'string'
-  }
+    attributes: {
+      name: {
+        type: 'string',
+        autoMigrations: {
+          columnType: 'varchar'          
+        }
+      },
+      normalField: {
+        type: 'number',
+        autoMigrations: {
+          columnType: 'integer'          
+        }
+      },
+      type: {
+        type: 'string',
+        autoMigrations: {
+          columnType: 'varchar'          
+        }        
+      },
+      id: {
+        type: 'number',
+        autoMigrations: {
+          autoIncrement: true,
+          columnType: 'integer'
+        }
+      }
+    }
 
-});
+  });
+};

@@ -1,6 +1,6 @@
 var assert = require('assert');
-var _ = require('lodash');
-var MigrateHelper = require('../support/migrate-helper');
+var _ = require('@sailshq/lodash');
+var WaterlineUtils = require('waterline-utils');
 
 /**
  * If the adapter will provide sequential unique values, for example increasing integers,
@@ -11,7 +11,7 @@ var MigrateHelper = require('../support/migrate-helper');
  * be no guaranteed that this value is unique. This extended feature is indicated with
  * the `autoIncrementSequential` feature flag.
  */
-describe('autoIncrement attribute Sequential feature', function() {
+describe.only('autoIncrement attribute Sequential feature', function() {
 
   /////////////////////////////////////////////////////
   // TEST SETUP
@@ -32,16 +32,13 @@ describe('autoIncrement attribute Sequential feature', function() {
     var connections = { autoIncConn: _.clone(Connections.test) };
 
     Adapter.teardown('autoIncConn', function adapterTeardown(){
-      waterline.initialize({ adapters: { wl_tests: Adapter }, connections: connections, defaults: defaults }, function(err, ontology) {
+      waterline.initialize({ adapters: { wl_tests: Adapter }, datastores: connections, defaults: defaults }, function(err, ontology) {
         if(err) return done(err);
-
-        // Migrations Helper
-        MigrateHelper(ontology, function(err) {
+        WaterlineUtils.autoMigrations(defaults.migrate, ontology, function(err) {
           if (err) {
             return done(err);
           }
-
-          AutoIncModel = ontology.collections['autoinc'];
+          AutoIncModel = ontology.collections.autoinc;
           done();
         });
       });
@@ -52,7 +49,7 @@ describe('autoIncrement attribute Sequential feature', function() {
     if(!Adapter.hasOwnProperty('drop')) {
       waterline.teardown(done);
     } else {
-      AutoIncModel.drop(function(err1) {
+      WaterlineUtils.autoMigrations('drop', waterline, function(err1) {
         waterline.teardown(function(err2) {
           return done(err1 || err2);
         });
@@ -74,14 +71,14 @@ describe('autoIncrement attribute Sequential feature', function() {
       records.push({ name: 'ais_' + i });
     }
 
-    AutoIncModel.create(records, function(err, records) {
+    AutoIncModel.createEach(records, function(err, records) {
       if (err) return done(err);
       assert(records[0].id < records[1].id);
       assert(records[1].id < records[2].id);
 
       lastValue = records[2].id;
       done();
-    });
+    }, {fetch: true});
   });
 
   it('should continue auto-incrementing from the last provided larger value', function(done) {
@@ -93,8 +90,8 @@ describe('autoIncrement attribute Sequential feature', function() {
         if (err) return done(err);
         assert.equal(user.id, lastValue + 21, 'AutoInc id should follow the previous given value');
         done();
-      });
-    });
+      }, {fetch: true});
+    }, {fetch: true});
   });
 
   it('should not update the auto-incrementing counter on smaller values', function(done) {
@@ -106,8 +103,8 @@ describe('autoIncrement attribute Sequential feature', function() {
         if (err) return done(err);
         assert.equal(user.id, lastValue + 22,  'AutoInc should continue from the largest id to avoid clashing later');
         done();
-      });
-    });
+      }, {fetch: true});
+    }, {fetch: true});
   });
 
 });
