@@ -1,7 +1,7 @@
 var assert = require('assert');
-var _ = require('lodash');
+var _ = require('@sailshq/lodash');
 
-describe('compositeUnique feature', function () {
+describe.skip('compositeUnique feature', function () {
   var Waterline = require('waterline');
   var defaults = { migrate: 'alter' };
   var waterline;
