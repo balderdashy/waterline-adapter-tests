@@ -35,6 +35,7 @@ module.exports = Waterline.Collection.extend({
 
     last_name: {
       type: 'string',
+      columnName: 'lName',
       autoMigrations: {
         columnType: 'varchar'
       }
@@ -42,6 +43,7 @@ module.exports = Waterline.Collection.extend({
 
     type: {
       type: 'string',
+      columnName: 't',
       autoMigrations: {
         columnType: 'varchar'
       }
@@ -49,6 +51,7 @@ module.exports = Waterline.Collection.extend({
 
     age: {
       type: 'number',
+      columnName: 'a',
       autoMigrations: {
         columnType: 'integer'
       }
