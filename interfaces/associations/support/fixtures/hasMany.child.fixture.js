@@ -27,6 +27,7 @@ module.exports = Waterline.Collection.extend({
 
     amount: {
       type: 'number',
+      columnName: 'amt',
       autoMigrations: {
         columnType: 'integer'
       }
@@ -37,6 +38,14 @@ module.exports = Waterline.Collection.extend({
       autoMigrations: {
         columnType: 'varchar'
       }
+    },
+
+    note: {
+      type: 'string',
+      columnName: 'memo',
+      autoMigrations: {
+        columnType: 'varchar'
+      }      
     },
 
     apartment: {
