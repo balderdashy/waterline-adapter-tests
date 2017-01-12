@@ -26,6 +26,7 @@ module.exports = Waterline.Collection.extend({
     },
 
     medallion: {
+      columnName: 'mdln',
       type: 'number',
       autoMigrations: {
         columnType: 'integer'
