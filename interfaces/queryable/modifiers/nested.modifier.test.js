@@ -37,10 +37,11 @@ describe('Queryable Interface', function() {
         });
       });
 
-      it('should return the correct users', function(done) {
+      it('should return the correct users with nested criteria', function(done) {
         // Find all users who either:
         // + Have the last name smith, and age <= 7 OR type === "even"
-        // + Have the last name jones, and type === "odd" OR first name contains "6"
+        // + Have the last name jones, and type === "odd" OR ( first name contains "6" AND age = 1 or age < 2 )
+        // ( (last_name = "smith" AND (age <=7 OR type = "even")) OR (last_name = "jones" AND (type = "odd" OR ( first_name like "%6%" AND ( age = 1 OR age < 2 ) ) ) ) )
         Queryable.User.find({ 
           where: { 
             or: [
@@ -61,7 +62,16 @@ describe('Queryable Interface', function() {
                   {
                     or: [
                       { type: 'odd' },
-                      { first_name: { contains: '6' }}
+                      // { first_name: {contains: '6'}}
+                      { and: [
+                          { first_name: { contains: '6' } },
+                          { or: [
+                              { age: 3 },
+                              { age: { '<': 4} }
+                            ] 
+                          }
+                        ]
+                      }
                     ]
                   }
                 ]
