@@ -26,6 +26,7 @@ module.exports = Waterline.Collection.extend({
     },
 
     name: {
+      columnName: 'nom',
       type: 'string',
       autoMigrations: {
         columnType: 'varchar'

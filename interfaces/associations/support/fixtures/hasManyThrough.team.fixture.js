@@ -26,6 +26,7 @@ module.exports = Waterline.Collection.extend({
     },
 
     name: {
+      columnName: 'handle',
       type: 'string',
       autoMigrations: {
         columnType: 'varchar'
@@ -33,6 +34,7 @@ module.exports = Waterline.Collection.extend({
     },
 
     mascot: {
+      columnName: 'icon',
       type: 'string',
       autoMigrations: {
         columnType: 'varchar'
