@@ -40,6 +40,13 @@ module.exports = Waterline.Collection.extend({
       }
     },
 
+    note: {
+      type: 'string',
+      autoMigrations: {
+        columnType: 'varchar'
+      }
+    },
+
     drivers: {
       collection: 'driver',
       via: 'taxis'
