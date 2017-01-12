@@ -3,7 +3,7 @@ var _ = require('@sailshq/lodash');
 
 describe('Association Interface', function() {
   describe('Has Many Through Association', function() {
-    describe.only('.find', function() {
+    describe('.find', function() {
       var stadiumRecord; 
       var teamRecord;
 
