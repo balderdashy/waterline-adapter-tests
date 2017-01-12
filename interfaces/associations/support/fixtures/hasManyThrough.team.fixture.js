@@ -41,6 +41,14 @@ module.exports = Waterline.Collection.extend({
       }
     },
 
+    wins: {
+      columnName: 'Ws',
+      type: 'number',
+      autoMigrations: {
+        columnType: 'integer'
+      }
+    },
+
     stadiums: {
       collection: 'Stadium',
       through: 'venue',
