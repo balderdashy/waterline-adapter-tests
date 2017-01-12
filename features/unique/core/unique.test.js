@@ -72,6 +72,7 @@ describe('unique attribute feature', function() {
   it('should error when creating with a duplicate value', function(done) {
     UniqueModel.create({ email: email0, type: 'unique' }, function(err, records) {
       assert(err);
+      assert.equal(err.code, 'E_UNIQUE', 'Expected error instance with code E_UNIQUE, but instead got: ' + require('util').inspect(err, {depth:null}));
       assert(!records);
       UniqueModel.find({type: 'unique'}).exec(function(err, records) {
         assert.ifError(err);
@@ -84,6 +85,7 @@ describe('unique attribute feature', function() {
   it('should error when updating with a duplicate value', function(done) {
     UniqueModel.update(id1, { email: email0 }).meta({fetch: true}).exec(function(err, records) {
       assert(err);
+      assert.equal(err.code, 'E_UNIQUE', 'Expected error instance with code E_UNIQUE, but instead got: ' + require('util').inspect(err, {depth:null}));
       assert(!records);
       UniqueModel.findOne(id1).exec(function(err, record) {
         assert.ifError(err);
