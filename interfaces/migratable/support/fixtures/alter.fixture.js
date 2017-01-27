@@ -1,7 +1,3 @@
-/**
- * Dependencies
- */
-
 module.exports = {
   tableName: 'alter',
   connection: 'migratable',
@@ -16,11 +12,12 @@ module.exports = {
   attributes: {
     // Primary Key
     id: {
-      type: 'number',
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
       autoMigrations: {
         columnType: 'integer',
         autoIncrement: true,
-        unique: true
+        unique: true,
       }
     },
 

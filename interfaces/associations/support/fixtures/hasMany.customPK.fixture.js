@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
+module.exports = {
   tableName: 'apartmentTable',
   identity: 'apartment',
   connection: 'associations',
@@ -54,4 +48,4 @@ module.exports = Waterline.Collection.extend({
       }
     }
   }
-});
+};

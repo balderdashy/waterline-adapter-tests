@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
+module.exports = {
   tableName: 'driverTableCustomPK',
   identity: 'drivercustom',
   connection: 'associations',
@@ -55,4 +49,4 @@ module.exports = Waterline.Collection.extend({
       }
     }
   }
-});
+};

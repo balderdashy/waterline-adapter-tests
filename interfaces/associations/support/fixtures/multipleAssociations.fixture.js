@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports.payment = Waterline.Collection.extend({
+module.exports.payment = {
   tableName: 'payment_manyTable',
   identity: 'payment_many',
   connection: 'associations',
@@ -17,7 +11,8 @@ module.exports.payment = Waterline.Collection.extend({
   attributes: {
     // Primary Key
     id: {
-      type: 'number',
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
       autoMigrations: {
         columnType: 'integer',
         autoIncrement: true,
@@ -73,9 +68,9 @@ module.exports.payment = Waterline.Collection.extend({
       }
     }
   }
-});
+};
 
-module.exports.customer = Waterline.Collection.extend({
+module.exports.customer = {
   tableName: 'customer_manyTable',
   identity: 'customer_many',
   connection: 'associations',
@@ -88,7 +83,8 @@ module.exports.customer = Waterline.Collection.extend({
   attributes: {
     // Primary Key
     id: {
-      type: 'number',
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
       autoMigrations: {
         columnType: 'integer',
         autoIncrement: true,
@@ -131,4 +127,4 @@ module.exports.customer = Waterline.Collection.extend({
       }
     }
   }
-});
+};

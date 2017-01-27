@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
+module.exports = {
   tableName: 'driverTable',
   identity: 'driver',
   connection: 'associations',
@@ -17,7 +11,8 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     // Primary Key
     id: {
-      type: 'number',
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
       autoMigrations: {
         columnType: 'integer',
         autoIncrement: true,
@@ -56,4 +51,4 @@ module.exports = Waterline.Collection.extend({
       }
     }
   }
-});
+};

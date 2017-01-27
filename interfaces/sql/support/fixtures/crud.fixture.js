@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
+module.exports = {
   identity: 'user',
   tableName: 'usertablesql',
   datastore: 'sql',
@@ -64,4 +58,4 @@ module.exports = Waterline.Collection.extend({
       }
     }
   }
-});
+};

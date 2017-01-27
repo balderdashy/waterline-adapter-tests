@@ -23,7 +23,7 @@ describe('Association Interface', function() {
           for(var i=0; i<4; i++) {
             paymentRecords.push({ amount: i });
           }
-
+  
           Associations.Payment.createEach(paymentRecords, function(err, _payments) {
             if (err) {
               return done(err);
@@ -55,7 +55,7 @@ describe('Association Interface', function() {
             if (err) {
               return done(err);
             }
-
+   
             assert(customer);
             assert(_.isArray(customer.payments));
             assert.equal(customer.payments.length, 4);

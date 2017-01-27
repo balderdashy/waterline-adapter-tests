@@ -37,6 +37,27 @@ var waterline;
 var ORM;
 
 
+// Model defaults
+var defaults = {
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
+  migrate: 'alter',
+  attributes: {
+    id: {
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
+      autoMigrations: {
+        columnType: 'integer',
+        autoIncrement: Adapter.identity === 'sails-mongo' ? false : true,
+        unique: true
+      }
+    }
+  }
+};
+
+
 //  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌┐ ┌─┐┌─┐┌─┐┬─┐┌─┐
 //  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤ 
 //  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  └─┘└─┘└  └─┘┴└─└─┘
@@ -44,15 +65,12 @@ before(function(done) {
   waterline = new Waterline();
 
   _.each(fixtures, function(val, key) {
-    waterline.registerModel(fixtures[key]);
+    var modelFixture = _.extend({}, defaults, fixtures[key]);
+    waterline.registerModel(Waterline.Collection.extend(modelFixture));
   });
 
   var datastores = { 
     associations: _.clone(Connections.test) 
-  };
-
-  var defaults = { 
-    migrate: 'alter' 
   };
 
   waterline.initialize({ adapters: { wl_tests: Adapter }, datastores: datastores, defaults: defaults }, function(err, orm) {

@@ -22,6 +22,26 @@ var waterline;
 var ORM;
 
 
+// Model defaults
+var defaults = {
+  fetchRecordsOnUpdate: true,
+  fetchRecordsOnDestroy: false,
+  fetchRecordsOnCreate: true,
+  fetchRecordsOnCreateEach: true,
+  attributes: {
+    id: {
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
+      autoMigrations: {
+        columnType: 'integer',
+        autoIncrement: Adapter.identity === 'sails-mongo' ? false : true,
+        unique: true
+      }
+    }
+  }
+};
+
+
 //  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌┐ ┌─┐┌─┐┌─┐┬─┐┌─┐
 //  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤ 
 //  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  └─┘└─┘└  └─┘┴└─└─┘
@@ -32,14 +52,13 @@ before(function(done) {
   global.Migratable.fixtures = _.cloneDeep(fixtures);
 
   _.each(fixtures, function(val, key) {
-    waterline.registerModel(Waterline.Collection.extend(fixtures[key]));
+    var modelFixture = _.merge({}, defaults, fixtures[key]);
+    waterline.registerModel(Waterline.Collection.extend(modelFixture));
   });
 
   var datastores = { 
     migratable: _.clone(Connections.test) 
   };
-
-  var defaults = {};
 
   // Store access to the instantiated Waterline instance so tests can 
   // call teardown.

@@ -13,7 +13,7 @@ describe('Association Interface', function() {
           if (err) {
             return done(err);
           }
-
+  
           customer_1_id = cust.id;
 
           Associations.Customer_many.create({ name: 'manyAssociations dos add' })
@@ -39,7 +39,7 @@ describe('Association Interface', function() {
           if (err) {
             return done(err);
           }
-
+          
           assert.equal(payment.customer.toString(), customer_1_id.toString());
           assert.equal(payment.patron.toString(), customer_2_id.toString());
           

@@ -1,10 +1,4 @@
-/**
- * Dependencies
- */
-
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
+module.exports = {
   tableName: 'paymentbelongsPKTable',
   identity: 'paymentbelongscustom',
   connection: 'associations',
@@ -16,7 +10,8 @@ module.exports = Waterline.Collection.extend({
   
   attributes: {
     invoice: {
-      type: 'number',
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
       required: true,
       autoMigrations: {
         columnType: 'integer',
@@ -64,4 +59,4 @@ module.exports = Waterline.Collection.extend({
       }
     }
   }
-});
+};
