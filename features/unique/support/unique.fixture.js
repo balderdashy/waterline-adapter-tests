@@ -12,6 +12,17 @@ module.exports = Waterline.Collection.extend({
   primaryKey: 'id',
 
   attributes: {
+    // Primary Key
+    id: {
+      type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
+      columnName: '_id',
+      autoMigrations: {
+        columnType: 'integer',
+        autoIncrement: true,
+        unique: true,
+      }
+    },
+
     name: {
       type: 'string',
       autoMigrations: {
@@ -31,14 +42,6 @@ module.exports = Waterline.Collection.extend({
       autoMigrations: {
         columnType: 'varchar'          
       }      
-    },
-    id: {
-      type: 'number',
-      autoMigrations: {
-        autoIncrement: true,
-        columnType: 'integer'
-      }
     }
   }
-
 });
