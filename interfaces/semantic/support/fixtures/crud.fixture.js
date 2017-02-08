@@ -69,6 +69,13 @@ module.exports = {
       }
     },
 
+    sort: {
+      type: 'json',
+      autoMigrations: {
+        columnType: 'json'
+      }
+    },
+
     // Timestamps
 
     updatedAt: {

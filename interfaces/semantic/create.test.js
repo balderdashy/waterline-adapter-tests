@@ -52,5 +52,18 @@ describe('Semantic Interface', function() {
         return done();
       });
     });
+
+    it('should support creating protected query language attributes', function(done) {
+      Semantic.User.create({ first_name: 'Yezy', sort: ['GOAT'] }, function(err, user) {
+        if (err) { 
+          return done(err);
+        }
+
+        assert.equal(user.sort.length, 1);
+        assert.equal(_.first(user.sort), 'GOAT');
+        
+        return done();
+      });
+    });
   });
 });
