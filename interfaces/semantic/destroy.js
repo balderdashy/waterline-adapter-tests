@@ -82,7 +82,7 @@ describe('Semantic Interface', function() {
       });
 
       it('should destroy all the records', function(done) {
-        Semantic.User.destroy(function(err, users) {
+        Semantic.User.destroy({}, function(err, users) {
           if (err) {
             return done(err);
           }

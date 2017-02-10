@@ -5,7 +5,7 @@ describe('Semantic Interface', function() {
   describe('.update()', function() {
     before(function(done) {
       // Wipe database to ensure a clean result set
-      Semantic.User.destroy(function(err) {
+      Semantic.User.destroy({}, function(err) {
         if(err) return done(err);
         done();
       });

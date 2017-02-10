@@ -7,7 +7,7 @@ describe('Queryable Interface', function() {
 
     // Delete all the users in the collection
     before(function(done) {
-      Queryable.User.destroy().exec(done);
+      Queryable.User.destroy({}).exec(done);
     });
 
     describe('with a record', function() {

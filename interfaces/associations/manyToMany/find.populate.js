@@ -81,7 +81,7 @@ describe('Association Interface', function() {
         assert.equal(preDestroyRecords.length, 2);
 
         // Destroy all the drivers and cascade the method
-        Associations.Driver.destroy()
+        Associations.Driver.destroy({})
         .meta({
           cascade: true
         })

@@ -6,7 +6,7 @@ describe('Queryable Interface', function() {
     var User;
 
     before(function(done) {
-      Queryable.User.destroy(function(err) {
+      Queryable.User.destroy({}, function(err) {
         if (err) {
           return done(err);
         }

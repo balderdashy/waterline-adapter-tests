@@ -4,7 +4,7 @@ var _ = require('@sailshq/lodash');
 describe('Queryable Interface', function() {
   describe('count()', function() {
     before(function(done) {
-      Queryable.User.destroy(function(err) {
+      Queryable.User.destroy({}, function(err) {
         if (err) {
           return done(err);
         }
