@@ -42,6 +42,13 @@ module.exports = {
       }
     },
 
+    scorecards: {
+      type: 'json',
+      autoMigrations: {
+        columnType: 'json'
+      }
+    },
+
     drivers: {
       collection: 'driver',
       via: 'taxis'

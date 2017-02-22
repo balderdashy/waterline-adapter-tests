@@ -6,7 +6,7 @@ describe('Association Interface', function() {
     var driverRecord;
 
     before(function(done) {
-      Associations.Driver.create({ name: 'manymany find'}, function(err, driver) {
+      Associations.Driver.create({ name: 'manymany find', reports: [{title: 'foo', numField: 123, nullField: null}]}, function(err, driver) {
         if (err) {
           return done(err);
         }
@@ -15,7 +15,7 @@ describe('Association Interface', function() {
 
         var taxis = [];
         for(var i=0; i<2; i++) {
-          taxis.push({ medallion: i });
+          taxis.push({ medallion: i, scorecards:[{cardNum: i, nullField: null}] });
         }
 
         Associations.Taxi.createEach(taxis, function(err, taxis) {
@@ -49,9 +49,18 @@ describe('Association Interface', function() {
 
         assert(_.isArray(drivers));
         assert.equal(drivers.length, 1);
+        assert(_.isArray(drivers[0].reports));
+        assert.equal(drivers[0].reports[0].title, 'foo');
+        assert.equal(drivers[0].reports[0].numField, 123);
+        assert.equal(drivers[0].reports[0].nullField, null);
+        
         assert(_.isArray(drivers[0].taxis));
         assert.equal(drivers[0].taxis.length, 2);
-
+        assert(_.isArray(drivers[0].taxis[0].scorecards));
+        assert.equal(drivers[0].taxis[0].scorecards[0].cardNum, 0);
+        assert.equal(drivers[0].taxis[0].scorecards[0].nullField, null);
+        assert.equal(drivers[0].taxis[1].scorecards[0].cardNum, 1);
+        assert.equal(drivers[0].taxis[1].scorecards[0].nullField, null);
         return done();
       });
     });

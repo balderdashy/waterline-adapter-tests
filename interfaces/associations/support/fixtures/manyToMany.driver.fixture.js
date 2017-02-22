@@ -33,6 +33,13 @@ module.exports = {
       dominant: true
     },
 
+    reports: {
+      type: 'json',
+      autoMigrations: {
+        columnType: 'json',
+      }      
+    },
+
     // Timestamps
 
     updatedAt: {
