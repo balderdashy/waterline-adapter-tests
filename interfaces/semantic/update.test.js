@@ -115,6 +115,31 @@ describe('Semantic Interface', function() {
       });
 
 
+      var allowsMutatingPkValues = (Adapter.identity === 'sails-mongo') ? true : false;
+      // ^FUTURE: Standardize this to allow flexibility for other databases.
+      if (allowsMutatingPkValues) {
+        it.skip('should work when changing a user\'s primary key value');
+      }
+      else {
+        it('should work when changing a user\'s primary key value', function(done) {
+
+
+          var newPkValue = (Adapter.identity === 'sails-mongo') ? '58c955bc3159b4b091a74046' : 99999;
+          Semantic.User.update(id, {
+            id: newPkValue,
+            type: 'had his or her pk value successfully changed'
+          }, function(err, users) {
+            if (err) { return done(err); }
+
+            assert.strictEqual(users.length, 1);
+            assert.strictEqual(users[0].id, newPkValue);
+            assert.strictEqual(users[0].type, 'had his or her pk value successfully changed');
+
+            return done();
+          });
+        });//</it()>
+      }//</else>
+
       it('should update attribute values without supplying required fields', function(done) {
         Semantic.Thing.update(thingId, { description: 'An updated thing' }, function(err, things) {
           if (err) {
@@ -129,7 +154,7 @@ describe('Semantic Interface', function() {
           return done();
         });
       });
-    });
+    });//</describe>
 
     describe('find updated records', function() {
       before(function(done) {
