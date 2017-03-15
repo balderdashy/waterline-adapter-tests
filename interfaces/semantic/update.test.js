@@ -114,7 +114,8 @@ describe('Semantic Interface', function() {
         });
       });
 
-      it('should update model attributes without supplying required fields', function(done) {
+
+      it('should update attribute values without supplying required fields', function(done) {
         Semantic.Thing.update(thingId, { description: 'An updated thing' }, function(err, things) {
           if (err) {
             return done(err);
