@@ -43,17 +43,17 @@ describe('Semantic Interface', function() {
       });
 
 
-      it('should update model attributes', function(done) {
+      it('should update attribute values', function(done) {
         Semantic.User.update({ type: 'update' })
         .set({ last_name: 'updated' })
         .exec(function(err, users) {
-          if (err) {
-            return done(err);
-          }
+          if (err) { return done(err); }
 
-          assert(_.isArray(users));
-          assert.strictEqual(users.length, 10);
-          assert.equal(users[0].last_name, 'updated');
+          try {
+            assert(_.isArray(users));
+            assert.strictEqual(users.length, 10);
+            assert.equal(users[0].last_name, 'updated');
+          } catch (e) { return done(e); }
 
           return done();
         });
