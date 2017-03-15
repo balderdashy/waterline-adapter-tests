@@ -53,21 +53,21 @@ describe('Association Interface', function() {
 
     it('should return the correct taxis', function(done) {
       Associations.Driver.find({ name: 'manymany find where populate nested' })
-      .populate('taxis', { 
-        where: { 
+      .populate('taxis', {
+        where: {
           or: [
-            { 
+            {
               and: [
                 { note: 'low' },
-                { or: 
+                { or:
                   [
                     { medallion: { '>=': 2 } },
                     { model: 'even' }
                   ]
                 }
               ]
-            }, 
-            { 
+            },
+            {
               and: [
                 { note: 'high' },
                 {

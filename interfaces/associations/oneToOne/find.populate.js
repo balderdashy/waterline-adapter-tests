@@ -9,13 +9,13 @@ describe('Association Interface', function() {
 
       before(function(done) {
         var records = [
-          { 
+          {
             name: 'foo1',
             quantity : 1
-          }, 
-          { 
-            name: 'bar1', 
-            quantity : 2 
+          },
+          {
+            name: 'bar1',
+            quantity : 2
           }
         ];
 
@@ -56,7 +56,7 @@ describe('Association Interface', function() {
                   }
 
                   profiles = models;
-                  
+
                   return done();
                 });
               });
@@ -103,30 +103,42 @@ describe('Association Interface', function() {
         });
       });
 
-      it.skip('should return a user object when the profile is undefined', function(done) {
+      it('should still return a user record, but with a null profile, when the foreign key is missing altogether', function(done) {
+        // Also could have omitted it or specified it as `null`
         Associations.User_resource.create({ name: 'foobar', profile: undefined })
         .exec(function(err, usr) {
-          if (err) {
-            return done(err);
-          }
+          if (err) { return done(err); }
 
           Associations.User_resource.find({ name: 'foobar' })
           .populate('profile')
           .exec(function(err, users) {
-            if (err) {
-              return done(err);
-            }
+            if (err) { return done(err); }
 
-            assert(users[0].name);
-            assert(!users[0].profile);
-            
+            try {
+              assert.strictEqual(users.length, 1);
+              assert(users[0].name === 'foobar');
+              assert(_.isNull(users[0].profile));
+            } catch (e) { return done(e); }
+
             return done();
           });
         });
       });
 
-      it('should return undefined for profile when the profile is a non-existent foreign key', function(done) {
-        Associations.User_resource.create({ name: 'foobar2', profile: '123' })
+      it('should still return a user record, but with a null profile, when the foreign key points at a non-existent profile', function(done) {
+
+        var fkForNonExistentRecord;
+        if (Adapter.identity === 'sails-mongo') {
+          fkForNonExistentRecord = '58c955bc3159b4b091a74046';
+        }
+        else {
+          fkForNonExistentRecord = '123';
+        }
+
+        Associations.User_resource.create({
+          name: 'foobar2',
+          profile: fkForNonExistentRecord
+        })
         .exec(function(err, usr) {
           if (err) {
             return done(err);
@@ -139,9 +151,11 @@ describe('Association Interface', function() {
               return done(err);
             }
 
-            assert(users[0].name);
-            assert(!users[0].profile);
-            
+            try {
+              assert(users[0].name === 'foobar2');
+              assert(_.isNull(users[0].profile));
+            } catch (e) { return done(e); }
+
             return done();
           });
         });

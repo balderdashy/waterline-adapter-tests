@@ -11,7 +11,8 @@ describe('Association Interface', function() {
           { number: 'b00-B', building: '1' }
         ];
 
-        Associations.Apartment.createEach(apartmentRecords, function(err, apartments) {
+        Associations.Apartment.createEach(apartmentRecords)
+        .exec(function(err, apartments) {
           if (err) {
             return done(err);
           }

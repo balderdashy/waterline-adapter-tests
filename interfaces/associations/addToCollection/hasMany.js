@@ -14,7 +14,8 @@ describe('Association Interface', function() {
           { name: 'plural addToCollection' }
         ];
 
-        Associations.Customer.createEach(customerRecords, function(err, _customers) {
+        Associations.Customer.createEach(customerRecords)
+        .exec(function(err, _customers) {
           if (err) {
             return done(err);
           }
@@ -25,7 +26,8 @@ describe('Association Interface', function() {
             paymentRecords.push({ amount: i });
           }
 
-          Associations.Payment.createEach(paymentRecords, function(err, _payments) {
+          Associations.Payment.createEach(paymentRecords)
+          .exec(function(err, _payments) {
             if (err) {
               return done(err);
             }
@@ -44,21 +46,19 @@ describe('Association Interface', function() {
           return payment.id;
         });
 
-        console.log('\n\n\n\n------------------------------------------\n');
+        // console.log('\n\n\n\n------------------------------------------\n');
 
-        console.log('%%%%%%%%%% Associations.Customer.addToCollection('+util.inspect(parentId)+', \'payments\', '+util.inspect(childrenIds)+')');
+        // console.log('%%%%%%%%%% Associations.Customer.addToCollection('+util.inspect(parentId)+', \'payments\', '+util.inspect(childrenIds)+')');
         Associations.Customer.addToCollection(parentId, 'payments', childrenIds)
-        .meta({logMongoS3Qs: true})
         .exec(function(err) {
           if (err) { return done(err); }
 
-          console.log('%%%%%%%%%%% Associations.Customer.findOne({ id: '+util.inspect(parentId)+' }).populate(\'payments\')');
+          // console.log('%%%%%%%%%%% Associations.Customer.findOne({ id: '+util.inspect(parentId)+' }).populate(\'payments\')');
           Associations.Customer.findOne({ id: parentId })
           .populate('payments')
-          .meta({logMongoS3Qs: true})
           .exec(function(err, customer) {
             if (err) { return done(err); }
-            console.log('%%%%%%%%% => got customer:',customer);
+            // console.log('%%%%%%%%% => got customer:',customer);
 
             try {
               assert(customer);

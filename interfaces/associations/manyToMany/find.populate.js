@@ -53,7 +53,7 @@ describe('Association Interface', function() {
         assert.equal(drivers[0].reports[0].title, 'foo');
         assert.equal(drivers[0].reports[0].numField, 123);
         assert.equal(drivers[0].reports[0].nullField, null);
-        
+
         assert(_.isArray(drivers[0].taxis));
         assert.equal(drivers[0].taxis.length, 2);
         assert(_.isArray(drivers[0].taxis[0].scorecards));

@@ -11,7 +11,7 @@ describe('Association Interface', function() {
         var records = [
           {
             name: 'foo'
-          }, 
+          },
           {
             name: 'bar'
           }
@@ -30,7 +30,7 @@ describe('Association Interface', function() {
               amount: 1,
               type: 'belongsTo find',
               a_customer: customers[0].id
-            }, 
+            },
             {
               amount: 2,
               type: 'belongsTo find',
@@ -49,14 +49,14 @@ describe('Association Interface', function() {
 
             // Expose results for examination below
             payments = _payments;
-    
+
             return done();
           });
         });
       });
-    
+
       it('should return a customer when the populate criteria is added', function(done) {
-        Associations.Payment.find({ 
+        Associations.Payment.find({
           type: 'belongsTo find'
         })
         .sort([{amount: 'ASC'}])
@@ -76,7 +76,7 @@ describe('Association Interface', function() {
           assert(_payments[1].a_customer);
           assert.equal(_payments[1].a_customer.id, customers[1].id);
           assert.equal(_payments[1].a_customer.name, 'bar');
-          
+
           assert(_payments[0].a_customer.name);
 
           return done();

@@ -55,7 +55,7 @@ describe('Association Interface', function() {
           assert.equal(_.keys(driver.taxis[0]).length, 2);
           assert(driver.taxis[0].id);
           assert.equal(driver.taxis[0].model, 'sedan');
-          
+
           return done();
         });
       });
