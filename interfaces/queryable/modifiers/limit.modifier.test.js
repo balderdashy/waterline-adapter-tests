@@ -12,7 +12,7 @@ describe('Queryable Interface', function() {
         users.push({first_name: 'limit_user' + i, type: 'limit test'});
       }
 
-      Queryable.User.createEach(users, function(err, users) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -22,7 +22,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return the correct amount of records', function(done) {
-      Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
+      Queryable.Userforqueryableinterface.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -35,7 +35,7 @@ describe('Queryable Interface', function() {
     });
 
     it('as an option should return correct amount of records', function(done) {
-      Queryable.User.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
+      Queryable.Userforqueryableinterface.find({ where: { type: 'limit test' }, limit: 3 }, function(err, users) {
         if (err) {
           return done(err);
         }

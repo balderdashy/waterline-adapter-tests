@@ -14,7 +14,7 @@ describe('Queryable Interface', function() {
             users.push({ first_name: testName, age: i });
           }
 
-          Queryable.User.createEach(users, function(err) {
+          Queryable.Userforqueryableinterface.createEach(users, function(err) {
             if (err) {
               return done(err);
             }
@@ -24,7 +24,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with > key', function(done) {
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             first_name: testName, 
             age: { 
               '>': 40 
@@ -61,7 +61,7 @@ describe('Queryable Interface', function() {
             });
           }
 
-          Queryable.User.createEach(users, function(err, users) {
+          Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
             if (err) {
               return done(err);
             }
@@ -71,7 +71,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with > key when searching strings', function(done) {
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             type: testName, 
             first_name: { 
               '>': '2 greaterThan_strings_user' 
@@ -104,7 +104,7 @@ describe('Queryable Interface', function() {
             users.push({ first_name: testName, age: i });
           }
 
-          Queryable.User.createEach(users, function(err) {
+          Queryable.Userforqueryableinterface.createEach(users, function(err) {
             if (err) {
               return done(err);
             }
@@ -114,7 +114,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with >= key', function(done) {
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             first_name: testName, 
             age: { 
               '>=': 41 
@@ -152,7 +152,7 @@ describe('Queryable Interface', function() {
             });
           }
 
-          Queryable.User.createEach(users, function(err, users) {
+          Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
             if (err) {
               return done(err);
             }
@@ -162,7 +162,7 @@ describe('Queryable Interface', function() {
         });
 
         it('should return records with >= key when searching strings', function(done) {
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             type: testName, 
             first_name: { 
               '>=': '2 greaterThanOrEqual_strings_user' 

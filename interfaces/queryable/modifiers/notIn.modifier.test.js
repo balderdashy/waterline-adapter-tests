@@ -7,7 +7,7 @@ describe('Queryable Interface', function() {
 
     // Delete all the users in the collection
     before(function(done) {
-      Queryable.User.destroy({}).exec(done);
+      Queryable.Userforqueryableinterface.destroy({}).exec(done);
     });
 
     describe('with a record', function() {
@@ -21,7 +21,7 @@ describe('Queryable Interface', function() {
           }
         ];
 
-        Queryable.User.createEach(users, function(err) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err) {
           if (err) {
             return done(err);
           }
@@ -31,7 +31,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return correct user', function(done) {
-        Queryable.User.find({ 
+        Queryable.Userforqueryableinterface.find({ 
           first_name: { 
             'nin': ['foo', testName, 'bar', 'baz'] 
           }
@@ -51,7 +51,7 @@ describe('Queryable Interface', function() {
 
     describe('without a record', function() {
       it('should return an empty array', function(done) {
-        Queryable.User.find({ 
+        Queryable.Userforqueryableinterface.find({ 
           first_name: { 
             'nin': ['foo', testName, 'bar', 'something else'] 
           }

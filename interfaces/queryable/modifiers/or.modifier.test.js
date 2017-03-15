@@ -18,7 +18,7 @@ describe('Queryable Interface', function() {
           });
         }
 
-        Queryable.User.createEach(users, function(err, users) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
           if (err) {
             return done(err);
           }
@@ -28,7 +28,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return the correct users', function(done) {
-        Queryable.User.find({ 
+        Queryable.Userforqueryableinterface.find({ 
           where: { 
             or: [
               { 
@@ -56,7 +56,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work with multi-level criteria options inside the OR criteria', function(done) {
-        Queryable.User.find({
+        Queryable.Userforqueryableinterface.find({
           or: [
             { 
               first_name: { 
@@ -91,7 +91,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work correctly when OR is used with AND', function(done) {
-        Queryable.User.find({
+        Queryable.Userforqueryableinterface.find({
           type: 'or test',
           or: [
             { 
@@ -122,7 +122,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should work correctly when OR is used with multiple contains modifiers', function(done) {
-        Queryable.User.find({
+        Queryable.Userforqueryableinterface.find({
           type: 'or test',
           or: [
             { 
@@ -155,7 +155,7 @@ describe('Queryable Interface', function() {
 
     describe('without a record', function() {
       it('should return an empty array', function(done) {
-        Queryable.User.find({ 
+        Queryable.Userforqueryableinterface.find({ 
           where: { 
             or: [
               { 

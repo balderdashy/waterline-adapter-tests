@@ -9,12 +9,12 @@ describe('Queryable Interface', function() {
           var part = 'long_xx3ah4aj8xrxh!!!r';
           var testName = 'long_xx3ah4aj8xrxh!!!r contains query test';
 
-          Queryable.User.create({ first_name: testName }, function(err) {
+          Queryable.Userforqueryableinterface.create({ first_name: testName }, function(err) {
             if (err) {
               return done(err);
             }
 
-            Queryable.User.find({ first_name: { contains: part }}, function(err, users) {
+            Queryable.Userforqueryableinterface.find({ first_name: { contains: part }}, function(err, users) {
               if (err) {
                 return done(err);
               }

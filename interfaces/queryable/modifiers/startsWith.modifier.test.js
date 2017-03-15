@@ -8,12 +8,12 @@ describe('Queryable Interface', function() {
         var part = 'long_xxj8xrxh!!!r';
         var testName = 'long_xxj8xrxh!!!r startsWith query test';
 
-        Queryable.User.create({ first_name: testName }, function(err) {
+        Queryable.Userforqueryableinterface.create({ first_name: testName }, function(err) {
           if (err) {
             return done(err);
           }
 
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             first_name: { 
               startsWith: part 
             }

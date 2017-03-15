@@ -16,7 +16,7 @@ describe('Queryable Interface', function() {
           }
         ];
 
-        Queryable.User.createEach(users, function(err) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err) {
           if (err) {
             return done(err);
           }
@@ -27,7 +27,7 @@ describe('Queryable Interface', function() {
 
       describe('when given an empty array', function () {
         it('should return an empty array', function(done) {
-          Queryable.User.find({ first_name: [] }, function(err, users) {
+          Queryable.Userforqueryableinterface.find({ first_name: [] }, function(err, users) {
             if (err) {
               return done(err);
             }
@@ -40,7 +40,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return correct user', function(done) {
-        Queryable.User.find({ first_name: ['foo', testName, 'bar', 'baz'] }, function(err, users) {
+        Queryable.Userforqueryableinterface.find({ first_name: ['foo', testName, 'bar', 'baz'] }, function(err, users) {
           if (err) {
             return done(err);
           }
@@ -55,7 +55,7 @@ describe('Queryable Interface', function() {
 
     describe('without a record', function() {
       it('should return an empty array', function(done) {
-        Queryable.User.find({ first_name: ["foo", "bar", "baz"] }, function(err, users) {
+        Queryable.Userforqueryableinterface.find({ first_name: ["foo", "bar", "baz"] }, function(err, users) {
           if (err) {
             return done(err);
           }

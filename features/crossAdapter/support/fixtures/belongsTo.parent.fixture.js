@@ -6,8 +6,8 @@ var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
 
-  tableName: 'customerbelongsTable',
   identity: 'customerbelongs',
+  tableName: 'customerbelongsTable',
   connection: 'associations2',
 
   attributes: {

@@ -9,12 +9,12 @@ describe('Queryable Interface', function() {
           var part = 'xxj8xa4hPFDH_long';
           var testName = 'endsWith query test xxj8xa4hPFDH_long';
 
-          Queryable.User.create({ first_name: testName }, function(err) {
+          Queryable.Userforqueryableinterface.create({ first_name: testName }, function(err) {
             if (err) {
               return done(err);
             }
 
-            Queryable.User.find({ first_name: { endsWith: part }}, function(err, users) {
+            Queryable.Userforqueryableinterface.find({ first_name: { endsWith: part }}, function(err, users) {
               if (err) {
                 return done(err);
               }

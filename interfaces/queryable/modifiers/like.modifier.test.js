@@ -8,12 +8,12 @@ describe('Queryable Interface', function() {
         var part = '%LIKE query test%';
         var testName = '24g LIKE query test asdcxbzbasg';
 
-        Queryable.User.create({ first_name: testName }, function(err) {
+        Queryable.Userforqueryableinterface.create({ first_name: testName }, function(err) {
           if (err) {
             return done(err);
           }
 
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             first_name: { 
               like: part 
             } 
@@ -36,12 +36,12 @@ describe('Queryable Interface', function() {
         var part = 'LIKE query test with sign';
         var testName = '24gdddaga4 LIKE query test with sign asdcxbzbasg';
 
-        Queryable.User.create({ first_name: testName }, function(err) {
+        Queryable.Userforqueryableinterface.create({ first_name: testName }, function(err) {
           if (err) {
             return done(err);
           }
 
-          Queryable.User.find({ 
+          Queryable.Userforqueryableinterface.find({ 
             first_name: { 
               like: '%' + part + '%' 
             } 

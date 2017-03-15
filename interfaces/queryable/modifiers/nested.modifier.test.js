@@ -27,7 +27,7 @@ describe('Queryable Interface', function() {
           });
         }
 
-        Queryable.User.createEach(users, function(err, users) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
 
           if (err) {
             return done(err);
@@ -42,7 +42,7 @@ describe('Queryable Interface', function() {
         // + Have the last name smith, and age <= 7 OR type === "even"
         // + Have the last name jones, and type === "odd" OR ( first name contains "6" AND age = 1 or age < 2 )
         // ( (last_name = "smith" AND (age <=7 OR type = "even")) OR (last_name = "jones" AND (type = "odd" OR ( first_name like "%6%" AND ( age = 1 OR age < 2 ) ) ) ) )
-        Queryable.User.find({ 
+        Queryable.Userforqueryableinterface.find({ 
           where: { 
             or: [
               { 

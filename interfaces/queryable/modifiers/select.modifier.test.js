@@ -17,7 +17,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      Queryable.User.createEach(users, function(err, model) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, model) {
         if (err) {
           return done(err);
         }
@@ -27,7 +27,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return a record with a single field first_name', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'select test' 
         }, 
@@ -51,7 +51,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return multiples records with a single field first_name', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: {}, 
         select: ['first_name'], 
         sort: 'age ASC' 
@@ -76,7 +76,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return a record with a single field first_name (findOne)', function(done) {
-      Queryable.User.findOne({ 
+      Queryable.Userforqueryableinterface.findOne({ 
         where: { 
           age: 31
         }, 
@@ -98,7 +98,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should return a record with multiple fields', function(done) {
-      Queryable.User.find({
+      Queryable.Userforqueryableinterface.find({
         where: { 
           type: 'select test' 
         }, 
@@ -122,7 +122,7 @@ describe('Queryable Interface', function() {
     });
 
     it('in absence of SELECT modifier should return a record with all fields', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'select test' 
         }, 

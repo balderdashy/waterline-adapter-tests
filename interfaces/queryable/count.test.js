@@ -4,7 +4,7 @@ var _ = require('@sailshq/lodash');
 describe('Queryable Interface', function() {
   describe('count()', function() {
     before(function(done) {
-      Queryable.User.destroy({}, function(err) {
+      Queryable.Userforqueryableinterface.destroy({}, function(err) {
         if (err) {
           return done(err);
         }
@@ -15,7 +15,7 @@ describe('Queryable Interface', function() {
           users.push({first_name: 'count_user' + i, type: 'count'});
         }
 
-        Queryable.User.createEach(users, function(err, users) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
           if (err) {
             return done(err);
           }
@@ -26,7 +26,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should accurately count records', function(done) {
-      Queryable.User.count({ type: 'count' }, function(err, count) {
+      Queryable.Userforqueryableinterface.count({ type: 'count' }, function(err, count) {
         if (err) {
           return done(err);
         }

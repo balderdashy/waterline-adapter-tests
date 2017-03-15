@@ -1,6 +1,6 @@
 module.exports = {
+  identity: 'userforqueryableinterface',
   tableName: 'userTable2',
-  identity: 'user',
   datastore: 'queryable',
   primaryKey: 'id',
   fetchRecordsOnUpdate: true,

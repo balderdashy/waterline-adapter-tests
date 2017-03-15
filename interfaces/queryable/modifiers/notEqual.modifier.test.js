@@ -13,7 +13,7 @@ describe('Queryable Interface', function() {
           users.push({ first_name: testName, age: i, email: i + '@test.com' });
         }
 
-        Queryable.User.createEach(users, function(err) {
+        Queryable.Userforqueryableinterface.createEach(users, function(err) {
           if (err) {
             return done(err);
           }
@@ -23,7 +23,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records with symbolic usage ! usage', function(done) {
-        Queryable.User.find({ first_name: testName, age: { '!=': 40 }})
+        Queryable.Userforqueryableinterface.find({ first_name: testName, age: { '!=': 40 }})
         .sort([{age: 'asc'}])
         .exec(function(err, users) {
           if (err) {
@@ -39,7 +39,7 @@ describe('Queryable Interface', function() {
       });
 
       it('should return records using not comparisons on strings', function(done) {
-        Queryable.User.find({ first_name: testName, email: { '!=': '41@test.com' }})
+        Queryable.Userforqueryableinterface.find({ first_name: testName, email: { '!=': '41@test.com' }})
         .sort([{age: 'asc'}])
         .exec(function(err, users) {
           if (err) {

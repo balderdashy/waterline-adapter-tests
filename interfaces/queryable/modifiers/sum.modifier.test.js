@@ -16,7 +16,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      Queryable.User.createEach(users, function(err, users) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -26,7 +26,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sum by key', function(done) {
-      Queryable.User.sum('age')
+      Queryable.Userforqueryableinterface.sum('age')
       .where({ 
         type: 'sum test'
       })

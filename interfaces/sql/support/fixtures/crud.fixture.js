@@ -1,5 +1,5 @@
 module.exports = {
-  identity: 'user',
+  identity: 'userforsqlinterface',
   tableName: 'usertablesql',
   datastore: 'sql',
   primaryKey: 'id',
@@ -25,7 +25,7 @@ module.exports = {
         columnType: 'varchar'
       }
     },
-    
+
      type: {
       type: 'string',
       autoMigrations: {

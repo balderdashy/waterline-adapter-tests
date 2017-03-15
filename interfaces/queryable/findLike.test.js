@@ -17,13 +17,13 @@ describe('Queryable Interface', function() {
         }
       ];
 
-      Queryable.User.createEach(records, done);
+      Queryable.Userforqueryableinterface.createEach(records, done);
     });
 
     it('should return all the users with the given name', function(done) {
       var part = '%findLike%';
       
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         first_name: { 
           like: part 
         }

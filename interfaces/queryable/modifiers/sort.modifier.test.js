@@ -17,7 +17,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      Queryable.User.createEach(users, function(err, users) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -27,7 +27,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using asc', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test' 
         }, 
@@ -48,7 +48,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using desc', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test' 
         }, 
@@ -70,7 +70,7 @@ describe('Queryable Interface', function() {
 
 
     it('should sort when sort is an option', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test' 
         },
@@ -91,7 +91,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records when a column name is used', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test' 
         }, 
@@ -122,7 +122,7 @@ describe('Queryable Interface', function() {
         { first_name: 'bob', last_name: 'foo', type: 'sort test multi' }
       ];
 
-      Queryable.User.createEach(users, function(err, users) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -132,7 +132,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using multiple sort criteria, with first name desc', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test multi' 
         }, 
@@ -163,7 +163,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should sort records using multiple sort criteria, with first name asc', function(done) {
-      Queryable.User.find({ 
+      Queryable.Userforqueryableinterface.find({ 
         where: { 
           type: 'sort test multi' 
         }, 

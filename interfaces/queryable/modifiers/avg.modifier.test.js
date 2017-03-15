@@ -16,7 +16,7 @@ describe('Queryable Interface', function() {
         });
       }
 
-      Queryable.User.createEach(users, function(err, users) {
+      Queryable.Userforqueryableinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
         }
@@ -26,7 +26,7 @@ describe('Queryable Interface', function() {
     });
 
     it('should average by key and only return that key with the average value', function(done) {
-      Queryable.User.avg('age', { where:{ type: 'average test' }}, function(err, average) {
+      Queryable.Userforqueryableinterface.avg('age', { where:{ type: 'average test' }}, function(err, average) {
         if (err) {
           return done(err);
         }
