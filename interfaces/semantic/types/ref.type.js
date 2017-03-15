@@ -8,7 +8,7 @@ describe('Semantic Interface', function() {
         // use a string
         var str = 'test the things';
         // to make a binary thing
-        var buf = new Buffer(str, "utf-8");
+        var buf = new Buffer(str, 'utf-8');
 
         // Store the binary thing
         Semantic.User.create({ avatar: buf }, function(err, createdRecord) {
@@ -22,11 +22,11 @@ describe('Semantic Interface', function() {
             if (err) {
               return done(err);
             }
-              
+
             // read out the stored binary thing
             var outbuf = new Buffer(record.avatar);
             assert.equal(outbuf.toString('utf-8'), str);
-            
+
             return done();
           });
         });
