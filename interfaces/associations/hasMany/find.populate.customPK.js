@@ -11,6 +11,11 @@ describe('Association Interface', function() {
           { number: 'b00-B', building: '1' }
         ];
 
+        if (Adapter.identity === 'sails-mongo') {
+          apartmentRecords[0].number = '58c955bc3159b4b091a74046';
+          apartmentRecords[1].number = '58c955bc3159b4b091a74047';
+        }
+
         Associations.Apartment.createEach(apartmentRecords)
         .exec(function(err, apartments) {
           if (err) {

@@ -117,6 +117,8 @@ describe('Semantic Interface', function() {
 
       var allowsMutatingPkValues = (Adapter.identity === 'sails-mongo') ? true : false;
       // ^FUTURE: Standardize this to allow flexibility for other databases.
+      // (Mongo does not allow the `_id` field to be mutated.)
+
       if (allowsMutatingPkValues) {
         it.skip('should work when changing a user\'s primary key value');
       }
