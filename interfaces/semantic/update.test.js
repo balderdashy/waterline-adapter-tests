@@ -75,21 +75,21 @@ describe('Semantic Interface', function() {
         });
       });
 
-      it.skip('should work with just an ID passed in', function(done) {
+      it('should work with just an ID passed in', function(done) {
         Semantic.User.update(id, { first_name: 'foo' })
-        .sort([{first_name: 'asc'}])
         .exec(function(err, users) {
           if (err) {
             return done(err);
           }
 
+          assert.equal(users.length, 1);
           assert.equal(users[0].first_name, 'foo');
 
           return done();
         });
       });
 
-      it('should work with an empty object', function(done) {
+      it('should work with an empty dictionary', function(done) {
         Semantic.User.update({}, { type: 'update all' }, function(err, users) {
           if (err) {
             return done(err);
