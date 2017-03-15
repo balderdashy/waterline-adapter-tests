@@ -1,7 +1,7 @@
 module.exports = {
   tableName: 'paymentTable',
   identity: 'payment',
-  connection: 'associations',
+  datastore: 'associations',
   primaryKey: 'id',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
@@ -40,7 +40,7 @@ module.exports = {
       columnName: 'memo',
       autoMigrations: {
         columnType: 'varchar'
-      }      
+      }
     },
 
     apartment: {

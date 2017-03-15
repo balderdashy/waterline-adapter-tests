@@ -1,7 +1,7 @@
 module.exports = {
   tableName: 'customerTable',
   identity: 'customer',
-  connection: 'associations',
+  datastore: 'associations',
   primaryKey: 'id',
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
