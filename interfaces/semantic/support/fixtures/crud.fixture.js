@@ -43,6 +43,7 @@ module.exports = {
 
     age: {
       type: 'number',
+      allowNull: true,
       autoMigrations: {
         columnType: 'integer'
       }

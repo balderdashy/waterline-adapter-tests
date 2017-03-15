@@ -102,7 +102,7 @@ describe('Semantic Interface', function() {
         });
       });
 
-      it.skip('should work with null values', function(done) {
+      it('should work with null values', function(done) {
         Semantic.User.update(id, { age: null }, function(err, users) {
           if (err) {
             return done(err);
