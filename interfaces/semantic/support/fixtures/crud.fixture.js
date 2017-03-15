@@ -15,8 +15,8 @@ module.exports = {
       columnName: '_id',
       autoMigrations: {
         columnType: 'integer',
-        autoIncrement: true,
-        unique: true,
+        autoIncrement: Adapter.identity === 'sails-mongo' ? false : true,
+        unique: true,//<< FUTURE: Remove this (unnecessary since this is the PK attribute)
       }
     },
 

@@ -24,11 +24,12 @@ describe('Semantic Interface', function() {
     it('should insert 2 records verififed by find', function(done) {
       Semantic.User.find({ type: 'createEach' }, function(err, users) {
         if (err) {
+          // console.error(err.raw.stack);
           return done(err);
         }
 
         assert.strictEqual(users.length, 2);
-        
+
         return done();
       });
     });
@@ -57,9 +58,9 @@ describe('Semantic Interface', function() {
         { first_name: 'createEach_5', sort: ['foo'] },
         { first_name: 'createEach_6', sort: ['bar'] }
       ];
-      
+
       Semantic.User.createEach(usersArray, function(err, users) {
-        if (err) { 
+        if (err) {
           return done(err);
         }
 
@@ -67,7 +68,7 @@ describe('Semantic Interface', function() {
         assert.equal(users[0].sort[0], 'foo');
         assert.equal(users[1].sort.length, 1);
         assert.equal(users[1].sort[0], 'bar');
-        
+
         return done();
       });
     });

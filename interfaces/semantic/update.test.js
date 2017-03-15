@@ -6,13 +6,13 @@ describe('Semantic Interface', function() {
     before(function(done) {
       // Wipe database to ensure a clean result set
       Semantic.User.destroy({}, function(err) {
-        if(err) return done(err);
-        done();
+        if(err) { return done(err); }
+        return done();
       });
     });
 
     describe('attributes', function() {
-      var id; 
+      var id;
       var thingId;
 
       before(function(done) {
@@ -29,14 +29,14 @@ describe('Semantic Interface', function() {
           }
 
           id = users[0].id.toString();
-          
+
           Semantic.Thing.create({ name: 'The Thing', description: 'A thing', age: 10 }, function(err, thing) {
             if (err) {
               return done(err);
             }
 
             thingId = thing.id;
-            
+
             return done();
           });
         });
@@ -50,11 +50,11 @@ describe('Semantic Interface', function() {
           if (err) {
             return done(err);
           }
-   
+
           assert(_.isArray(users));
           assert.strictEqual(users.length, 10);
           assert.equal(users[0].last_name, 'updated');
-          
+
           return done();
         });
       });
@@ -84,7 +84,7 @@ describe('Semantic Interface', function() {
           }
 
           assert.equal(users[0].first_name, 'foo');
-          
+
           return done();
         });
       });
@@ -97,7 +97,7 @@ describe('Semantic Interface', function() {
 
           assert.strictEqual(users.length, 10);
           assert.equal(users[0].type, 'update all');
-          
+
           return done();
         });
       });
@@ -109,7 +109,7 @@ describe('Semantic Interface', function() {
           }
 
           assert.strictEqual(users[0].age, null);
-          
+
           return done();
         });
       });
@@ -124,7 +124,7 @@ describe('Semantic Interface', function() {
           assert.strictEqual(things.length, 1);
           assert.equal(things[0].id, thingId);
           assert.equal(things[0].description, 'An updated thing');
-          
+
           return done();
         });
       });
@@ -165,7 +165,7 @@ describe('Semantic Interface', function() {
           assert.strictEqual(users.length, 2);
           assert.equal(users[0].last_name, 'Updated Find');
           assert.equal(users[1].last_name, 'Updated Find');
-          
+
           return done();
         });
       });
