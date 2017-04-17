@@ -9,28 +9,28 @@ module.exports = Waterline.Collection.extend({
     name: 'string',
     prop1: 'string',
     marker: {
-      type: 'geometry',
+      type: 'json',
       geometry: {
         nativeSrid: 4326,
         wktType: 'POINT'
       }
     },
     line: {
-      type: 'geometry',
+      type: 'json',
       geometry: {
         nativeSrid: 4326,
         wktType: 'LINESTRING'
       }
     },
     shape: {
-      type: 'geometry',
+      type: 'json',
       geometry: {
         nativeSrid: 4326,
         wktType: 'POLYGON'
       }
     },
     genericGeometry: {
-      type: 'geometry',
+      type: 'json',
       geometry: {
         nativeSrid: 4326,
         wktType: 'GEOMETRY'
