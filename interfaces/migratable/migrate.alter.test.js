@@ -15,7 +15,7 @@ describe('Migratable Interface', function() {
 
     describe('teardown and migrate existing data', function() {
       before(function(done) {
-        Migratable.Alter.create({ name: 'blackbeard' }, done);
+        Migratable.Alter.create({ name: 'blackbeard\'s ghost' }, done);
       });
 
       it('should retain the data when bootstrapped the second time', function(done) {
@@ -34,20 +34,21 @@ describe('Migratable Interface', function() {
             if (err) {
               return done(err);
             }
- 
+
             // Run migrations
             waterlineUtils.autoMigrations('alter', orm, function(err) {
               if (err) {
                 return done(err);
               }
 
-              orm.collections.alter.count().exec(function(err, numOfPirates) {
+              orm.collections.alter.find().exec(function(err, pirates) {
                 if (err) {
                   return done(err);
                 }
 
-                assert.strictEqual(numOfPirates, 1);
-                
+                assert.strictEqual(pirates.length, 1);
+                assert.strictEqual(pirates[0].name, 'blackbeard\'s ghost');
+
                 return done();
               });
             });
@@ -84,7 +85,7 @@ describe('Migratable Interface', function() {
             if (err) {
               return done(err);
             }
- 
+
             // Run migrations
             waterlineUtils.autoMigrations('alter', orm, function(err) {
               if (err) {
@@ -97,7 +98,7 @@ describe('Migratable Interface', function() {
                 }
 
                 assert.strictEqual(numOfPirates, 1);
-                
+
                 return done();
               });
             });

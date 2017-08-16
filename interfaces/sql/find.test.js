@@ -12,6 +12,8 @@ describe('SQL Interface', function() {
         users.push({first_name: 'find_user' + i, type: 'find test', age: i*10 });
       }
 
+      users.push({first_name: 'blackbeard\'s ghost', type: 'find test', age: 999});
+
       Sql.Userforsqlinterface.createEach(users, function(err, users) {
         if (err) {
           return done(err);
@@ -81,5 +83,18 @@ describe('SQL Interface', function() {
         return done();
       });
     });
+
+    it('should not unneccessarily escape values in criteria', function(done) {
+      Sql.Userforsqlinterface.findOne({ first_name: 'blackbeard\'s ghost'}, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+
+        assert(user);
+        assert.equal(user.first_name, 'blackbeard\'s ghost');
+
+        return done();
+      });
+    })
   });
 });
