@@ -82,6 +82,13 @@ describe('unique attribute feature', function() {
     });
   });
 
+  it('should attach the original error when creating with a duplicate value', function(done) {
+    UniqueModel.create({ email: email0, type: 'unique' }, function(err, records) {
+      assert.strictEqual(err.code, 'E_VALIDATION');
+      assert.ok(err.originalError);
+    });
+  });
+
   it('should error when updating with a duplicate value', function(done) {
     UniqueModel.update(id1, { email: email0 }).meta({fetch: true}).exec(function(err, records) {
       assert(err);
