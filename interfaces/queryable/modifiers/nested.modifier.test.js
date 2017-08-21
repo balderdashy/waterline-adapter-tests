@@ -42,21 +42,21 @@ describe('Queryable Interface', function() {
         // + Have the last name smith, and age <= 7 OR type === "even"
         // + Have the last name jones, and type === "odd" OR ( first name contains "6" AND age = 1 or age < 2 )
         // ( (last_name = "smith" AND (age <=7 OR type = "even")) OR (last_name = "jones" AND (type = "odd" OR ( first_name like "%6%" AND ( age = 1 OR age < 2 ) ) ) ) )
-        Queryable.Userforqueryableinterface.find({ 
-          where: { 
+        Queryable.Userforqueryableinterface.find({
+          where: {
             or: [
-              { 
+              {
                 and: [
                   { last_name: 'smith' },
-                  { or: 
+                  { or:
                     [
                       { age: { '<=': 7 } },
                       { type: 'even' }
                     ]
                   }
                 ]
-              }, 
-              { 
+              },
+              {
                 and: [
                   { last_name: 'jones' },
                   {
@@ -68,7 +68,7 @@ describe('Queryable Interface', function() {
                           { or: [
                               { age: 3 },
                               { age: { '<': 4} }
-                            ] 
+                            ]
                           }
                         ]
                       }
@@ -101,6 +101,29 @@ describe('Queryable Interface', function() {
           assert.equal(users[4].first_name, 'nested_user3');
           assert.equal(users[5].first_name, 'nested_user2');
 
+          return done();
+        });
+      });
+
+      it('should remove unnecessary conjuncts and disjuncts correcty', function(done) {
+        Queryable.Userforqueryableinterface.find({
+          and: [
+              {last_name: ["smith"]},
+              {type: ["even"]},
+              {},
+              {},
+              {first_name: ["nested_user2"]},
+          ]
+        }).exec(function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
+          // Expected results:
+          // { first_name: 'nested_user2', last_name: 'smith', type: 'even', age: 7 }
+          assert(_.isArray(users));
+          assert.strictEqual(users.length, 1);
+          assert.equal(users[0].first_name, 'nested_user2');
           return done();
         });
       });
