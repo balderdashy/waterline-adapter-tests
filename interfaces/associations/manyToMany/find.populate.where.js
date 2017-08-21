@@ -4,6 +4,7 @@ var _ = require('@sailshq/lodash');
 describe('Association Interface', function() {
   describe('n:m association :: .find().populate([WHERE])', function() {
     var driverRecords;
+    var childrenIds;
 
     before(function(done) {
       Associations.Driver.createEach([{ name: 'manymany find where1'}, { name: 'manymany find where2'}], function(err, drivers) {
@@ -14,6 +15,7 @@ describe('Association Interface', function() {
         driverRecords = drivers;
 
         var taxis = [];
+
         for(var i=0; i<4; i++) {
           taxis.push({ medallion: i });
         }
@@ -23,7 +25,7 @@ describe('Association Interface', function() {
             return done(err);
           }
 
-          var childrenIds = _.map(taxis, function(taxi) {
+          childrenIds = _.map(taxis, function(taxi) {
             return taxi.id;
           });
 
@@ -85,7 +87,7 @@ describe('Association Interface', function() {
 
     it('should return only taxis with the given id', function(done) {
       Associations.Driver.find({ name: 'manymany find where1' })
-      .populate('taxis', { id: 1 })
+      .populate('taxis', { id: childrenIds[0] })
       .exec(function(err, drivers) {
         if (err) {
           return done(err);
@@ -95,7 +97,7 @@ describe('Association Interface', function() {
         assert.equal(drivers.length, 1);
         assert(_.isArray(drivers[0].taxis));
         assert.equal(drivers[0].taxis.length, 1);
-        assert.equal(drivers[0].taxis[0].id, 1);
+        assert.equal(drivers[0].taxis[0].id, childrenIds[0]);
 
         return done();
       });
