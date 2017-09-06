@@ -56,11 +56,11 @@ describe('Association Interface', function() {
       });
 
       it('should return a customer when the populate criteria is added', function(done) {
-        Associations.Payment.find({
+        Associations.Paymentbelongs.find({
           type: 'belongsTo find'
         })
         .sort([{amount: 'ASC'}])
-        .populate('a_customer')
+        .populate('customer')
         .exec(function(err, _payments) {
           if (err) {
             return done(err);
@@ -69,37 +69,37 @@ describe('Association Interface', function() {
           assert(_.isArray(_payments));
           assert.strictEqual(_payments.length, 2);
 
-          assert(_payments[0].a_customer);
-          assert.equal(_payments[0].a_customer.id, customers[0].id);
-          assert.equal(_payments[0].a_customer.name, 'foo');
+          assert(_payments[0].customer);
+          assert.equal(_payments[0].customer.id, customers[0].id);
+          assert.equal(_payments[0].customer.name, 'foo');
 
-          assert(_payments[1].a_customer);
-          assert.equal(_payments[1].a_customer.id, customers[1].id);
-          assert.equal(_payments[1].a_customer.name, 'bar');
+          assert(_payments[1].customer);
+          assert.equal(_payments[1].customer.id, customers[1].id);
+          assert.equal(_payments[1].customer.name, 'bar');
 
-          assert(_payments[0].a_customer.name);
+          assert(_payments[0].customer.name);
 
           return done();
         });
       });
 
       it('should not return a customer object when the populate is not added', function(done) {
-        Associations.Payment.find()
+        Associations.Paymentbelongs.find()
         .exec(function(err, payments) {
           if (err) {
             return done(err);
           }
 
-          assert(!_.isPlainObject(payments[0].a_customer));
-          assert(!_.isPlainObject(payments[1].a_customer));
+          assert(!_.isPlainObject(payments[0].customer));
+          assert(!_.isPlainObject(payments[1].customer));
 
           return done();
         });
       });
 
       it('should return null when no association exist', function(done) {
-        Associations.Payment.find({ type: 'empty payment' })
-        .populate('a_customer')
+        Associations.Paymentbelongs.find({ type: 'empty payment' })
+        .populate('customer')
         .exec(function(err, payments) {
           if (err) {
             return done(err);
@@ -108,7 +108,7 @@ describe('Association Interface', function() {
           assert(_.isArray(payments));
           assert.equal(payments.length, 1);
 
-          assert(_.isNull(payments[0].a_customer));
+          assert(_.isNull(payments[0].customer));
 
           return done();
         });
