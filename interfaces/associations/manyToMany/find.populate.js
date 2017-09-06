@@ -46,7 +46,6 @@ describe('Association Interface', function() {
         if (err) {
           return done(err);
         }
-
         assert(_.isArray(drivers));
         assert.equal(drivers.length, 1);
         assert(_.isArray(drivers[0].reports));
@@ -75,6 +74,30 @@ describe('Association Interface', function() {
         assert(!drivers[0].taxis);
 
         return done();
+      });
+    });
+
+    it('should return correctly populated `taxi` records when populate is added', function(done) {
+      Associations.Taxi.find({ medallion: [0, 1]})
+      .populate('drivers')
+      .exec(function(err, taxis) {
+        if (err) {
+          return done(err);
+        }
+        assert(_.isArray(taxis));
+        assert.equal(taxis.length, 2);
+        _.each(taxis, function(taxi) {
+          assert(taxi.drivers);
+          assert.equal(taxi.drivers.length, 1);
+          assert(_.isArray(taxi.drivers[0].reports));
+          assert.equal(taxi.drivers[0].reports[0].title, 'foo');
+          assert.equal(taxi.drivers[0].reports[0].numField, 123);
+          assert.equal(taxi.drivers[0].reports[0].nullField, null);
+        });
+
+        assert(taxis[0].drivers[0] !== taxis[1].drivers[0], 'Child records with the same PK should not share a reference! (they should be cloned)');
+        return done();
+
       });
     });
 

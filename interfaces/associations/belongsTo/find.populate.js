@@ -10,39 +10,46 @@ describe('Association Interface', function() {
       before(function(done) {
         var records = [
           {
-            name: 'foo'
+            name: 'foo',
+            junk: { abc: 123 }
           },
           {
             name: 'bar'
           }
         ];
 
-        Associations.Customer.createEach(records, function(err, _customers) {
+        Associations.Customerbelongs.createEach(records, function(err, _customers) {
           if (err) {
             return done(err);
           }
 
-          // Expose results for examination below
           customers = _customers;
+
+          var fooCustomer = _.find(_customers, { name: 'foo'});
+          var barCustomer = _.find(_customers, { name: 'bar'});
 
           var paymentRecords = [
             {
               amount: 1,
               type: 'belongsTo find',
-              a_customer: customers[0].id
+              customer: fooCustomer.id
             },
             {
               amount: 2,
               type: 'belongsTo find',
-              a_customer: customers[1].id
+              customer: barCustomer.id
             },
             {
               amount: 3,
               type: 'empty payment'
+            },
+            {
+              amount: 4,
+              customer: fooCustomer.id
             }
           ];
 
-          Associations.Payment.createEach(paymentRecords, function(err, _payments) {
+          Associations.Paymentbelongs.createEach(paymentRecords, function(err, _payments) {
             if (err) {
               return done(err);
             }
@@ -113,6 +120,25 @@ describe('Association Interface', function() {
           return done();
         });
       });
+
+      it('should not process associated records more than once', function(done) {
+        Associations.Paymentbelongs.find({ amount: [1,4] })
+        .populate('customer')
+        .exec(function(err, payments) {
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(payments));
+          assert.equal(payments.length, 2);
+          assert.equal(payments[0].customer.junk.abc, 123);
+          assert.equal(payments[1].customer.junk.abc, 123);
+          assert(payments[0].customer !== payments[1].customer, 'Child records with the same PK should not share a reference! (they should be cloned)');
+
+          return done();
+        });
+      });
+
     });
   });
 });
