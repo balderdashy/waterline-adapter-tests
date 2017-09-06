@@ -39,6 +39,13 @@ module.exports = {
       via: 'customer'
     },
 
+    junk: {
+      type: 'json',
+      autoMigrations: {
+        columnType: 'json'
+      }
+    },
+
     // Timestamps
 
     updatedAt: {
