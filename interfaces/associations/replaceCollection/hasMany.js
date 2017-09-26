@@ -6,7 +6,7 @@ describe('Association Interface', function() {
     describe('.replaceCollection()', function() {
       var customers;
       var payments;
-      
+
       before(function(done) {
         var customerRecords = [
           { name: 'plural addToCollection' },
@@ -28,7 +28,7 @@ describe('Association Interface', function() {
             if (err) {
               return done(err);
             }
-            
+
             customers = _customers;
             payments = _payments;
 
@@ -87,6 +87,21 @@ describe('Association Interface', function() {
           });
         });
       });
+
+      it('should not allow more than one parent record ID to be specified', function(done) {
+
+        Associations.Customer.replaceCollection(_.pluck(customers, 'id'), 'payments', [_.first(payments).id])
+        .exec(function(err) {
+          if (err) {
+            assert.equal(err.name, 'UsageError');
+            return done();
+          }
+
+          return done(new Error('`.replaceCollection()` should have thrown an error, but didn\'t!'));
+
+        });
+
+      })
     });
   });
 });
