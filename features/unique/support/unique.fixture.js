@@ -10,6 +10,7 @@ module.exports = Waterline.Collection.extend({
   tableName: 'uniqueTable',
   connection: 'uniqueConn',
   primaryKey: 'id',
+  archiveModelIdentity: false,
 
   attributes: {
     // Primary Key
@@ -26,8 +27,8 @@ module.exports = Waterline.Collection.extend({
     name: {
       type: 'string',
       autoMigrations: {
-        columnType: 'varchar'          
-      }      
+        columnType: 'varchar'
+      }
     },
     email: {
       type: 'string',
@@ -40,8 +41,8 @@ module.exports = Waterline.Collection.extend({
     type: {
       type: 'string',
       autoMigrations: {
-        columnType: 'varchar'          
-      }      
+        columnType: 'varchar'
+      }
     }
   }
 });

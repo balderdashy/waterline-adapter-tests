@@ -21,13 +21,13 @@ var fixtures = {
 var waterline;
 var ORM;
 
-
 // Model defaults
 var defaults = {
   fetchRecordsOnUpdate: true,
   fetchRecordsOnDestroy: false,
   fetchRecordsOnCreate: true,
   fetchRecordsOnCreateEach: true,
+  archiveModelIdentity: false,
   attributes: {
     id: {
       type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
@@ -43,7 +43,7 @@ var defaults = {
 
 
 //  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌┐ ┌─┐┌─┐┌─┐┬─┐┌─┐
-//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤ 
+//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤
 //  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  └─┘└─┘└  └─┘┴└─└─┘
 before(function(done) {
   waterline = new Waterline();
@@ -56,22 +56,22 @@ before(function(done) {
     waterline.registerModel(Waterline.Collection.extend(modelFixture));
   });
 
-  var datastores = { 
-    migratable: _.clone(Connections.test) 
+  var datastores = {
+    migratable: _.clone(Connections.test)
   };
 
-  // Store access to the instantiated Waterline instance so tests can 
+  // Store access to the instantiated Waterline instance so tests can
   // call teardown.
   global.Migratable.Waterline = waterline;
 
   // Store access to the options passed in to initialize so tests can re-initialize
   // Waterline.
-  var wlOptions = { 
-    adapters: { 
-      wl_tests: Adapter 
-    }, 
-    datastores: datastores, 
-    defaults: defaults 
+  var wlOptions = {
+    adapters: {
+      wl_tests: Adapter
+    },
+    datastores: datastores,
+    defaults: defaults
   };
 
   global.Migratable.WaterlineOptions = wlOptions;
@@ -110,7 +110,6 @@ after(function(done) {
     if (!_.has(Adapter, 'drop')) {
       return next();
     }
-
     // Grab the adapter to perform the query on
     var collection = ORM.collections[item];
     var datastoreName = collection.datastore;

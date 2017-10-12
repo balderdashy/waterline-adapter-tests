@@ -25,6 +25,7 @@ var defaults = {
   fetchRecordsOnCreate: true,
   fetchRecordsOnCreateEach: true,
   migrate: 'alter',
+  archiveModelIdentity: false,
   attributes: {
     id: {
       type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
@@ -40,7 +41,7 @@ var defaults = {
 
 
 //  ╔═╗╦  ╔═╗╔╗ ╔═╗╦    ┌┐ ┌─┐┌─┐┌─┐┬─┐┌─┐
-//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤ 
+//  ║ ╦║  ║ ║╠╩╗╠═╣║    ├┴┐├┤ ├┤ │ │├┬┘├┤
 //  ╚═╝╩═╝╚═╝╚═╝╩ ╩╩═╝  └─┘└─┘└  └─┘┴└─└─┘
 before(function(done) {
   waterline = new Waterline();
@@ -50,8 +51,8 @@ before(function(done) {
     waterline.registerModel(Waterline.Collection.extend(modelFixture));
   });
 
-  var datastores = { 
-    sql: _.clone(Connections.test) 
+  var datastores = {
+    sql: _.clone(Connections.test)
   };
 
   waterline.initialize({ adapters: { wl_tests: Adapter }, datastores: datastores, defaults: defaults }, function(err, orm) {

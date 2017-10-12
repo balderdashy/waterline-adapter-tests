@@ -26,7 +26,7 @@ describe('Migratable Interface', function() {
           // Load the fixtures again
           var fixtures = _.cloneDeep(Migratable.fixtures);
           _.each(fixtures, function(val, key) {
-            wl.registerModel(Waterline.Collection.extend(fixtures[key]));
+            wl.registerModel(Waterline.Collection.extend(_.merge({}, Migratable.WaterlineOptions.defaults, fixtures[key])));
           });
 
           // Initialize the ORM again
@@ -34,7 +34,7 @@ describe('Migratable Interface', function() {
             if (err) {
               return done(err);
             }
- 
+
             // Run migrations
             waterlineUtils.autoMigrations('safe', orm, function(err) {
               if (err) {
@@ -47,7 +47,7 @@ describe('Migratable Interface', function() {
                 }
 
                 assert.strictEqual(numOfPirates, 1);
-                
+
                 return done();
               });
             });
