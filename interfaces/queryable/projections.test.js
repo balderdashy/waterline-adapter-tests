@@ -157,7 +157,6 @@ describe('Queryable Interface', function() {
         if (err) {
           return done(err);
         }
-        console.log(_.keys(users[0]))
         assert.equal(_.keys(users[0]).length, 2);
         assert(users[0].id);
         assert.equal(users[0].type, 'bot');
