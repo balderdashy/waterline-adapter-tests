@@ -40,7 +40,7 @@ describe('Association Interface', function() {
         });
       });
 
-      it('should filter populated attributes when projections are used', function(done) {
+      it('should filter populated attributes when `select` projections are used', function(done) {
         Associations.Driver.findOne({ id: driverRecord.id })
         .populate('taxis', { select: ['model'] })
         .exec(function(err, driver) {
@@ -59,6 +59,26 @@ describe('Association Interface', function() {
           return done();
         });
       });
+
+      it('should filter populated attributes when `omit` projections are used', function(done) {
+        Associations.Driver.findOne({ id: driverRecord.id })
+        .populate('taxis', { omit: ['model'] })
+        .exec(function(err, driver) {
+          if (err) {
+            return done(err);
+          }
+
+          assert(driver);
+          assert(_.isArray(driver.taxis));
+          assert.equal(driver.taxis.length, 1);
+          assert.equal(_.keys(driver.taxis[0]).length, 6);
+          assert(driver.taxis[0].id);
+          assert(_.isUndefined(driver.taxis[0].model));
+
+          return done();
+        });
+      });
+
     });
   });
 });

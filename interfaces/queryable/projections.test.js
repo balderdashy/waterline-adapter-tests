@@ -2,6 +2,7 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 describe('Queryable Interface', function() {
+
   describe('select()', function() {
     var User;
 
@@ -119,4 +120,73 @@ describe('Queryable Interface', function() {
       });
     });
   });
+
+  describe('omit()', function() {
+    var User;
+
+    before(function(done) {
+      Queryable.Userforqueryableinterface.destroy({}, function(err) {
+        if (err) {
+          return done(err);
+        }
+
+        var user = {
+          first_name: 'foo',
+          last_name: 'bar',
+          type: 'bot'
+        };
+
+        Queryable.Userforqueryableinterface.create(user, function(err, users) {
+          if (err) {
+            return done(err);
+          }
+
+          User = users[0];
+
+          return done();
+        });
+      });
+    });
+
+    // In order for the integrator to work correctly records must have a primary
+    // key. This is enforced at the query builder level.
+    it('should limit the fields returned but always enforce the primary key', function(done) {
+      Queryable.Userforqueryableinterface.find()
+      .omit(['first_name', 'last_name', 'age', 'email', 'updatedAt', 'createdAt'])
+      .exec(function(err, users) {
+        if (err) {
+          return done(err);
+        }
+        console.log(_.keys(users[0]))
+        assert.equal(_.keys(users[0]).length, 2);
+        assert(users[0].id);
+        assert.equal(users[0].type, 'bot');
+
+        return done();
+      });
+    });
+
+    it('should work with the callback style', function(done) {
+      Queryable.Userforqueryableinterface.find({ where: {}, omit: ['first_name', 'last_name', 'age', 'email', 'updatedAt', 'createdAt']}, function(err, users) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(_.keys(users[0]).length, 2);
+        assert(users[0].id);
+        assert.equal(users[0].type, 'bot');
+
+        return done();
+      });
+    });
+
+    it('should error when an attempt is made to omit the primary key', function(done) {
+      Queryable.Userforqueryableinterface.find({ where: {}, omit: ['id']}, function(err, users) {
+        assert(err);
+        return done();
+      });
+    });
+
+  });
+
 });
