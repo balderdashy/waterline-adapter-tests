@@ -2,6 +2,7 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 
 if (adapterFeatures.indexOf('schemas') > -1) {
+
   describe('Association Interface (with schemas)', function() {
     describe('n:m association :: .find().populate()', function() {
       var driverRecord;
@@ -52,6 +53,25 @@ if (adapterFeatures.indexOf('schemas') > -1) {
           assert.equal(drivers.length, 1);
           assert(_.isArray(drivers[0].taxis));
           assert.equal(drivers[0].taxis.length, 2);
+
+          return done();
+        });
+      });
+
+      it('should return drivers when the populate criteria is added', function(done) {
+        Associations.Taxiwithschema.find()
+        .populate('drivers')
+        .exec(function(err, taxis) {
+          if (err) {
+            return done(err);
+          }
+
+          assert(_.isArray(taxis));
+          assert.equal(taxis.length, 2);
+          assert(_.isArray(taxis[0].drivers));
+          assert.equal(taxis[0].drivers.length, 1);
+          assert(_.isArray(taxis[1].drivers));
+          assert.equal(taxis[1].drivers.length, 1);
 
           return done();
         });

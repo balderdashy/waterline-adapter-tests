@@ -1,10 +1,10 @@
 module.exports = {
   tableName: 'taxiWithSchemaTable',
-  
+
   meta: {
     schemaName: 'bar'
   },
-  
+
   identity: 'taxiwithschema',
   connection: 'associations',
   primaryKey: 'id',
@@ -33,7 +33,7 @@ module.exports = {
     },
 
     drivers: {
-      collection: 'driver',
+      collection: 'driverwithschema',
       via: 'taxis'
     },
 
