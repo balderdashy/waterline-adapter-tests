@@ -1,8 +1,11 @@
 {
   "name": "waterline-adapter-tests",
   "description": "Integration tests for waterline adapters",
-  "version": "1.0.0-13",
+  "version": "1.0.0-14",
   "author": "Cody Stoltman <particlebanana@gmail.com>",
+	"contributors": [
+		"Dan Wilkerson <notdanwilkerson@gmail.com>"
+	],
   "dependencies": {
     "@sailshq/lodash": "3.10.2",
     "async": "2.0.1",
