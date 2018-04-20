@@ -11,7 +11,7 @@ module.exports = Waterline.Collection.extend({
   connection: 'associations2',
 
   attributes: {
-    amount: 'integer',
+    amount: 'number',
     type: 'string',
     apartment: {
       model: 'apartment',

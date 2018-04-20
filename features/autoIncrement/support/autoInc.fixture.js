@@ -16,26 +16,26 @@ module.exports = function() {
       name: {
         type: 'string',
         autoMigrations: {
-          columnType: 'varchar'          
+          columnType: 'varchar'
         }
       },
       normalField: {
         type: 'number',
         autoMigrations: {
-          columnType: 'integer'          
+          columnType: '_number'
         }
       },
       type: {
         type: 'string',
         autoMigrations: {
-          columnType: 'varchar'          
-        }        
+          columnType: 'varchar'
+        }
       },
       id: {
         type: 'number',
         autoMigrations: {
           autoIncrement: true,
-          columnType: 'integer'
+          columnType: '_numberkey'
         }
       }
     }

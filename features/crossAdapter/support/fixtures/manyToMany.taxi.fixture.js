@@ -12,7 +12,7 @@ module.exports = Waterline.Collection.extend({
 
   // migrate: 'drop',
   attributes: {
-    medallion: 'integer',
+    medallion: 'number',
     model: 'string',
     drivers: {
       collection: 'driver',

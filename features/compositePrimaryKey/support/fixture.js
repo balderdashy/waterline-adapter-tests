@@ -10,7 +10,7 @@ module.exports = Waterline.Collection.extend({
   attributes: {
     name: 'string',
     pkOne: {
-      type: 'integer',
+      type: 'number',
       primaryKey: true
     },
 

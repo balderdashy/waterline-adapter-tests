@@ -7,15 +7,15 @@ module.exports = {
   fetchRecordsOnDestroy: false,
   fetchRecordsOnCreate: true,
   fetchRecordsOnCreateEach: true,
-  
+
   attributes: {
     // Primary Key
     id: {
       type: Adapter.identity === 'sails-mongo' ? 'string' : 'number',
       columnName: '_id',
       autoMigrations: {
-        columnType: 'integer',
-        autoIncrement: true,
+        columnType: Adapter.identity === 'sails-mongo' ? '_stringkey' : '_numberkey',
+        autoIncrement: Adapter.identity === 'sails-mongo' ? false : true,
         unique: true
       }
     },
