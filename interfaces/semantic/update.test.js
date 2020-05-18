@@ -115,7 +115,7 @@ describe('Semantic Interface', function() {
       });
 
 
-      var allowsMutatingPkValues = (Adapter.identity === 'sails-mongo' || Adapter.identity === 'sails-disk') ? true : false;
+      var allowsMutatingPkValues = (Adapter.identity === 'sails-mongo' || Adapter.identity === 'sails-disk' || Adapter.identity === 'sails-mssql') ? true : false;
       // ^FUTURE: Standardize this to allow flexibility for other databases.
       // (Mongo/Nedb does not allow the `_id` field to be mutated.)
 
